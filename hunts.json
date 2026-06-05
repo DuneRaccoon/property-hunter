@@ -1,0 +1,168 @@
+{
+  "hunts": [
+    {
+      "name": "buy-zetland",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Zetland NSW 2017"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "buy-bondi-junction",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Bondi Junction NSW 2022"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "buy-randwick",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Randwick NSW 2031"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "buy-crows-nest",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Crows Nest NSW 2065"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "buy-north-sydney",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "North Sydney NSW 2060"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "buy-marrickville",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Marrickville NSW 2204"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": true,
+        "sort": "dateupdated-desc",
+        "mode": "sale",
+        "price_min": 0,
+        "price_max": 1100000
+      },
+      "max_items": 12,
+      "enrich": false
+    },
+    {
+      "name": "sold-inner",
+      "enabled": true,
+      "filters": {
+        "suburbs": [
+          "Zetland NSW 2017",
+          "Bondi Junction NSW 2022",
+          "Randwick NSW 2031",
+          "Crows Nest NSW 2065",
+          "North Sydney NSW 2060",
+          "Marrickville NSW 2204"
+        ],
+        "beds_min": 1,
+        "beds_max": 2,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": [
+          "apartment"
+        ],
+        "exclude_under_offer": false,
+        "sort": "solddate-desc",
+        "mode": "sold"
+      },
+      "max_items": 40,
+      "enrich": false
+    }
+  ]
+}

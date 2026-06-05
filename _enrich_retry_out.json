@@ -1,0 +1,48 @@
+{
+  "2020774371": {
+    "ok": true,
+    "address": "87/244-254 Alison Road, Randwick NSW 2031",
+    "agents": [
+      "Cameron Airlie",
+      "Bella Riolo",
+      "Thomas  Johnson "
+    ],
+    "n_images": 13,
+    "desc_len": 1399
+  },
+  "2020553114": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020846625": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020760507": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020768035": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020795729": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020834480": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  },
+  "2020834582": {
+    "ok": false,
+    "err": "no listing",
+    "blocked": true
+  }
+}

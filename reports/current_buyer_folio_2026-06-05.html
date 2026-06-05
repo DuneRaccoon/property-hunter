@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--paper:#F7F3EC;--paper-2:#EFE9DE;--ink:#1C2620;--ink-soft:#46514A;--forest:#1F3D32;--brass:#B5894E;--brass-soft:#C8A56E;--hair:#D8CFC0;--danger:#9A4631;}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+@page{ size:A4; margin:0; }
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+  font-family:"Newsreader",Georgia,serif; font-optical-sizing:auto;}
+.page{ position:relative; width:210mm; min-height:297mm; padding:18mm 17mm;
+  page-break-after:always; overflow:hidden; background:var(--paper); }
+.page:last-child{ page-break-after:auto; }
+
+/* ---- shared type ---- */
+h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:500;margin:0;}
+.label,.sec-kicker,.cf-lab,.stat-lab,.mini-h,.verdict-lab,.fin-h,.insp-lab,
+.fp-lab,.brief-lab,.caveat-lab,.cover-eyebrow,.mast-name,.mast-issue{
+  font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.22em; font-size:8.5px; font-weight:600; color:var(--brass);}
+
+/* ===================== COVER ===================== */
+.cover{ padding:0; color:#F4EFE6; background:var(--forest); }
+.cover-photo{ position:absolute; inset:0; background-size:cover;
+  background-position:center; filter:saturate(.92) contrast(1.02); }
+.cover-scrim{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(15,28,22,.42) 0%, rgba(15,28,22,.30) 38%,
+    rgba(15,28,22,.72) 78%, rgba(15,28,22,.92) 100%); }
+.cover-grain{ position:absolute; inset:0; opacity:.10; mix-blend-mode:overlay;
+  background-image:radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+  background-size:4px 4px; }
+.cover-inner{ position:relative; height:297mm; padding:16mm 16mm 14mm;
+  display:flex; flex-direction:column; }
+.masthead{ display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid rgba(244,239,230,.35); padding-bottom:10px; }
+.mast-mark{ color:var(--brass-soft); font-size:13px; }
+.mast-name{ color:#F4EFE6; letter-spacing:.4em; font-size:11px; }
+.mast-issue{ margin-left:auto; color:rgba(244,239,230,.7); }
+.cover-mid{ margin-top:auto; margin-bottom:auto; }
+.cover-eyebrow{ color:var(--brass-soft); margin:0 0 14px; }
+.cover-title{ font-size:62px; line-height:.98; font-weight:340;
+  letter-spacing:-.01em; max-width:13ch; text-shadow:0 2px 30px rgba(0,0,0,.3); }
+.cover-title{ font-variation-settings:"opsz" 144; }
+.cover-standfirst{ font-family:"Newsreader",serif; font-style:italic;
+  font-size:16px; line-height:1.5; max-width:46ch; margin-top:18px;
+  color:rgba(244,239,230,.92); }
+.cover-foot{ display:flex; gap:38px; padding-top:16px;
+  border-top:1px solid rgba(244,239,230,.35); }
+.cf-block{ display:flex; flex-direction:column; gap:4px; }
+.cf-lab{ color:var(--brass-soft); }
+.cf-val{ font-size:14px; color:#F4EFE6; }
+
+/* ===================== SECTION HEADS ===================== */
+.sec-head{ display:flex; align-items:baseline; gap:16px;
+  border-bottom:2px solid var(--ink); padding-bottom:8px; margin-bottom:20px; }
+.sec-head-2{ margin-top:30px; }
+.sec-kicker{ color:var(--brass); }
+.sec-title{ font-size:34px; font-weight:360; letter-spacing:-.01em; }
+
+/* ===================== BRIEF ===================== */
+.brief-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:22px; }
+.brief-card{ background:var(--paper-2); border:1px solid var(--hair);
+  padding:18px 18px 12px; }
+.card-h{ font-size:18px; margin-bottom:12px; }
+.brief-row{ display:flex; justify-content:space-between; gap:10px;
+  padding:7px 0; border-bottom:1px solid var(--hair); }
+.brief-row:last-child{ border-bottom:none; }
+.brief-lab{ color:var(--brass); align-self:center; }
+.brief-val{ font-size:13.5px; text-align:right; max-width:60%; }
+.brief-prose p{ font-size:13.5px; line-height:1.62; margin:0 0 10px; color:var(--ink-soft); }
+.brief-cols{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:6px; }
+.mini-h{ display:block; margin-bottom:8px; }
+.mini-h.breaker{ color:var(--danger); }
+.want{ list-style:none; margin:0; padding:0; }
+.want li{ font-size:12.5px; line-height:1.5; padding:4px 0 4px 16px;
+  position:relative; color:var(--ink-soft); }
+.want li::before{ content:"—"; position:absolute; left:0; color:var(--brass); }
+.breaker-list li::before{ content:"×"; color:var(--danger); font-weight:700; }
+
+/* ===================== MARKET (Section 02) ===================== */
+.market-standfirst{ font-family:"Newsreader",serif; font-style:italic;
+  font-size:16px; line-height:1.55; color:var(--ink); margin:0 0 14px; max-width:66ch; }
+.market-overview p{ font-size:13px; line-height:1.62; color:var(--ink-soft);
+  margin:0 0 9px; max-width:70ch; }
+.source-panel{ border:1px solid var(--hair); border-left:3px solid var(--brass);
+  padding:10px 12px; margin:0 0 14px; background:rgba(255,255,255,.22); }
+.source-status-missing,.source-status-needs_review{ border-left-color:var(--danger);
+  background:rgba(154,70,49,.06); }
+.source-head{ display:flex; justify-content:space-between; gap:12px; align-items:center;
+  font-family:"Archivo",sans-serif; text-transform:uppercase; letter-spacing:.12em;
+  font-size:8.5px; color:var(--brass); font-weight:600; }
+.source-head b{ color:var(--ink); font-weight:700; }
+.source-warnings,.source-facts{ list-style:none; margin:8px 0 0; padding:0; }
+.source-warnings li{ font-size:11.5px; line-height:1.35; color:var(--danger);
+  margin:0 0 4px; }
+.source-fact{ display:grid; grid-template-columns:1fr auto; gap:2px 10px;
+  border-top:1px solid var(--hair); padding-top:7px; margin-top:7px; }
+.source-fact span{ font-size:11.5px; color:var(--ink); }
+.source-fact i{ font-family:"Archivo",sans-serif; font-style:normal; text-transform:uppercase;
+  letter-spacing:.08em; font-size:7.5px; color:var(--ink-soft); text-align:right; }
+.source-fact em{ grid-column:1 / -1; font-style:normal; font-size:8.5px;
+  color:var(--ink-soft); word-break:break-all; }
+.source-stale span,.source-unknown span{ color:var(--danger); }
+.sub-badges{ display:flex; gap:6px; flex-shrink:0; }
+.mbadge{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.12em; font-size:8.5px; font-weight:600; padding:4px 9px;
+  border-radius:2px; border:1px solid var(--hair); color:var(--ink-soft); }
+.mbadge.tone-up{ background:var(--forest); color:#EFE7D6; border-color:var(--forest); }
+.mbadge.tone-flat{ background:var(--paper); color:var(--ink-soft); }
+.mbadge.tone-down{ background:var(--danger); color:#F6EDE6; border-color:var(--danger); }
+
+/* At-a-glance comparison table */
+.market-subhead{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.2em; font-size:10px; color:var(--brass); font-weight:600;
+  margin:22px 0 11px; padding-bottom:7px; border-bottom:1px solid var(--hair); }
+.glance{ width:100%; border-collapse:collapse; }
+.glance thead th{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.1em; font-size:8.5px; font-weight:600; color:var(--ink-soft);
+  text-align:left; padding:0 10px 9px 0; border-bottom:2px solid var(--ink); }
+.glance tbody td{ font-size:12.5px; color:var(--ink-soft); padding:11px 10px 11px 0;
+  border-bottom:1px solid var(--hair); vertical-align:middle; }
+.glance tbody tr:last-child td{ border-bottom:none; }
+.glance .g-name{ font-family:"Fraunces",serif; font-size:15px; color:var(--ink);
+  letter-spacing:-.01em; }
+.glance .g-med{ font-family:"Fraunces",serif; font-size:14px; color:var(--ink); }
+.glance .g-traj{ text-align:right; padding-right:0; }
+
+/* ===================== SHORTLIST / CONTENTS ===================== */
+.exec-hero{ border:2px solid var(--ink); padding:18px 20px; margin-bottom:20px;
+  background:linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08)); }
+.exec-label{ display:block; font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.2em; font-size:9px; font-weight:600; color:var(--brass); margin-bottom:8px; }
+.exec-hero h3{ font-size:30px; line-height:1.08; max-width:18ch; }
+.exec-hero p{ font-family:"Newsreader",serif; font-style:italic; font-size:16px;
+  line-height:1.5; color:var(--ink); max-width:58ch; margin:10px 0 14px; }
+.exec-facts{ display:flex; border-top:1px solid var(--hair); padding-top:12px; gap:28px; }
+.exec-facts span{ display:flex; flex-direction:column; gap:2px; }
+.exec-facts b{ font-family:"Fraunces",serif; font-size:18px; font-weight:500; color:var(--ink); }
+.exec-facts i{ font-family:"Archivo",sans-serif; font-style:normal; text-transform:uppercase;
+  letter-spacing:.13em; font-size:8px; color:var(--brass); }
+.exec-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.exec-grid article{ border-top:2px solid var(--ink); padding-top:10px; break-inside:avoid; }
+.exec-grid ul,.wrong-note ul{ list-style:none; padding:0; margin:0; }
+.exec-grid li,.wrong-note li{ position:relative; padding:0 0 8px 15px;
+  font-size:12.5px; line-height:1.45; color:var(--ink-soft); }
+.exec-grid li::before,.wrong-note li::before{ content:"—"; position:absolute; left:0;
+  color:var(--brass); }
+.wrong-note{ background:rgba(154,70,49,.06); border-color:var(--danger) !important; }
+.wrong-note .mini-h,.wrong-note .caveat-lab{ color:var(--danger); }
+
+.contents-intro{ font-family:"Newsreader",serif; font-style:italic; font-size:15px;
+  line-height:1.55; color:var(--ink); margin:0 0 16px; max-width:64ch; }
+.shortlist{ width:100%; border-collapse:collapse; }
+.shortlist thead th{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.1em; font-size:8.5px; font-weight:600; color:var(--ink-soft);
+  text-align:left; padding:0 10px 9px 0; border-bottom:2px solid var(--ink); }
+.shortlist thead th.sl-th-score{ text-align:center; }
+.shortlist tbody td{ padding:12px 10px 12px 0; border-bottom:1px solid var(--hair);
+  vertical-align:middle; }
+.shortlist tbody tr:last-child td{ border-bottom:none; }
+.sl-no{ font-family:"Fraunces",serif; font-size:15px; color:var(--brass);
+  width:30px; }
+.sl-prop{ width:100%; }
+.sl-addr{ display:block; font-family:"Fraunces",serif; font-size:15px;
+  color:var(--ink); letter-spacing:-.01em; line-height:1.2; }
+.sl-config{ display:block; font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.08em; font-size:8px; color:var(--ink-soft); margin-top:3px; }
+.sl-price{ font-family:"Fraunces",serif; font-size:14px; color:var(--ink);
+  white-space:nowrap; }
+.sl-score{ text-align:center; white-space:nowrap; }
+.sl-score b{ font-family:"Fraunces",serif; font-size:17px; font-weight:500;
+  color:var(--forest); }
+.sl-score i{ display:block; font-family:"Archivo",sans-serif; font-style:normal;
+  text-transform:uppercase; letter-spacing:.1em; font-size:7px; color:var(--brass);
+  margin-top:2px; }
+.sl-page{ font-family:"Archivo",sans-serif; font-size:11px; color:var(--ink-soft);
+  white-space:nowrap; text-align:right; padding-right:0; }
+
+/* ===================== INSPECTION RUN ===================== */
+.inspection-run{ width:100%; border-collapse:collapse; margin-top:4px; }
+.inspection-run thead th{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.1em; font-size:8.5px; font-weight:600; color:var(--ink-soft);
+  text-align:left; padding:0 10px 9px 0; border-bottom:2px solid var(--ink); }
+.inspection-run tbody td{ padding:12px 10px 12px 0; border-bottom:1px solid var(--hair);
+  vertical-align:middle; }
+.inspection-run tbody tr:last-child td{ border-bottom:none; }
+.inspection-run tr.clash td{ background:rgba(154,70,49,.07); }
+.ir-no{ font-family:"Fraunces",serif; font-size:15px; color:var(--brass); width:30px; }
+.ir-time{ font-family:"Fraunces",serif; font-size:15px; color:var(--ink); white-space:nowrap; }
+.ir-prop span{ display:block; font-family:"Fraunces",serif; font-size:15px; color:var(--ink);
+  line-height:1.2; }
+.ir-prop i{ display:block; font-family:"Archivo",sans-serif; font-style:normal;
+  text-transform:uppercase; letter-spacing:.08em; font-size:8px; color:var(--ink-soft);
+  margin-top:3px; }
+.ir-note{ font-size:12px; line-height:1.35; color:var(--ink-soft); width:44mm; }
+.ir-empty{ font-size:13px; color:var(--ink-soft); font-style:italic; }
+.ir-follow{ margin-top:22px; border-top:2px solid var(--ink); padding-top:12px; }
+.ir-follow ul{ columns:2; column-gap:22px; list-style:none; padding:0; margin:0; }
+.ir-follow li{ break-inside:avoid; font-size:12px; line-height:1.45;
+  color:var(--ink-soft); margin:0 0 8px; }
+.ir-follow b{ color:var(--brass); font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.08em; font-size:8px; margin-right:6px; }
+
+/* Macro drivers strip */
+.forces{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:6px; }
+.force{ border-top:2px solid var(--ink); padding:11px 2px 0; }
+.force-top{ display:flex; align-items:center; justify-content:space-between;
+  gap:8px; margin-bottom:8px; }
+.force-lab{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.12em; font-size:9px; font-weight:600; color:var(--ink); }
+.force-body{ font-size:11.5px; line-height:1.55; color:var(--ink-soft); margin:0; }
+
+/* Suburb-by-suburb deep dive */
+.sub-briefs{ display:flex; flex-direction:column; gap:0; margin-top:4px; }
+.sub-brief{ break-inside:avoid; padding:16px 0 17px;
+  border-bottom:1px solid var(--hair); }
+.sub-brief:first-child{ padding-top:0; }
+.sub-brief-head{ display:flex; align-items:baseline; flex-wrap:wrap;
+  gap:10px 14px; margin-bottom:10px; }
+.sub-brief-name{ font-size:23px; font-weight:400; letter-spacing:-.01em;
+  line-height:1; }
+.sub-brief-med{ font-family:"Fraunces",serif; font-size:13px; color:var(--ink-soft); }
+.sub-brief-med i{ font-style:normal; color:var(--brass); }
+.sub-brief-head .sub-badges{ margin-left:auto; }
+.sub-commentary p{ font-size:12.5px; line-height:1.58; color:var(--ink-soft); margin:0 0 7px; }
+.sub-commentary p:last-child{ margin-bottom:0; }
+.market-outlook{ margin-top:18px; border-top:2px solid var(--ink); padding-top:14px;
+  display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+.outlook-lab{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.2em; font-size:9px; color:var(--brass); white-space:nowrap;
+  padding-top:3px; }
+.outlook-body p{ font-family:"Newsreader",serif; font-size:14px; line-height:1.55;
+  color:var(--ink); margin:0 0 8px; }
+.outlook-body p:last-child{ margin-bottom:0; }
+
+/* ===================== PROPERTY SPREAD ===================== */
+.prop-plate{ padding:0; display:flex; flex-direction:column; }
+.prop-hero{ position:relative; height:132mm; background-size:cover;
+  background-position:center; background-color:var(--forest); }
+.hero-scrim{ position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(16,18,20,.12) 30%, rgba(16,18,20,.55) 72%,
+    rgba(16,18,20,.88) 100%); }
+.hero-index{ position:absolute; top:14mm; left:17mm; color:#F4EFE6;
+  font-family:"Fraunces",serif; font-size:15px; letter-spacing:.1em;
+  border:1px solid rgba(244,239,230,.6); padding:5px 11px; border-radius:2px;
+  backdrop-filter:blur(2px); }
+.hero-overlay{ position:absolute; left:17mm; right:17mm; bottom:11mm; color:#F4EFE6; }
+.hero-price{ font-family:"Archivo",sans-serif; font-weight:600; font-size:13px;
+  letter-spacing:.06em; color:var(--brass-soft); margin-bottom:6px; }
+.hero-headline{ font-size:36px; font-weight:380; line-height:1.02;
+  max-width:20ch; text-shadow:0 2px 24px rgba(0,0,0,.4); }
+.hero-address{ font-style:italic; font-size:14px; margin-top:6px;
+  color:rgba(244,239,230,.92); }
+.fit-ring{ position:absolute; top:13mm; right:16mm; }
+.fit-track{ fill:none; stroke:rgba(244,239,230,.3); stroke-width:5; }
+.fit-fill{ fill:none; stroke:var(--brass-soft); stroke-width:5; stroke-linecap:round; }
+.fit-num{ fill:#F4EFE6; font-family:"Fraunces",serif; font-size:20px;
+  text-anchor:middle; font-weight:500; }
+
+.plate-body{ padding:11mm 17mm 12mm; flex:1; }
+.stats-row{ display:flex; gap:0; border-bottom:1px solid var(--hair);
+  margin-bottom:16px; }
+.stat{ flex:1; padding:0 14px 14px 0; display:flex; flex-direction:column; gap:3px; }
+.stat-val{ font-family:"Fraunces",serif; font-size:21px; }
+
+.verdict{ border-left:3px solid var(--brass); padding:2px 0 2px 14px; margin-bottom:18px; }
+.verdict-text{ font-family:"Fraunces",serif; font-style:italic; font-size:20px;
+  line-height:1.4; margin:5px 0 0; font-weight:360; }
+.plate-cols{ display:grid; grid-template-columns:1.5fr 1fr; gap:26px; }
+.why-h{ font-size:19px; margin-bottom:8px; }
+.why-prose p{ font-size:13.5px; line-height:1.66; margin:0 0 11px; }
+.highlights{ list-style:none; margin:0 0 18px; padding:0; }
+.highlights li{ font-size:13px; line-height:1.5; padding:6px 0 6px 18px;
+  position:relative; border-bottom:1px dotted var(--hair); }
+.highlights li::before{ content:"✓"; position:absolute; left:0;
+  color:var(--brass); font-weight:700; }
+.caveat{ background:var(--paper-2); border-left:3px solid var(--brass-soft);
+  padding:11px 13px; margin:0 0 18px; font-size:12.5px; line-height:1.5; }
+.caveat-lab{ display:block; margin-bottom:4px; }
+.prop-wrong{ border-left:3px solid var(--danger); padding:10px 12px; margin:0 0 16px; }
+.prop-wrong li{ font-size:11.5px; padding-bottom:5px; }
+
+/* viability scorecard */
+.scorecard{ background:var(--paper-2); border:1px solid var(--hair); padding:14px 15px; }
+.sc-h{ display:block; font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.16em; font-size:8.5px; color:var(--brass); margin-bottom:12px; }
+.sc-h b{ font-family:"Fraunces",serif; font-size:18px; letter-spacing:0;
+  color:var(--ink); margin-left:6px; }
+.sc-h i{ font-style:normal; font-size:8px; color:var(--ink-soft); letter-spacing:.1em; }
+.sc-row{ display:flex; align-items:center; gap:9px; margin-bottom:8px; }
+.sc-lab{ flex:0 0 64px; font-size:10px; color:var(--ink-soft); }
+.sc-track{ flex:1; height:5px; background:var(--hair); border-radius:3px; overflow:hidden; }
+.sc-fill{ display:block; height:100%; background:var(--brass); border-radius:3px; }
+.sc-pen{ font-size:10px; color:var(--danger); margin:8px 0 0; font-style:italic; }
+
+/* ===================== PROPERTY · PAGE B (dossier) ===================== */
+.prop-dossier{ display:flex; flex-direction:column; }
+.dossier-head{ display:flex; align-items:baseline; justify-content:space-between;
+  border-bottom:2px solid var(--ink); padding-bottom:8px; margin-bottom:18px; }
+.dh-index{ font-family:"Archivo",sans-serif; text-transform:uppercase;
+  letter-spacing:.2em; font-size:9px; color:var(--brass); }
+.dh-addr{ font-family:"Fraunces",serif; font-size:16px; }
+.dossier-cols{ display:grid; grid-template-columns:1.5fr 1fr; gap:26px; }
+.desc-h{ font-size:16px; margin:0 0 8px; }
+.desc p{ font-size:12px; line-height:1.6; color:var(--ink-soft); margin:0 0 8px; }
+.prose-list{ list-style:none; margin:0 0 8px; padding:0; }
+.prose-list li{ font-size:12px; line-height:1.5; padding:2px 0 2px 14px;
+  position:relative; color:var(--ink-soft); }
+.prose-list li::before{ content:"·"; position:absolute; left:2px; color:var(--brass);
+  font-weight:700; }
+.chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+.chip{ font-family:"Archivo",sans-serif; font-size:9.5px; letter-spacing:.04em;
+  text-transform:uppercase; background:var(--paper-2); border:1px solid var(--hair);
+  padding:4px 9px; border-radius:2px; color:var(--ink-soft); }
+
+/* deterministic decision-engine panels */
+.decision-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:11px; }
+.decision-card{ border:1px solid rgba(31,39,33,.16); background:rgba(255,255,255,.32);
+  padding:8px 9px; min-height:58px; break-inside:avoid; }
+.dc-k{ display:block; font-family:"Archivo",sans-serif; font-size:6.4pt; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--muted); margin-bottom:3px; }
+.dc-h{ display:block; font-family:"Archivo",sans-serif; font-size:8.4pt; line-height:1.1; color:var(--ink); }
+.decision-card p{ margin:4px 0 0; font-size:7.4pt; line-height:1.25; }
+.decision-card small{ display:block; margin-top:4px; font-family:"Archivo",sans-serif; font-size:6.5pt;
+  color:var(--muted); line-height:1.25; }
+.dc-list{ margin:4px 0 0; padding-left:12px; font-size:7.2pt; line-height:1.28; }
+.dc-list li{ margin:2px 0; }
+.dc-list b{ font-family:"Archivo",sans-serif; text-transform:uppercase; font-size:5.8pt; color:var(--brass); }
+.decision-card.action{ border-color:rgba(149,116,71,.34); background:rgba(149,116,71,.08); }
+
+/* aside */
+.prop-aside{ display:flex; flex-direction:column; gap:14px; }
+.fin-card{ background:var(--forest); color:#F4EFE6; padding:15px 16px; }
+.fin-h{ display:block; color:var(--brass-soft); margin-bottom:10px; }
+.fin-row{ display:flex; justify-content:space-between; font-size:13px;
+  padding:7px 0; border-bottom:1px solid rgba(244,239,230,.18); }
+.fin-row:last-of-type{ border-bottom:none; }
+.fin-row b{ font-family:"Fraunces",serif; font-weight:500; }
+.fin-note{ font-size:11px; line-height:1.45; font-style:italic;
+  color:rgba(244,239,230,.8); margin:10px 0 0; }
+.dossier-visuals{ margin-top:auto; padding-top:22px; }
+.visuals-lab{ display:block; margin-bottom:8px; }
+.mosaic{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:22mm;
+  grid-auto-flow:row dense; gap:6px; }
+.mz-floor{ grid-column:span 2; grid-row:span 2; border:1px solid var(--hair);
+  background:var(--paper-2); padding:8px 11px; display:flex; flex-direction:column; }
+.mz-floor .fp-lab{ margin-bottom:6px; }
+.mz-feature{ grid-column:span 2; grid-row:span 2; background-size:cover;
+  background-position:center; background-color:var(--paper-2); }
+.mz-cell{ background-size:cover; background-position:center;
+  background-color:var(--paper-2); }
+.fp-lab{ display:block; }
+.fp-img{ width:100%; flex:1; min-height:0; background-size:contain;
+  background-repeat:no-repeat; background-position:center; background-color:#fff; }
+.agent{ border-top:1px solid var(--hair); padding-top:12px;
+  display:flex; flex-direction:column; gap:5px; }
+.agent-name{ font-family:"Fraunces",serif; font-size:15px; }
+.agent-agency{ display:block; font-family:"Archivo",sans-serif; font-size:9px;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--brass); margin-top:2px; }
+.agent-contact{ font-size:12px; color:var(--ink-soft); }
+.insp{ background:var(--paper-2); border:1px solid var(--hair); padding:10px 12px; }
+.insp-lab{ display:block; margin-bottom:4px; }
+.insp{ font-size:13px; }
+.listing-link{ font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:.04em;
+  color:var(--brass); word-break:break-all; }
+
+
+/* ===================== CLOSING ===================== */
+.closing{ background:var(--forest); color:#F4EFE6; display:flex;
+  align-items:center; justify-content:center; }
+.closing-inner{ text-align:center; max-width:48ch; }
+.mast-mark.big{ font-size:26px; color:var(--brass-soft); display:block; margin-bottom:20px; }
+.closing-line{ font-family:"Newsreader",serif; font-style:italic; font-size:15px;
+  line-height:1.6; color:rgba(244,239,230,.9); }
+.closing-mast{ display:block; margin-top:26px; font-family:"Archivo",sans-serif;
+  letter-spacing:.42em; font-size:11px; color:var(--brass-soft); }
+</style>
+</head>
+<body>
+  
+    <section class="page cover">
+      <div class="cover-photo" style="background-image:url('https://rimh2.domainstatic.com.au/_ToBnLxrDufXoJRTO72HlHDjuh0=/720x540/filters:format(webp):quality(85)/2020878443_1_1_260528_115328-w1920-h1280')"></div>
+      <div class="cover-scrim"></div>
+      <div class="cover-grain"></div>
+      <div class="cover-inner">
+        <div class="masthead">
+          <span class="mast-mark">◆</span>
+          <span class="mast-name">PROPERTY&nbsp;FOLIO</span>
+          <span class="mast-issue">Scratch Run Attempt — Domain fallback</span>
+        </div>
+        <div class="cover-mid">
+          <p class="cover-eyebrow">A CURATED BUYING DOSSIER</p>
+          <h1 class="cover-title">Current Buyer Brief Folio</h1>
+          <p class="cover-standfirst">Generated from the current buyer.md brief. Domain live search pages blocked the fresh pull, so this folio ranks the latest stored Domain inventory against today’s brief and flags freshness caveats.</p>
+        </div>
+        <div class="cover-foot">
+          <div class="cf-block">
+            <span class="cf-lab">Prepared&nbsp;for</span>
+            <span class="cf-val">Ben</span>
+          </div>
+          <div class="cf-block">
+            <span class="cf-lab">Compiled</span>
+            <span class="cf-val">5 June 2026</span>
+          </div>
+          <div class="cf-block">
+            <span class="cf-lab">By</span>
+            <span class="cf-val">Property Hunter — Buyer Agent</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section class="page brief-page">
+      <header class="sec-head">
+        <span class="sec-kicker">Section 01</span>
+        <h2 class="sec-title">The Brief</h2>
+      </header>
+      <div class="brief-grid">
+        <div class="brief-card">
+          <h3 class="card-h">Mandate</h3>
+          <div class="brief-row"><span class="brief-lab">Objective</span><span class="brief-val">Buy — Owner-Occupier, Capital Growth Priority</span></div>
+          <div class="brief-row"><span class="brief-lab">Budget</span><span class="brief-val">Buy to $1,100,000</span></div>
+          <div class="brief-row"><span class="brief-lab">Bedrooms</span><span class="brief-val">1-2+</span></div>
+          <div class="brief-row"><span class="brief-lab">Bathrooms</span><span class="brief-val">1+</span></div>
+          <div class="brief-row"><span class="brief-lab">Parking</span><span class="brief-val">1+</span></div>
+          <div class="brief-row"><span class="brief-lab">Region</span><span class="brief-val">Within ~20 minutes&#x27; drive of the Sydney CBD. Open across the inner-south (currently live in Zetland and like it), the eastern suburbs, the lower north shore, and the inner-west as far out as Marrickville. Not interested in the outer/greater western suburbs.</span></div>
+        </div>
+        <div class="brief-prose">
+          <p>## What I&#x27;m actually looking for</p>
+          <div class="brief-cols">
+            <div>
+              <h4 class="mini-h">Strong preferences</h4>
+              <ul class="want"><li>Secure car space</li><li>Air-conditioning installed or installable</li><li>1-2 bedroom apartment</li><li>Within roughly 20 minutes drive of CBD</li><li>Capital-growth fundamentals</li></ul>
+            </div>
+            <div>
+              <h4 class="mini-h breaker">Deal-breakers</h4>
+              <ul class="want breaker-list"><li>No parking</li><li>Outer/greater western suburbs</li><li>Aircon impossible to install</li><li>Known flood/fire overlay</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section class="page market-page">
+      <header class="sec-head">
+        <span class="sec-kicker">Section 02</span>
+        <h2 class="sec-title">The Market</h2>
+      </header>
+      <p class="market-standfirst">Fresh Domain search was blocked at source today; treat this as a ranked buyer-agent fallback report, not a complete market scrape.</p>
+      
+      <div class="source-panel source-status-fresh">
+        <div class="source-head">
+          <span>Market evidence</span>
+          <b>fresh</b>
+        </div>
+        
+        <ul class="source-facts">
+        <li class="source-fact source-fresh">
+          <span><b>Domain live search</b> Blocked on 5 June 2026 13:20 AEST</span>
+          <i>Local scratch run · 2026-06-05T13:21:56.495994</i>
+          <em>reports/scratch_run_2026-06-05.json</em>
+        </li></ul>
+      </div>
+      <div class="market-overview"><p>The system attempted a clean scratch run across Zetland, Bondi Junction, Randwick, Crows Nest, North Sydney and Marrickville, plus sold comparables. Domain returned block/challenge pages for every live search. The shortlist below uses the latest stored Domain data already in the local database, scored with the current buyer.md brief and the latest decision engine.</p></div>
+      <h4 class="market-subhead">At a glance</h4>
+      
+      <table class="glance">
+        <thead><tr>
+          <th>Suburb</th><th>Median</th><th>12-mo growth</th>
+          <th>Gross yield</th><th>Avg. on market</th><th>Trajectory</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      
+      <h4 class="market-subhead">The forces at work</h4>
+      <div class="forces">
+        <article class="force">
+          <div class="force-top">
+            <span class="force-lab">Freshness</span>
+            <span class="mbadge tone-down">Blocked ↘</span>
+          </div>
+          <p class="force-body">Live Domain search pages did not expose structured listing data during this run. Verify active status before contacting agents.</p>
+        </article>
+        <article class="force">
+          <div class="force-top">
+            <span class="force-lab">Brief fit</span>
+            <span class="mbadge tone-up">Current ↗</span>
+          </div>
+          <p class="force-body">Scoring, risk checks, valuation logic and action planning were run against the current buyer.md owner-occupier purchase brief.</p>
+        </article>
+        <article class="force">
+          <div class="force-top">
+            <span class="force-lab">Use case</span>
+            <span class="mbadge tone-flat">Triage</span>
+          </div>
+          <p class="force-body">Good enough for shortlist review and inspection planning; not enough for offer pricing without a refreshed listing page and contract/strata review.</p>
+        </article></div>
+    </section>
+    <section class="page market-page">
+      <header class="sec-head">
+        <span class="sec-kicker">Section 02 · continued</span>
+        <h2 class="sec-title">Suburb by Suburb</h2>
+      </header>
+      <div class="sub-briefs"></div>
+      
+        <div class="market-outlook">
+          <span class="outlook-lab">The trajectory</span>
+          <div class="outlook-body"><p>The right next move is to use this as a ranked fallback shortlist, then re-run the live scrape once Domain’s browser gate clears or manually open the top listing pages for current status and inspection times.</p></div>
+        </div>
+    </section>
+  
+    <section class="page exec-page">
+      <header class="sec-head">
+        <span class="sec-kicker">Recommendation</span>
+        <h2 class="sec-title">What I Would Do</h2>
+      </header>
+      <div class="exec-hero">
+        <span class="exec-label">Standout pick</span>
+        <h3>6/22 Gadigal Avenue, Zetland NSW 2017</h3>
+        <p>Lead with 6/22 Gadigal Avenue, Zetland NSW 2017. It is the strongest current fit at 9.0/10.</p>
+        <div class="exec-facts">
+          <span><b>$950,000 - $1,045,000</b><i>Guide</i></span>
+          <span><b>9.0</b><i>Score</i></span>
+          <span><b>Low</b><i>Confidence</i></span>
+        </div>
+      </div>
+      <div class="exec-grid">
+        <article>
+          <span class="mini-h">Why this leads</span>
+          <ul><li>Score 9.0/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown</li><li>Price read: unknown.</li><li>Risk read: Strata costs unknown.</li></ul>
+        </article>
+        <article>
+          <span class="mini-h">Watch before committing</span>
+          <ul><li>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</li></ul>
+        </article>
+        <article>
+          <span class="mini-h">Next moves</span>
+          <ul><li>Inspect in person · next open · Check light, noise, building condition, floorplan feel and air-conditioning.</li><li>Keep warm: 87/244-254 Alison Road, Randwick NSW 2031 if the top pick fails due diligence.</li><li>Keep warm: 102/8 Rose Valley Way, Zetland NSW 2017 if the top pick fails due diligence.</li></ul>
+        </article>
+        <article class="wrong-note">
+          <span class="mini-h">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </article>
+      </div>
+    </section>
+  
+    <section class="page contents-page">
+      <header class="sec-head">
+        <span class="sec-kicker">The Shortlist</span>
+        <h2 class="sec-title">At a Glance</h2>
+      </header>
+      <p class="contents-intro">10 properties, ranked and ready. Fit scores
+        the brief; viability weighs price, yield and risk. Turn to the page noted for
+        the full dossier on each.</p>
+      <table class="shortlist">
+        <thead><tr>
+          <th></th><th>Property</th><th>Guide</th>
+          <th class="sl-th-score">Fit</th><th class="sl-th-score">Viability</th><th>Page</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+          <td class="sl-no">01</td>
+          <td class="sl-prop">
+            <span class="sl-addr">6/22 Gadigal Avenue, Zetland NSW 2017</span>
+            <span class="sl-config">2 bed · 2 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">$950,000 - $1,045,000</td>
+          <td class="sl-score"><b>9.0</b><i>fit</i></td>
+          <td class="sl-score"><b>9.0</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;08</td>
+        </tr>
+        <tr>
+          <td class="sl-no">02</td>
+          <td class="sl-prop">
+            <span class="sl-addr">87/244-254 Alison Road, Randwick NSW 2031</span>
+            <span class="sl-config">2 bed · 1 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">For Sale $1,050,000</td>
+          <td class="sl-score"><b>8.5</b><i>fit</i></td>
+          <td class="sl-score"><b>8.5</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;10</td>
+        </tr>
+        <tr>
+          <td class="sl-no">03</td>
+          <td class="sl-prop">
+            <span class="sl-addr">102/8 Rose Valley Way, Zetland NSW 2017</span>
+            <span class="sl-config">2 bed · 2 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">$900,000 - $990,000</td>
+          <td class="sl-score"><b>7.9</b><i>fit</i></td>
+          <td class="sl-score"><b>7.9</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;12</td>
+        </tr>
+        <tr>
+          <td class="sl-no">04</td>
+          <td class="sl-prop">
+            <span class="sl-addr">105/13 Joynton Avenue, Zetland NSW 2017</span>
+            <span class="sl-config">2 bed · 2 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">$950,000 - $1,045,000</td>
+          <td class="sl-score"><b>5.4</b><i>fit</i></td>
+          <td class="sl-score"><b>5.4</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;14</td>
+        </tr>
+        <tr>
+          <td class="sl-no">05</td>
+          <td class="sl-prop">
+            <span class="sl-addr">1005/5 O&#x27;Dea Avenue, Zetland NSW 2017</span>
+            <span class="sl-config">2 bed · 2 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">$1,000,000 - $1,100,000</td>
+          <td class="sl-score"><b>4.8</b><i>fit</i></td>
+          <td class="sl-score"><b>4.8</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;16</td>
+        </tr>
+        <tr>
+          <td class="sl-no">06</td>
+          <td class="sl-prop">
+            <span class="sl-addr">735 - 737 Elizabeth Street, Zetland NSW 2017</span>
+            <span class="sl-config">2 bed · 2 bath · 6 car · Apartment</span>
+          </td>
+          <td class="sl-price">AUCTION - UNLESS SOLD PRIOR!</td>
+          <td class="sl-score"><b>4.3</b><i>fit</i></td>
+          <td class="sl-score"><b>4.3</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;18</td>
+        </tr>
+        <tr>
+          <td class="sl-no">07</td>
+          <td class="sl-prop">
+            <span class="sl-addr">704/34-52 Alison Road, Randwick NSW 2031</span>
+            <span class="sl-config">2 bed · 2 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">For Sale $1,000,000 - $1,100,000</td>
+          <td class="sl-score"><b>3.9</b><i>fit</i></td>
+          <td class="sl-score"><b>3.9</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;20</td>
+        </tr>
+        <tr>
+          <td class="sl-no">08</td>
+          <td class="sl-prop">
+            <span class="sl-addr">8/2 Oswald Street, Randwick NSW 2031</span>
+            <span class="sl-config">2 bed · 1 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">Guide $1,000,000 - Auction 13th June</td>
+          <td class="sl-score"><b>3.9</b><i>fit</i></td>
+          <td class="sl-score"><b>3.9</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;22</td>
+        </tr>
+        <tr>
+          <td class="sl-no">09</td>
+          <td class="sl-prop">
+            <span class="sl-addr">R302/200-220 Pacific Highway, Crows Nest NSW 2065</span>
+            <span class="sl-config">1 bed · 1 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">FOR SALE $919,000</td>
+          <td class="sl-score"><b>3.9</b><i>fit</i></td>
+          <td class="sl-score"><b>3.9</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;24</td>
+        </tr>
+        <tr>
+          <td class="sl-no">10</td>
+          <td class="sl-prop">
+            <span class="sl-addr">901/300 Oxford Street, Bondi Junction NSW 2022</span>
+            <span class="sl-config">1 bed · 1 bath · 1 car · Apartment</span>
+          </td>
+          <td class="sl-price">For Sale</td>
+          <td class="sl-score"><b>3.9</b><i>fit</i></td>
+          <td class="sl-score"><b>3.9</b><i>via</i></td>
+          <td class="sl-page">p.&thinsp;26</td>
+        </tr></tbody>
+      </table>
+    </section>
+  
+    <section class="page inspection-page">
+      <header class="sec-head">
+        <span class="sec-kicker">Weekend Plan</span>
+        <h2 class="sec-title">Inspection Run</h2>
+      </header>
+      <p class="contents-intro">Saturday 6 June 2026 · 5 scheduled inspections · 1 clash(es) · 5 need agent follow-up. Confirm every time with the agent before leaving.</p>
+      <table class="inspection-run">
+        <thead><tr><th></th><th>Time</th><th>Property</th><th>Route note</th></tr></thead>
+        <tbody>
+        <tr class="">
+          <td class="ir-no">01</td>
+          <td class="ir-time">9:15am-9:45am</td>
+          <td class="ir-prop">
+            <span>1005/5 O&#x27;Dea Avenue, Zetland NSW 2017</span>
+            <i>Zetland · optional</i>
+          </td>
+          <td class="ir-note">Start here.</td>
+        </tr>
+        <tr class="">
+          <td class="ir-no">02</td>
+          <td class="ir-time">10:00am-10:30am</td>
+          <td class="ir-prop">
+            <span>102/8 Rose Valley Way, Zetland NSW 2017</span>
+            <i>Zetland · strong backup</i>
+          </td>
+          <td class="ir-note">Stay in Zetland.</td>
+        </tr>
+        <tr class="">
+          <td class="ir-no">03</td>
+          <td class="ir-time">10:30am-11:00am</td>
+          <td class="ir-prop">
+            <span>87/244-254 Alison Road, Randwick NSW 2031</span>
+            <i>Randwick · must inspect</i>
+          </td>
+          <td class="ir-note">Move from Zetland to Randwick; confirm travel time.</td>
+        </tr>
+        <tr class="clash">
+          <td class="ir-no">04</td>
+          <td class="ir-time">10:45am-11:15am</td>
+          <td class="ir-prop">
+            <span>6/22 Gadigal Avenue, Zetland NSW 2017</span>
+            <i>Zetland · must inspect</i>
+          </td>
+          <td class="ir-note">Move from Randwick to Zetland; confirm travel time.</td>
+        </tr>
+        <tr class="">
+          <td class="ir-no">05</td>
+          <td class="ir-time">11:30am-12:00pm</td>
+          <td class="ir-prop">
+            <span>105/13 Joynton Avenue, Zetland NSW 2017</span>
+            <i>Zetland · optional</i>
+          </td>
+          <td class="ir-note">Stay in Zetland.</td>
+        </tr></tbody>
+      </table>
+      
+      <div class="ir-follow">
+        <span class="mini-h">Agent follow-up</span>
+        <ul><li><b>Zetland</b> 735 - 737 Elizabeth Street, Zetland NSW 2017</li><li><b>Randwick</b> 704/34-52 Alison Road, Randwick NSW 2031</li><li><b>Randwick</b> 8/2 Oswald Street, Randwick NSW 2031</li><li><b>Crows Nest</b> R302/200-220 Pacific Highway, Crows Nest NSW 2065</li><li><b>Bondi Junction</b> 901/300 Oxford Street, Bondi Junction NSW 2022</li></ul>
+      </div>
+    </section>
+  
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/_ToBnLxrDufXoJRTO72HlHDjuh0=/720x540/filters:format(webp):quality(85)/2020878443_1_1_260528_115328-w1920-h1280')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 01</div>
+        <div class="hero-overlay">
+          <div class="hero-price">$950,000 - $1,045,000</div>
+          <h2 class="hero-headline">Zetland — 2 bed, 1 car</h2>
+          <p class="hero-address">6/22 Gadigal Avenue, Zetland NSW 2017</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="147.03 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 9.0/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Air Conditioning, Built-In Wardrobes, Close to Transport, Close to Shops, Pool</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Zetland location within the selected buyer map</li><li>2 bed / 2 bath / 1 car</li><li>Guide: $950,000 - $1,045,000</li><li>Viability band: Exceptional fit</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 01 · continued</span>
+        <span class="dh-addr">6/22 Gadigal Avenue, Zetland NSW 2017</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"><p>Positioned within Victoria Park&#x27;s sought-after &#x27;Elite&#x27; development, this stylish apartment combines contemporary design, quality finishes and peaceful parkland views in a low-maintenance setting. Offering a well-designed single-level layout with two generous bedrooms, it presents an excellent opportunity for professionals, investors or those seeking an effortless urban lifestyle, less than 5km from Sydney CBD. Perfectly located, the residence sits moments from East Village Shopping Centre, popular cafés and dining, with Green Square Station just a short walk away.</p><p>What&#x27;s important to you - Light-filled interiors with fresh finishes and sleek flooring throughout - Seamless single-level layout flowing onto a covered entertainer&#x27;s balcony - Two bedrooms with built-ins, main featuring ensuite - Contemporary stone kitchen with gas cooking and quality appliances - Stylish main bathroom plus a separate internal laundry for added convenience - Air-conditioning, intercom access, lift entry and secure car space - Well-maintained complex offering an indoor pool and fully equipped gym</p><p>The local&#x27;s point of view - Next door to East Village&#x27;s shopping, and dining out experiences - Opposite Joynton Park, ideal for relaxing or walking the dog - Less than 1km strolling distance to Green Square station - A range of vibrant local cafés and bars in the neighbourhood - Within 600m to the Gunyama Park Aquatic and Recreation Centre - A great base for commuting to Sydney Airport or the CBD</p></div>
+          <div class="chips"><span class="chip">Air Conditioning</span><span class="chip">Built-In Wardrobes</span><span class="chip">Close to Transport</span><span class="chip">Close to Shops</span><span class="chip">Pool</span><span class="chip">Intercom</span><span class="chip">Ensuite</span><span class="chip">Security Access</span><span class="chip">Car Parking - Basement</span><span class="chip">Carpeted</span></div>
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Strata costs unknown</b>
+          <ul class="dc-list"><li><b>watch</b> Strata costs unknown</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 0 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>watch</b> finance: Confirm pre-approval, deposit liquidity and stamp-duty treatment.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Exceptional fit
+          <b>9.0</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:80%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:92%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:92%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.0</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">David Bettini</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          <div class="insp"><span class="insp-lab">Next inspection</span>Sat 6 Jun, 10:45–11:15am</div>
+          <a class="listing-link">https://www.domain.com.au/6-22-gadigal-avenue-zetland-nsw-2017-2020878443</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery &amp; floorplan</span>
+        <div class="mosaic"><div class="mz-floor"><span class="fp-lab">Floorplan</span><div class="fp-img" style="background-image:url('https://rimh2.domainstatic.com.au/K9lgVZbWXIY9G-4ff_NUysCf4eo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_11_3_260528_115328-w4000-h2829')"></div></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/AYeELdchxzGdVnYAEyIyfjklhuI=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_1_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/ue0sKrSCV2-7heqmjmyew3ZsvDQ=/720x540/filters:format(webp):quality(85)/2020878443_2_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/-UXmnzZv5vNArUYDM5Ui6HjHqI4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_2_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/29WtVOYeZimYL6pRL8tXxcOVVZg=/720x540/filters:format(webp):quality(85)/2020878443_3_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/5fSXxhPuszvL-Hy2aedDSiRXJpo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_3_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/7bFucbCIZdow1TjkOseRz5VYSKI=/720x540/filters:format(webp):quality(85)/2020878443_4_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/HMC-dYFbCPaeSvMPIh-D2OUc8No=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_4_1_260528_115328-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/OJO_dr_uZsGhahU1TC7YulzHnho=/720x540/filters:format(webp):quality(85)/2020878443_5_1_260528_115328-w1920-h1280')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/dP66zgQ6ExN0jeOZyynckzodT28=/720x540/filters:format(webp):quality(85)/2020774371_1_1_260420_015936-w2048-h1365')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 02</div>
+        <div class="hero-overlay">
+          <div class="hero-price">For Sale $1,050,000</div>
+          <h2 class="hero-headline">Randwick — 2 bed, 1 car</h2>
+          <p class="hero-address">87/244-254 Alison Road, Randwick NSW 2031</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="138.86 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">8.5</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 8.5/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Randwick location within the selected buyer map</li><li>2 bed / 1 bath / 1 car</li><li>Guide: For Sale $1,050,000</li><li>Viability band: Exceptional fit</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 02 · continued</span>
+        <span class="dh-addr">87/244-254 Alison Road, Randwick NSW 2031</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"><p>On level three of the landmark &#x27;Yalara&#x27;, this bright two-bedroom apartment captivates with its leafy sea glimpses through every window. Spacious and lightly refreshed interiors ensure comfort, with the apartment extending to a balcony taking in the idyllic surrounds. Enjoy access to onsite leisure facilities and peaceful gardens, with the building also offering the convenience of lift access. Adjoining Fred Hollows Reserve, this well-placed complex is located partway between Coogee Beach and Randwick Village making a superb investment or a convenient home base. Just a short walk to great schools, the hospital precinct, Royal Randwick Shopping Centre, light rail, The Spot and cafes.</p><p>Each room enjoys a tranquil vista with sea and district views Living area extends to a covered balcony set in the trees Well-presented separate kitchen with brand new cooktop Two large bedrooms, one complete with built-in wardrobe Refreshed bathroom with bath and elegant brass tapware Lush security entrance on Dutruc St with intercom and lift Leisure facilities include a sunny pool, sauna and BBQ area Internal laundry, secure basement car space plus store cage</p><p>Disclaimer: All information contained herein is gathered from sources we believe reliable. We have no reason to doubt its accuracy, however we cannot guarantee it. All interested parties should make and rely upon their own enquiries.</p></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Strata costs unknown</b>
+          <ul class="dc-list"><li><b>watch</b> Strata costs unknown</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 0 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>watch</b> finance: Confirm pre-approval, deposit liquidity and stamp-duty treatment.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Exceptional fit
+          <b>8.5</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:80%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:82%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:82%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.0</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">Cameron Airlie</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          <div class="insp"><span class="insp-lab">Next inspection</span>Thu 4 Jun, 10:30–11:00am</div>
+          <a class="listing-link">https://www.domain.com.au/87-244-254-alison-road-randwick-nsw-2031-2020774371</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery &amp; floorplan</span>
+        <div class="mosaic"><div class="mz-floor"><span class="fp-lab">Floorplan</span><div class="fp-img" style="background-image:url('https://rimh2.domainstatic.com.au/pS7fJCIfknupjWFSdFPriI9kN-0=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_13_3_260420_015939-w2480-h3509')"></div></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/9WgZPkQW6wVx831InWRRTs8h8Tw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_1_1_260420_015936-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/3khprLC9uxYpicQhbAqOfywiAwI=/720x540/filters:format(webp):quality(85)/2020774371_2_1_260420_015936-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/lF1unF6796zDF2LjWKOtCs6W3V8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_2_1_260420_015936-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/eem5GS1DL4rZFUoKCLDF-M5n7Os=/720x540/filters:format(webp):quality(85)/2020774371_3_1_260420_015936-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/-aFQqjzkpO6br86ilhcKUui3blk=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_3_1_260420_015936-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/seRpgbuVKfC2Fc4EXpAS5yHLKzk=/720x540/filters:format(webp):quality(85)/2020774371_4_1_260420_015939-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/2wrD82Ecu56i0278kj5ip9ypZd0=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_4_1_260420_015939-w2048-h1365')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/VkrFY-VTkQWGehjx4_Xyo-ijEhg=/720x540/filters:format(webp):quality(85)/2020774371_5_1_260420_015939-w2048-h1365')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/TwEHLN_oeKaofWx5OTnxiU1e9Ic=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_1_1_260408_112554-w1920-h1280')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 03</div>
+        <div class="hero-overlay">
+          <div class="hero-price">$900,000 - $990,000</div>
+          <h2 class="hero-headline">Zetland — 2 bed, 1 car</h2>
+          <p class="hero-address">102/8 Rose Valley Way, Zetland NSW 2017</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="129.06 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">7.9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 7.9/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Zetland location within the selected buyer map</li><li>2 bed / 2 bath / 1 car</li><li>Guide: $900,000 - $990,000</li><li>Viability band: Strong fit</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 03 · continued</span>
+        <span class="dh-addr">102/8 Rose Valley Way, Zetland NSW 2017</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"><p>Luxury finishes and a sense of scale underpin the appeal of this elevated apartment that rests within stunning &#x27;Symphony&#x27;. Over-sized spaces include flowing living zones, a luxury kitchen, enormous bedrooms and a green fringed balcony.</p><p>What&#x27;s important to you - Prime corner position in the block with an impressive 104 sqm on title - Contemporary flooring, high ceilings, spacious living and dining room - Luxury stone and gas kitchen with a large island bench/breakfast bar - Walls of glass flood the interiors with light and open out to the balcony - Two immense bedrooms with robes, master with a hotel-like ensuite - Concealed study nook, ducted a/c, European laundry, storage cage - Single secure car space, building manager, pool, gym, spa and sauna</p><p>The local&#x27;s point of view - Meriton built &#x27;Symphony includes CCTV security and a rooftop BBQ - Set behind the Gunyama Sports Field and close to the aquatic centre - Stroll to close by dog friendly Joynton Park and Mary O&#x27;Brien Park - Level walk to Green Square&#x27;s lifestyle hub including Woolworths - Nearby East Village and Zetland&#x27;s &#x27;eat street&#x27; will be a favourite - Stroll to multiple bus services, just 1km to Green Square Station - It&#x27;s minutes to Moore Park Golf, Centennial Park and the SCG</p></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Strata costs unknown</b>
+          <ul class="dc-list"><li><b>watch</b> Strata costs unknown</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 0 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>watch</b> finance: Confirm pre-approval, deposit liquidity and stamp-duty treatment.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Strong fit
+          <b>7.9</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:80%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:69%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:69%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.0</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">David Bettini</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          <div class="insp"><span class="insp-lab">Next inspection</span>Sat 6 Jun, 10:00–10:30am</div>
+          <a class="listing-link">https://www.domain.com.au/102-8-rose-valley-way-zetland-nsw-2017-2020745119</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery &amp; floorplan</span>
+        <div class="mosaic"><div class="mz-floor"><span class="fp-lab">Floorplan</span><div class="fp-img" style="background-image:url('https://rimh2.domainstatic.com.au/9QyuTRFMhM-zxYU-lGUdF3CGsi4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_14_3_260408_112608-w3999-h2828')"></div></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/BpTUwF915mvs0pea-PnqHEkAZYI=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_2_1_260408_112554-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/XIuK45vBIlSbRuoj1HKSJSkxwJU=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_3_1_260408_112554-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/SO9pzeGHLld6Ga16whH7LHwS26o=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_4_1_260408_112608-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/pKzHLWAByF3A-yHDjb2z-99SMw4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_5_1_260408_112608-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/kOarml4MibIdxFUCTSaiUfc8Ojc=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_6_1_260408_112608-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/_PkFJCZs30E8_YIlAeaBW5uJ-Xs=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_7_1_260408_112608-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/NdjJnSRxTq7_cxrt46VCNppPb08=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_8_1_260408_112608-w800-h600')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/mX0llWoOEq2qF69RYqXfjYoxhTE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017229349_12_1_210902_013000-w1920-h1280')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/hEvmk5CkQGLVCsNFwrrMVyLsmX8=/720x540/filters:format(webp):quality(85)/2020884546_1_1_260602_120721-w1920-h1280')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 04</div>
+        <div class="hero-overlay">
+          <div class="hero-price">$950,000 - $1,045,000</div>
+          <h2 class="hero-headline">Zetland — 2 bed, 1 car</h2>
+          <p class="hero-address">105/13 Joynton Avenue, Zetland NSW 2017</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="88.22 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">5.4</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 5.4/10 on the current buyer brief. Pricing reads unknown; main check: Noise or road exposure</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Built-In Wardrobes, Close to Transport, Close to Shops, Pool, Intercom</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Zetland location within the selected buyer map</li><li>2 bed / 2 bath / 1 car</li><li>Guide: $950,000 - $1,045,000</li><li>Viability band: Marginal</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 04 · continued</span>
+        <span class="dh-addr">105/13 Joynton Avenue, Zetland NSW 2017</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li><li>Top risk may dominate the recommendation: Noise or road exposure.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"><p>Enjoying a blissful back of block setting and embracing a lush garden outlook, this superb apartment provides a spacious contemporary haven with a clever design, resort amenities and easy convenience.</p><p>What&#x27;s important to you - First floor position overlooking the manicured green central gardens - Bright fresh interiors, high ceilings, engineered floors, reverse cycle a/c - Spacious living and dining with a floor to ceiling bank of glass sliders - Generous covered balcony with a garden outlook, stone gas kitchen - Quality appliances, dishwasher, storage cupboards, main bath/laundry - Built-in robes, master with study nook and ensuite, security car space - Resort style complex features a lagoon pool, barbeque area and spa</p><p>The local&#x27;s point of view - Enjoy green living metres to Mary O&#x27;Brien Reserve and Tote Park - East Village &amp; Zetland&#x27;s &#x27;eat street&#x27; are steps away &amp; will be a favourite - The world-class facilities of Gunyama aquatic centre are close by - It&#x27;s an easy walk to multiple bus services and Green Square Station - Explore the galleries and eateries on nearby popular Danks Street - Connectivity is key being moments to the airport and arterial roads</p></div>
+          <div class="chips"><span class="chip">Built-In Wardrobes</span><span class="chip">Close to Transport</span><span class="chip">Close to Shops</span><span class="chip">Pool</span><span class="chip">Intercom</span><span class="chip">Ensuite</span><span class="chip">Security Access</span><span class="chip">Car Parking - Basement</span></div>
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Noise or road exposure</b>
+          <ul class="dc-list"><li><b>major</b> Noise or road exposure</li><li><b>watch</b> Strata costs unknown</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 0 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>watch</b> finance: Confirm pre-approval, deposit liquidity and stamp-duty treatment.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Marginal
+          <b>5.4</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:80%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:75%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:75%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.3</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">David Bettini</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          <div class="insp"><span class="insp-lab">Next inspection</span>Sat 6 Jun, 11:30–12:00pm</div>
+          <a class="listing-link">https://www.domain.com.au/105-13-joynton-avenue-zetland-nsw-2017-2020884546</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery &amp; floorplan</span>
+        <div class="mosaic"><div class="mz-floor"><span class="fp-lab">Floorplan</span><div class="fp-img" style="background-image:url('https://rimh2.domainstatic.com.au/7c7SPB2klKPowabnrfF3uf_FlDE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_12_3_260602_120722-w3998-h2827')"></div></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/mAdkGHl62plQcS_pf6PI5p7sDQU=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_1_1_260602_120721-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/ynMduh3gHeI-s-p1d6FAqXx62fw=/720x540/filters:format(webp):quality(85)/2020884546_2_1_260602_120721-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/bezYfJQvIT5y6fL3bhgor71BWCY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_2_1_260602_120721-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/oCd4ST2pb13HRsPpEF9_3r2sKxk=/720x540/filters:format(webp):quality(85)/2020884546_3_1_260602_120721-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/d7xAaPj_tJub9j39DLGTjAcolqw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_3_1_260602_120721-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/MiondI1Y-M-GFt1Os0rX09HBZSI=/720x540/filters:format(webp):quality(85)/2020884546_4_1_260602_120722-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/nZGAuLGEDc-dHI8yWm2bUHSK5pE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_4_1_260602_120722-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/3BIslSah56LHX1V6NWQjtFZIjaI=/720x540/filters:format(webp):quality(85)/2020884546_5_1_260602_120722-w1920-h1280')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/keY24HmEKWCzhjm-dEpfSdjNQWo=/720x540/filters:format(webp):quality(85)/2017637300_2_1_220303_043027-w1920-h1280')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 05</div>
+        <div class="hero-overlay">
+          <div class="hero-price">$1,000,000 - $1,100,000</div>
+          <h2 class="hero-headline">Zetland — 2 bed, 1 car</h2>
+          <p class="hero-address">1005/5 O&#x27;Dea Avenue, Zetland NSW 2017</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="78.41 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">4.8</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 4.8/10 on the current buyer brief. Pricing reads unknown; main check: Noise or road exposure</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Built-In Wardrobes, Close to Transport, Close to Shops, Intercom, Ensuite</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Zetland location within the selected buyer map</li><li>2 bed / 2 bath / 1 car</li><li>Guide: $1,000,000 - $1,100,000</li><li>Viability band: Marginal</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 05 · continued</span>
+        <span class="dh-addr">1005/5 O&#x27;Dea Avenue, Zetland NSW 2017</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li><li>Top risk may dominate the recommendation: Noise or road exposure.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"><p>Flowing over two exceptional levels, this is a superb retreat with city views, stylish appointments and a whole floor master with study. In an ever-emerging pocket, lifestyle surrounds it.</p><p>What&#x27;s important to you - 9th and 10th floor setting with dual aspects and a flow through design - Superb vistas across the district to the CBD, contemporary flooring - Open plan living and dining, floor to ceiling sliders, alfresco balcony - Large stone wrapped gas kitchen, European appliances, 3 balconies - Whole floor master with ensuite, balcony, robes and a study nook - 2nd bedroom with robes, balcony and an adjoining bathroom, laundry - Stylish contemporary bathrooms, lift access to the security car space</p><p>The local&#x27;s point of view - Enjoy an &#x27;Epic&#x27; lifestyle with rooftop pool and barbeque areas - Placed to enjoy the lifestyle precincts of Victoria Park &amp; Waterloo - Discover the many popular galleries and eateries on Danks Street - Shop local at nearby Aldi, Coles or East Village&#x27;s gourmet hub - The recently completed world-class aquatic centre is close by - It&#x27;s a quick walk to multiple bus services and Green Square station - Connectivity is key being moments to the airport and arterial roads</p></div>
+          <div class="chips"><span class="chip">Built-In Wardrobes</span><span class="chip">Close to Transport</span><span class="chip">Close to Shops</span><span class="chip">Intercom</span><span class="chip">Ensuite</span><span class="chip">City Views</span><span class="chip">Security Access</span><span class="chip">Car Parking - Basement</span></div>
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Noise or road exposure</b>
+          <ul class="dc-list"><li><b>major</b> Noise or road exposure</li><li><b>watch</b> Strata costs unknown</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 0 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>watch</b> finance: Confirm pre-approval, deposit liquidity and stamp-duty treatment.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Marginal
+          <b>4.8</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:80%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:62%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:62%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.3</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">David Bettini</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          <div class="insp"><span class="insp-lab">Next inspection</span>Sat 6 Jun, 9:15–9:45am</div>
+          <a class="listing-link">https://www.domain.com.au/1005-5-o-dea-avenue-zetland-nsw-2017-2020887612</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery &amp; floorplan</span>
+        <div class="mosaic"><div class="mz-floor"><span class="fp-lab">Floorplan</span><div class="fp-img" style="background-image:url('https://rimh2.domainstatic.com.au/sWf3ZPc8hJlXl4DugU_7waqipd8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020887612_12_3_260602_101910-w1000-h708')"></div></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/Sfz_lMaLu7L1o0EwIprltBnkVhw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_2_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/DZ2-ctGiP6odPSxxU-ang1PP9Mo=/720x540/filters:format(webp):quality(85)/2017637300_3_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/JRT9sA2Ij8RBjtTT07Dik86qpQ4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_3_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/LZevUtd7bqU2h3D5v4yjerDKVeQ=/720x540/filters:format(webp):quality(85)/2017637300_4_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/Oo1tGNMDeos5g8IqFuNmP7XcDeY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_4_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/-KMQjDgEELfosZ82ha7kq-zdzrw=/720x540/filters:format(webp):quality(85)/2017637300_1_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/vBGotG6spX1nxhRFA4ZTXEI28Pg=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_1_1_220303_043027-w1920-h1280')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/rZUtMk3cd2Xa1r-WQ-4rxJJqHuY=/720x540/filters:format(webp):quality(85)/2017637300_5_1_220303_043027-w1920-h1280')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/vcK0uFYApAUVQ2uG87qksTBJoNQ=/720x540/filters:format(webp):quality(85)/2020872095_1_1_260527_020915-w1706-h1279')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 06</div>
+        <div class="hero-overlay">
+          <div class="hero-price">AUCTION - UNLESS SOLD PRIOR!</div>
+          <h2 class="hero-headline">Zetland — 2 bed, 6 car</h2>
+          <p class="hero-address">735 - 737 Elizabeth Street, Zetland NSW 2017</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="70.25 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">4.3</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">6</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 4.3/10 on the current buyer brief. Pricing reads unknown; main check: Agent contact incomplete</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Zetland location within the selected buyer map</li><li>2 bed / 2 bath / 6 car</li><li>Guide: AUCTION - UNLESS SOLD PRIOR!</li><li>Viability band: Marginal</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 06 · continued</span>
+        <span class="dh-addr">735 - 737 Elizabeth Street, Zetland NSW 2017</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">Agent contact incomplete</b>
+          <ul class="dc-list"><li><b>watch</b> Agent contact incomplete</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">3 critical checks, 2 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> building pest: Book building and pest inspection before exchange.</li><li><b>critical</b> auction: Finish contract, strata/building and finance checks before auction day.</li><li><b>major</b> finance: Ask agent for guide and recent comparable evidence.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Marginal
+          <b>4.3</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:60%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.0</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">Lebba Khater</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          
+          <a class="listing-link">https://www.domain.com.au/735-737-elizabeth-street-zetland-nsw-2017-2020872095</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery</span>
+        <div class="mosaic"><div class="mz-feature" style="background-image:url('https://rimh2.domainstatic.com.au/dvr1lGI2ejN6ELpeCajN92XjVVQ=/720x540/filters:format(webp):quality(85)/2020872095_2_1_260527_020915-w1751-h1171')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/IBSDFvTPbW8m8nnLccdT3_M-7N8=/720x540/filters:format(webp):quality(85)/2020872095_3_1_260527_020915-w1743-h1162')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/T3AZefzm3ZjAtoHKib6c5znDU6k=/720x540/filters:format(webp):quality(85)/2020872095_4_1_260527_020943-w1745-h1164')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/r5viwE8BMdX1b4mHR4SmpipCHOs=/720x540/filters:format(webp):quality(85)/2020872095_5_1_260527_020943-w1743-h1162')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/i2YyQ_4eiTrkre92gR4fZCvzaT4=/720x540/filters:format(webp):quality(85)/2020553114_1_1_260505_015324-w1264-h843')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 07</div>
+        <div class="hero-overlay">
+          <div class="hero-price">For Sale $1,000,000 - $1,100,000</div>
+          <h2 class="hero-headline">Randwick — 2 bed, 1 car</h2>
+          <p class="hero-address">704/34-52 Alison Road, Randwick NSW 2031</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="63.71 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">3.9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Randwick location within the selected buyer map</li><li>2 bed / 2 bath / 1 car</li><li>Guide: For Sale $1,000,000 - $1,100,000</li><li>Viability band: Off-brief</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 07 · continued</span>
+        <span class="dh-addr">704/34-52 Alison Road, Randwick NSW 2031</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>5 comps · median $1,250,000 · range $920,000 - $1,900,000 · medium confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">No floorplan found</b>
+          <ul class="dc-list"><li><b>watch</b> No floorplan found</li><li><b>watch</b> Strata costs unknown</li><li><b>watch</b> Agent contact incomplete</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 2 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>major</b> finance: Ask agent for guide and recent comparable evidence.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Off-brief
+          <b>3.9</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:60%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.1</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">Les Donayre</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          
+          <a class="listing-link">https://www.domain.com.au/704-34-52-alison-road-randwick-nsw-2031-2020553114</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery</span>
+        <div class="mosaic"><div class="mz-feature" style="background-image:url('https://rimh2.domainstatic.com.au/PV_xFumBFRYtpID1fdL4FRVxSsc=/720x540/filters:format(webp):quality(85)/2020553114_2_1_260126_103653-w1200-h792')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/wbiV0n_H_IQGAB0-F2EriMloGv4=/720x540/filters:format(webp):quality(85)/2020553114_1_1_260126_103653-w1200-h800')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/ZBJl9g1OFJUibrkXeme1cTPceNM=/720x540/filters:format(webp):quality(85)/2020553114_5_1_260126_103654-w1200-h800')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/68GOx2f0grwoyMCU8raqPO3Qlfo=/720x540/filters:format(webp):quality(85)/2020553114_4_1_260126_103654-w1200-h800')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/VqRRFFISVzSkPRQLbuWk_Df7bxA=/720x540/filters:format(webp):quality(85)/2020846625_1_1_260515_073234-w5839-h3881')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 08</div>
+        <div class="hero-overlay">
+          <div class="hero-price">Guide $1,000,000 - Auction 13th June</div>
+          <h2 class="hero-headline">Randwick — 2 bed, 1 car</h2>
+          <p class="hero-address">8/2 Oswald Street, Randwick NSW 2031</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="63.71 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">3.9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">2</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Randwick location within the selected buyer map</li><li>2 bed / 1 bath / 1 car</li><li>Guide: Guide $1,000,000 - Auction 13th June</li><li>Viability band: Off-brief</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 08 · continued</span>
+        <span class="dh-addr">8/2 Oswald Street, Randwick NSW 2031</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>5 comps · median $1,250,000 · range $920,000 - $1,900,000 · medium confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">No floorplan found</b>
+          <ul class="dc-list"><li><b>watch</b> No floorplan found</li><li><b>watch</b> Strata costs unknown</li><li><b>watch</b> Agent contact incomplete</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">3 critical checks, 2 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>critical</b> auction: Finish contract, strata/building and finance checks before auction day.</li><li><b>major</b> finance: Ask agent for guide and recent comparable evidence.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Off-brief
+          <b>3.9</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:60%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.1</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">Angus Gorrie</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          
+          <a class="listing-link">https://www.domain.com.au/8-2-oswald-street-randwick-nsw-2031-2020846625</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery</span>
+        <div class="mosaic"><div class="mz-feature" style="background-image:url('https://rimh2.domainstatic.com.au/P-lL5QdITLnpYAR_5fG5grjfVDA=/720x540/filters:format(webp):quality(85)/2020846625_2_1_260515_073234-w5760-h3840')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/Fh8JBfFGT4-VfWhF0E6C0pdL5xk=/720x540/filters:format(webp):quality(85)/2020846625_3_1_260515_073234-w5774-h3840')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/-cJGUYk42yCZyyRMbvBh2m-fFUI=/720x540/filters:format(webp):quality(85)/2020846625_4_1_260515_073236-w5760-h3840')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/FM6aBMcjOpasumki5_CfzMW8ABY=/720x540/filters:format(webp):quality(85)/2020846625_5_1_260515_073236-w5769-h3843')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/KaI1DYDROPLCYgBxnBv-QKH6Hgk=/720x540/filters:format(webp):quality(85)/2020768035_1_1_260416_050821-w6720-h4480')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 09</div>
+        <div class="hero-overlay">
+          <div class="hero-price">FOR SALE $919,000</div>
+          <h2 class="hero-headline">Crows Nest — 1 bed, 1 car</h2>
+          <p class="hero-address">R302/200-220 Pacific Highway, Crows Nest NSW 2065</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="63.71 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">3.9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 1 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Crows Nest location within the selected buyer map</li><li>1 bed / 1 bath / 1 car</li><li>Guide: FOR SALE $919,000</li><li>Viability band: Off-brief</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 09 · continued</span>
+        <span class="dh-addr">R302/200-220 Pacific Highway, Crows Nest NSW 2065</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>0 comps · median — · range Insufficient comps · none confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">No floorplan found</b>
+          <ul class="dc-list"><li><b>watch</b> No floorplan found</li><li><b>watch</b> Strata costs unknown</li><li><b>watch</b> Agent contact incomplete</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 2 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>major</b> finance: Ask agent for guide and recent comparable evidence.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Off-brief
+          <b>3.9</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:60%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.1</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">Anson Kolb</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          
+          <a class="listing-link">https://www.domain.com.au/r302-200-220-pacific-highway-crows-nest-nsw-2065-2020768035</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery</span>
+        <div class="mosaic"><div class="mz-feature" style="background-image:url('https://rimh2.domainstatic.com.au/4l8tCsRTBAZu6nkzseoe5zKU7_o=/720x540/filters:format(webp):quality(85)/2020768035_5_1_260416_050829-w6282-h4480')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/xZvvWaXZs31QIzN0Sacs3dQOeFg=/720x540/filters:format(webp):quality(85)/2020768035_2_1_260416_050821-w5715-h4429')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/kCYCewsoOCHsoE80kAISpYCNoiU=/720x540/filters:format(webp):quality(85)/2020768035_3_1_260416_050821-w6720-h4480')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/FoQHU1Wl836O2hKw8Y_Lkk4BJng=/720x540/filters:format(webp):quality(85)/2020768035_4_1_260416_050829-w4041-h3975')"></div></div>
+      </div>
+    </section>
+    <section class="page prop-plate">
+      <div class="prop-hero" style="background-image:url('https://rimh2.domainstatic.com.au/tMs1n09FMRgLXXI5I7yyPl50c7Y=/720x540/filters:format(webp):quality(85)/16395132_3_1_230329_092110-w6720-h4480')">
+        <div class="hero-scrim"></div>
+        <div class="hero-index">No. 10</div>
+        <div class="hero-overlay">
+          <div class="hero-price">For Sale</div>
+          <h2 class="hero-headline">Bondi Junction — 1 bed, 1 car</h2>
+          <p class="hero-address">901/300 Oxford Street, Bondi Junction NSW 2022</p>
+        </div>
+        
+    <svg class="fit-ring" viewBox="0 0 64 64" width="64" height="64">
+      <circle cx="32" cy="32" r="26" class="fit-track"/>
+      <circle cx="32" cy="32" r="26" class="fit-fill"
+              stroke-dasharray="63.71 163.36"
+              transform="rotate(-90 32 32)"/>
+      <text x="32" y="35" class="fit-num">3.9</text>
+    </svg>
+      </div>
+      <div class="plate-body">
+        <div class="stats-row"><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Beds</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Baths</span></div><div class="stat"><span class="stat-val">1</span><span class="stat-lab">Cars</span></div><div class="stat"><span class="stat-val">Apartment</span><span class="stat-lab">Type</span></div></div>
+        <div class="verdict">
+          <span class="verdict-lab">The verdict</span>
+          <p class="verdict-text">Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found</p>
+        </div>
+        <div class="plate-cols">
+          <div class="plate-why">
+            <h3 class="why-h">Why it fits the brief</h3>
+            <div class="why-prose"><p>This matches the hard brief on suburb, apartment type, 1 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.</p></div>
+          </div>
+          <div class="plate-side">
+            <ul class="highlights"><li>Bondi Junction location within the selected buyer map</li><li>1 bed / 1 bath / 1 car</li><li>Guide: For Sale</li><li>Viability band: Off-brief</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page prop-dossier">
+      <header class="dossier-head">
+        <span class="dh-index">No. 10 · continued</span>
+        <span class="dh-addr">901/300 Oxford Street, Bondi Junction NSW 2022</span>
+      </header>
+      <div class="dossier-cols">
+        <div class="dossier-main">
+          <div class="caveat"><span class="caveat-lab">One watch-out</span>Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.</div>
+          
+        <div class="wrong-note prop-wrong">
+          <span class="caveat-lab">Why this might be wrong</span>
+          <ul><li>Comparable evidence is thin, so the price call can move quickly.</li><li>Critical due-diligence items still need human verification.</li></ul>
+        </div>
+          <h4 class="desc-h">From the listing</h4>
+          <div class="desc"></div>
+          
+          <div class="decision-grid">
+        <div class="decision-card">
+          <span class="dc-k">Valuation</span>
+          <b class="dc-h">Unknown</b>
+          <p>Pull more comparable evidence before making a price call.</p>
+          <small>1 comps · median $1,150,000 · range $1,150,000 - $1,150,000 · low confidence</small>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Risk</span>
+          <b class="dc-h">No floorplan found</b>
+          <ul class="dc-list"><li><b>watch</b> No floorplan found</li><li><b>watch</b> Strata costs unknown</li><li><b>watch</b> Agent contact incomplete</li></ul>
+        </div>
+        <div class="decision-card">
+          <span class="dc-k">Due diligence</span>
+          <b class="dc-h">2 critical checks, 2 unknowns</b>
+          <ul class="dc-list"><li><b>critical</b> legal: Request contract and send to conveyancer before bidding or signing.</li><li><b>critical</b> strata: Request strata report, AGM minutes, capital works fund balance and levies.</li><li><b>major</b> cooling off: Confirm cooling-off and section 66W position with conveyancer.</li><li><b>major</b> finance: Ask agent for guide and recent comparable evidence.</li></ul>
+        </div>
+        <div class="decision-card action">
+          <span class="dc-k">Action plan</span>
+          <b class="dc-h">Inspect in person</b>
+          <p>Check light, noise, building condition, floorplan feel and air-conditioning.</p>
+          <small>high priority · deadline: next open</small>
+        </div></div>
+        </div>
+        <aside class="prop-aside">
+          
+      <div class="scorecard">
+        <span class="sc-h">Viability — Off-brief
+          <b>3.9</b><i>/10 · owner occupier lens</i></span>
+        <div class="sc-row"><span class="sc-lab">Brief match</span><span class="sc-track"><span class="sc-fill" style="width:100%"></span></span></div><div class="sc-row"><span class="sc-lab">Budget fit</span><span class="sc-track"><span class="sc-fill" style="width:60%"></span></span></div><div class="sc-row"><span class="sc-lab">Lifestyle fit</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div><div class="sc-row"><span class="sc-lab">Preferences</span><span class="sc-track"><span class="sc-fill" style="width:0%"></span></span></div>
+        <p class="sc-pen">Risk penalty applied: −0.1</p>
+      </div>
+          <div class="fin-card">
+            <span class="fin-h">Financials &amp; yield</span>
+            <div class="fin-row"><span>Est. rent</span><b>—</b></div><div class="fin-row"><span>Gross yield</span><b>—</b></div><div class="fin-row"><span>Strata</span><b>—</b></div><div class="fin-row"><span>Council</span><b>—</b></div>
+            <p class="fin-note">Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price.</p>
+          </div>
+          
+        <div class="agent">
+          <div>
+            <span class="agent-name">CAE THOMAS</span>
+            <span class="agent-agency"></span>
+          </div>
+          <span class="agent-contact"></span>
+        </div>
+          
+          <a class="listing-link">https://www.domain.com.au/901-300-oxford-street-bondi-junction-nsw-2022-2020760507</a>
+        </aside>
+      </div>
+      <div class="dossier-visuals">
+        <span class="visuals-lab">Gallery</span>
+        <div class="mosaic"><div class="mz-feature" style="background-image:url('https://rimh2.domainstatic.com.au/Ogzt4w4ZV5n5uNMUwIqtAb7wHcw=/720x540/filters:format(webp):quality(85)/16395132_5_1_230328_052950-w6720-h4480')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/lnVKgRREl-OQwar80SOlWt4o9CE=/720x540/filters:format(webp):quality(85)/16395132_2_1_230328_052950-w6720-h4480')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/dPjiDk5wQzga6ZxzKqLI9SzW8LE=/720x540/filters:format(webp):quality(85)/16395132_6_1_230328_052950-w6720-h4480')"></div><div class="mz-cell" style="background-image:url('https://rimh2.domainstatic.com.au/NSoJkEyBrGxJYHH44w1c5fCMOZs=/720x540/filters:format(webp):quality(85)/16395132_1_1_230328_052950-w6720-h4480')"></div></div>
+      </div>
+    </section>
+  <section class="page closing">
+    <div class="closing-inner">
+      <span class="mast-mark big">◆</span>
+      <p class="closing-line">Compiled by your buying agent. Numbers are estimates — verify strata, council and contract terms before offering.</p>
+      <span class="closing-mast">PROPERTY&nbsp;FOLIO</span>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{
+  "hunts": [
+    {
+      "name": "scratch-buy-zetland",
+      "url": "https://www.domain.com.au/sale/zetland-nsw-2017/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-buy-bondi",
+      "url": "https://www.domain.com.au/sale/bondi-junction-nsw-2022/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-buy-randwick",
+      "url": "https://www.domain.com.au/sale/randwick-nsw-2031/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-buy-crows",
+      "url": "https://www.domain.com.au/sale/crows-nest-nsw-2065/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-buy-north",
+      "url": "https://www.domain.com.au/sale/north-sydney-nsw-2060/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-buy-marrickville",
+      "url": "https://www.domain.com.au/sale/marrickville-nsw-2204/?price=0-1100000&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&excludeunderoffer=1&sort=dateupdated-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    },
+    {
+      "name": "scratch-sold-inner",
+      "url": "https://www.domain.com.au/sold-listings/?suburb=zetland-nsw-2017,bondi-junction-nsw-2022,randwick-nsw-2031,crows-nest-nsw-2065,north-sydney-nsw-2060,marrickville-nsw-2204&bedrooms=1-2&bathrooms=1-any&carspaces=1-any&ptype=apartment&sort=solddate-desc",
+      "provider": "domain",
+      "total_results": null,
+      "page_count": 0,
+      "new_count": 0,
+      "changed_count": 0,
+      "stale_count": 0,
+      "new": [],
+      "changed": [],
+      "stale": [],
+      "blocked": true
+    }
+  ]
+}

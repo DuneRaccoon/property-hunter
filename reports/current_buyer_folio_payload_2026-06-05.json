@@ -1,0 +1,3145 @@
+{
+  "meta": {
+    "title": "Current Buyer Brief Folio",
+    "issue": "Scratch Run Attempt \u2014 Domain fallback",
+    "date": "5 June 2026",
+    "prepared_for": "Ben",
+    "prepared_by": "Property Hunter \u2014 Buyer Agent",
+    "standfirst": "Generated from the current buyer.md brief. Domain live search pages blocked the fresh pull, so this folio ranks the latest stored Domain inventory against today\u2019s brief and flags freshness caveats."
+  },
+  "brief": {
+    "objective": "Buy \u2014 owner-occupier, capital growth priority",
+    "budget_buy": 1100000,
+    "beds": "1-2",
+    "baths": "1",
+    "cars": "1",
+    "region": "Within ~20 minutes' drive of the Sydney CBD. Open across the inner-south (currently live in Zetland and like it), the eastern suburbs, the lower north shore, and the inner-west as far out as Marrickville. Not interested in the outer/greater western suburbs.",
+    "prose": "## What I'm actually looking for",
+    "must_haves": [
+      "Secure car space",
+      "Air-conditioning installed or installable",
+      "1-2 bedroom apartment",
+      "Within roughly 20 minutes drive of CBD",
+      "Capital-growth fundamentals"
+    ],
+    "deal_breakers": [
+      "No parking",
+      "Outer/greater western suburbs",
+      "Aircon impossible to install",
+      "Known flood/fire overlay"
+    ]
+  },
+  "market": {
+    "standfirst": "Fresh Domain search was blocked at source today; treat this as a ranked buyer-agent fallback report, not a complete market scrape.",
+    "overview": "The system attempted a clean scratch run across Zetland, Bondi Junction, Randwick, Crows Nest, North Sydney and Marrickville, plus sold comparables. Domain returned block/challenge pages for every live search. The shortlist below uses the latest stored Domain data already in the local database, scored with the current buyer.md brief and the latest decision engine.",
+    "forces": [
+      {
+        "label": "Freshness",
+        "signal": "Blocked",
+        "tone": "down",
+        "body": "Live Domain search pages did not expose structured listing data during this run. Verify active status before contacting agents."
+      },
+      {
+        "label": "Brief fit",
+        "signal": "Current",
+        "tone": "up",
+        "body": "Scoring, risk checks, valuation logic and action planning were run against the current buyer.md owner-occupier purchase brief."
+      },
+      {
+        "label": "Use case",
+        "signal": "Triage",
+        "body": "Good enough for shortlist review and inspection planning; not enough for offer pricing without a refreshed listing page and contract/strata review."
+      }
+    ],
+    "outlook": "The right next move is to use this as a ranked fallback shortlist, then re-run the live scrape once Domain\u2019s browser gate clears or manually open the top listing pages for current status and inspection times.",
+    "sources": [
+      {
+        "key": "domain_search_status",
+        "label": "Domain live search",
+        "value": "Blocked on 5 June 2026 13:20 AEST",
+        "source_name": "Local scratch run",
+        "source_url": "reports/scratch_run_2026-06-05.json",
+        "observed_at": "2026-06-05T13:21:56.495994",
+        "freshness_days": 1
+      }
+    ]
+  },
+  "properties": [
+    {
+      "id": "2020878443",
+      "address": "6/22 Gadigal Avenue, Zetland NSW 2017",
+      "suburb": "Zetland",
+      "price": "$950,000 - $1,045,000",
+      "beds": 2,
+      "baths": 2,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/6-22-gadigal-avenue-zetland-nsw-2017-2020878443",
+      "description": "Positioned within Victoria Park's sought-after 'Elite' development, this stylish apartment combines contemporary design, quality finishes and peaceful parkland views in a low-maintenance setting. Offering a well-designed single-level layout with two generous bedrooms, it presents an excellent opportunity for professionals, investors or those seeking an effortless urban lifestyle, less than 5km from Sydney CBD. Perfectly located, the residence sits moments from East Village Shopping Centre, popular caf\u00e9s and dining, with Green Square Station just a short walk away.\n\nWhat's important to you\n- Light-filled interiors with fresh finishes and sleek flooring throughout\n- Seamless single-level layout flowing onto a covered entertainer's balcony\n- Two bedrooms with built-ins, main featuring ensuite\n- Contemporary stone kitchen with gas cooking and quality appliances\n- Stylish main bathroom plus a separate internal laundry for added convenience\n- Air-conditioning, intercom access, lift entry and secure car space\n- Well-maintained complex offering an indoor pool and fully equipped gym\n\nThe local's point of view\n- Next door to East Village's shopping, and dining out experiences\n- Opposite Joynton Park, ideal for relaxing or walking the dog\n- Less than 1km strolling distance to Green Square station\n- A range of vibrant local caf\u00e9s and bars in the neighbourhood\n- Within 600m to the Gunyama Park Aquatic and Recreation Centre\n- A great base for commuting to Sydney Airport or the CBD",
+      "features": [
+        "Air Conditioning",
+        "Built-In Wardrobes",
+        "Close to Transport",
+        "Close to Shops",
+        "Pool",
+        "Intercom",
+        "Ensuite",
+        "Security Access",
+        "Car Parking - Basement",
+        "Carpeted",
+        "Exhaust"
+      ],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/_ToBnLxrDufXoJRTO72HlHDjuh0=/720x540/filters:format(webp):quality(85)/2020878443_1_1_260528_115328-w1920-h1280",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/AYeELdchxzGdVnYAEyIyfjklhuI=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_1_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/ue0sKrSCV2-7heqmjmyew3ZsvDQ=/720x540/filters:format(webp):quality(85)/2020878443_2_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/-UXmnzZv5vNArUYDM5Ui6HjHqI4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_2_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/29WtVOYeZimYL6pRL8tXxcOVVZg=/720x540/filters:format(webp):quality(85)/2020878443_3_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/5fSXxhPuszvL-Hy2aedDSiRXJpo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_3_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/7bFucbCIZdow1TjkOseRz5VYSKI=/720x540/filters:format(webp):quality(85)/2020878443_4_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/HMC-dYFbCPaeSvMPIh-D2OUc8No=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_4_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/OJO_dr_uZsGhahU1TC7YulzHnho=/720x540/filters:format(webp):quality(85)/2020878443_5_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/x2TR1KYj7-MKu8WPGBTF2pC93qQ=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_5_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/BToko5_DG20iMFO0FYicVsg00X4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_6_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/6Pmxw3QLvEuKXRGUsKNgbCKsA4Q=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_7_1_260528_115328-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/_Zqkd16rMOgkuvYrD7Zg7Dt5fx8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_8_1_260504_065927-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/ZJem88fNuo4qMRnkYOrbaDA1GCA=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_9_1_260504_065927-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/qfDMNvfgpeiPQizYUafTEHDrLwY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_10_1_260504_065927-w1920-h1280"
+        ],
+        "floorplan": "https://rimh2.domainstatic.com.au/K9lgVZbWXIY9G-4ff_NUysCf4eo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_11_3_260528_115328-w4000-h2829"
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "David Bettini",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Lukas Margaritis",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "David Bettini",
+          "mobile": "0420 361 827",
+          "email": "david@mgmmartin.com"
+        }
+      ],
+      "inspections": [
+        {
+          "start": "2026-06-06T10:45:00",
+          "end": "2026-06-06T11:15:00"
+        }
+      ],
+      "viability": {
+        "score": 9.0,
+        "band": "Exceptional fit",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.8,
+          "yield_or_lifestyle": 0.92,
+          "preference_match": 0.92,
+          "dealbreaker_penalty": 0.02
+        },
+        "price_used": 997500.0,
+        "violations": [],
+        "matched_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "low maintenance",
+          "storage"
+        ],
+        "missing_prefs": [
+          "period charm"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.04,
+          "has_dealbreaker": false,
+          "summary": "Strata costs unknown"
+        },
+        "signals": [
+          "Sits in the upper end of budget \u2014 the outgoings will decide it."
+        ]
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "estimate",
+            "severity": "watch",
+            "reason": "Guide midpoint is $997,500; 10% deposit plus approximate NSW duty is ~$139,372.",
+            "recommended_action": "Confirm pre-approval, deposit liquidity and stamp-duty treatment.",
+            "source": "calculated"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 0,
+        "summary": "2 critical checks, 0 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": 997500.0,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": 498750,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.451254+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.04,
+        "has_dealbreaker": false,
+        "summary": "Strata costs unknown"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi David Bettini, I'm interested in 6/22 Gadigal Avenue, Zetland NSW 2017. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 9.0,
+      "headline": "Zetland \u2014 2 bed, 1 car",
+      "verdict": "Score 9.0/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Air Conditioning, Built-In Wardrobes, Close to Transport, Close to Shops, Pool",
+      "highlights": [
+        "Zetland location within the selected buyer map",
+        "2 bed / 2 bath / 1 car",
+        "Guide: $950,000 - $1,045,000",
+        "Viability band: Exceptional fit"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020774371",
+      "address": "87/244-254 Alison Road, Randwick NSW 2031",
+      "suburb": "Randwick",
+      "price": "For Sale $1,050,000",
+      "beds": 2,
+      "baths": 1,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/87-244-254-alison-road-randwick-nsw-2031-2020774371",
+      "description": "On level three of the landmark 'Yalara', this bright two-bedroom apartment captivates with its leafy sea glimpses through every window. Spacious and lightly refreshed interiors ensure comfort, with the apartment extending to a balcony taking in the idyllic surrounds. Enjoy access to onsite leisure facilities and peaceful gardens, with the building also offering the convenience of lift access. Adjoining Fred Hollows Reserve, this well-placed complex is located partway between Coogee Beach and Randwick Village making a superb investment or a convenient home base. Just a short walk to great schools, the hospital precinct, Royal Randwick Shopping Centre, light rail, The Spot and cafes.\n\n\tEach room enjoys a tranquil vista with sea and district views\n\tLiving area extends to a covered balcony set in the trees\n\tWell-presented separate kitchen with brand new cooktop\n\tTwo large bedrooms, one complete with built-in wardrobe\n\tRefreshed bathroom with bath and elegant brass tapware\n\tLush security entrance on Dutruc St with intercom and lift\n\tLeisure facilities include a sunny pool, sauna and BBQ area\n\tInternal laundry, secure basement car space plus store cage\n\nDisclaimer: All information contained herein is gathered from sources we believe reliable. We have no reason to doubt its accuracy, however we cannot guarantee it. All interested parties should make and rely upon their own enquiries.",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/dP66zgQ6ExN0jeOZyynckzodT28=/720x540/filters:format(webp):quality(85)/2020774371_1_1_260420_015936-w2048-h1365",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/9WgZPkQW6wVx831InWRRTs8h8Tw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_1_1_260420_015936-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/3khprLC9uxYpicQhbAqOfywiAwI=/720x540/filters:format(webp):quality(85)/2020774371_2_1_260420_015936-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/lF1unF6796zDF2LjWKOtCs6W3V8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_2_1_260420_015936-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/eem5GS1DL4rZFUoKCLDF-M5n7Os=/720x540/filters:format(webp):quality(85)/2020774371_3_1_260420_015936-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/-aFQqjzkpO6br86ilhcKUui3blk=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_3_1_260420_015936-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/seRpgbuVKfC2Fc4EXpAS5yHLKzk=/720x540/filters:format(webp):quality(85)/2020774371_4_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/2wrD82Ecu56i0278kj5ip9ypZd0=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_4_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/VkrFY-VTkQWGehjx4_Xyo-ijEhg=/720x540/filters:format(webp):quality(85)/2020774371_5_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/nhQOFN0qS4U_dI2d4d7lLD_tOYs=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_5_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/cVWECuLWHbCWU7YRqoyTKsNIOFs=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_6_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/Ey_3e1tF0wgor33voodkc6qsjDQ=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_7_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/GhEfSArwjk_7BTgA43B7fJlJLTg=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_8_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/Aqvvx4Kwaj_yuBRmkYeLBkcULqk=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_9_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/ji9iLqaW5GNfsceNh5_vujSXXmo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_10_1_260420_015939-w2048-h1365",
+          "https://rimh2.domainstatic.com.au/4sJGWLQcx9dz1lC4N-t8weqOy8Y=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_11_1_260511_012148-w1400-h847",
+          "https://rimh2.domainstatic.com.au/cRiu3sp3xJ91EtFJRNGkyWp9Y50=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_12_1_260420_015939-w1600-h1200"
+        ],
+        "floorplan": "https://rimh2.domainstatic.com.au/pS7fJCIfknupjWFSdFPriI9kN-0=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020774371_13_3_260420_015939-w2480-h3509"
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "Cameron Airlie",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Bella Riolo",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Cameron Airlie",
+          "mobile": "0410 560 961",
+          "email": "cameron@ngfarah.com.au"
+        }
+      ],
+      "inspections": [
+        {
+          "start": "2026-06-04T10:30:00",
+          "end": "2026-06-04T11:00:00"
+        },
+        {
+          "start": "2026-06-06T10:30:00",
+          "end": "2026-06-06T11:00:00"
+        }
+      ],
+      "viability": {
+        "score": 8.5,
+        "band": "Exceptional fit",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.8,
+          "yield_or_lifestyle": 0.82,
+          "preference_match": 0.82,
+          "dealbreaker_penalty": 0.02
+        },
+        "price_used": 1050000.0,
+        "violations": [],
+        "matched_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "storage"
+        ],
+        "missing_prefs": [
+          "period charm",
+          "low maintenance"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.04,
+          "has_dealbreaker": false,
+          "summary": "Strata costs unknown"
+        },
+        "signals": [
+          "Sits in the upper end of budget \u2014 the outgoings will decide it."
+        ]
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "estimate",
+            "severity": "watch",
+            "reason": "Guide midpoint is $1,050,000; 10% deposit plus approximate NSW duty is ~$146,985.",
+            "recommended_action": "Confirm pre-approval, deposit liquidity and stamp-duty treatment.",
+            "source": "calculated"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 0,
+        "summary": "2 critical checks, 0 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": 1050000.0,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": 525000,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.447052+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.04,
+        "has_dealbreaker": false,
+        "summary": "Strata costs unknown"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi Cameron Airlie, I'm interested in 87/244-254 Alison Road, Randwick NSW 2031. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 8.5,
+      "headline": "Randwick \u2014 2 bed, 1 car",
+      "verdict": "Score 8.5/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Randwick location within the selected buyer map",
+        "2 bed / 1 bath / 1 car",
+        "Guide: For Sale $1,050,000",
+        "Viability band: Exceptional fit"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020745119",
+      "address": "102/8 Rose Valley Way, Zetland NSW 2017",
+      "suburb": "Zetland",
+      "price": "$900,000 - $990,000",
+      "beds": 2,
+      "baths": 2,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/102-8-rose-valley-way-zetland-nsw-2017-2020745119",
+      "description": "Luxury finishes and a sense of scale underpin the appeal of this elevated apartment that rests within stunning 'Symphony'. Over-sized spaces include flowing living zones, a luxury kitchen, enormous bedrooms and a green fringed balcony.\n\nWhat's important to you\n- Prime corner position in the block with an impressive 104 sqm on title\n- Contemporary flooring, high ceilings, spacious living and dining room\n- Luxury stone and gas kitchen with a large island bench/breakfast bar\n- Walls of glass flood the interiors with light and open out to the balcony\n- Two immense bedrooms with robes, master with a hotel-like ensuite\n- Concealed study nook, ducted a/c, European laundry, storage cage\n- Single secure car space, building manager, pool, gym, spa and sauna\n\nThe local's point of view\n- Meriton built 'Symphony includes CCTV security and a rooftop BBQ\n- Set behind the Gunyama Sports Field and close to the aquatic centre\n- Stroll to close by dog friendly Joynton Park and Mary O'Brien Park\n- Level walk to Green Square's lifestyle hub including Woolworths\n- Nearby East Village and Zetland's 'eat street' will be a favourite\n- Stroll to multiple bus services, just 1km to Green Square Station\n- It's minutes to Moore Park Golf, Centennial Park and the SCG",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/TwEHLN_oeKaofWx5OTnxiU1e9Ic=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_1_1_260408_112554-w1920-h1280",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/BpTUwF915mvs0pea-PnqHEkAZYI=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_2_1_260408_112554-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/XIuK45vBIlSbRuoj1HKSJSkxwJU=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_3_1_260408_112554-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/SO9pzeGHLld6Ga16whH7LHwS26o=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_4_1_260408_112608-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/pKzHLWAByF3A-yHDjb2z-99SMw4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_5_1_260408_112608-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/kOarml4MibIdxFUCTSaiUfc8Ojc=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_6_1_260408_112608-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/_PkFJCZs30E8_YIlAeaBW5uJ-Xs=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_7_1_260408_112608-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/NdjJnSRxTq7_cxrt46VCNppPb08=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_8_1_260408_112608-w800-h600",
+          "https://rimh2.domainstatic.com.au/mX0llWoOEq2qF69RYqXfjYoxhTE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017229349_12_1_210902_013000-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/D9J1mMHfWGEEMDgUibI4JKmZQ7Y=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/15128278_10_1_210518_124952-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/mVMqbleHpsucVoHdFoG4D1qJl5Y=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2016981296_15_1_210504_072750-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/PAacR_lBL5Mg1W2UhNRydt_OKKE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2015874043_9_1_191113_023857-w1620-h1080",
+          "https://rimh2.domainstatic.com.au/11WkAvKEmYC7AvA7MSSjlvc42rA=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2015874043_8_1_191113_023857-w1620-h1080"
+        ],
+        "floorplan": "https://rimh2.domainstatic.com.au/9QyuTRFMhM-zxYU-lGUdF3CGsi4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020745119_14_3_260408_112608-w3999-h2828"
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "David Bettini",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Lukas Margaritis",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "David Bettini",
+          "mobile": "0420 361 827",
+          "email": "david@mgmmartin.com"
+        }
+      ],
+      "inspections": [
+        {
+          "start": "2026-06-06T10:00:00",
+          "end": "2026-06-06T10:30:00"
+        }
+      ],
+      "viability": {
+        "score": 7.9,
+        "band": "Strong fit",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.8,
+          "yield_or_lifestyle": 0.69,
+          "preference_match": 0.69,
+          "dealbreaker_penalty": 0.02
+        },
+        "price_used": 945000.0,
+        "violations": [],
+        "matched_prefs": [
+          "secure parking",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "storage"
+        ],
+        "missing_prefs": [
+          "natural light",
+          "period charm",
+          "low maintenance"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.04,
+          "has_dealbreaker": false,
+          "summary": "Strata costs unknown"
+        },
+        "signals": [
+          "Sits in the upper end of budget \u2014 the outgoings will decide it."
+        ]
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "estimate",
+            "severity": "watch",
+            "reason": "Guide midpoint is $945,000; 10% deposit plus approximate NSW duty is ~$131,760.",
+            "recommended_action": "Confirm pre-approval, deposit liquidity and stamp-duty treatment.",
+            "source": "calculated"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 0,
+        "summary": "2 critical checks, 0 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": 945000.0,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": 472500,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.449086+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.04,
+        "has_dealbreaker": false,
+        "summary": "Strata costs unknown"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi David Bettini, I'm interested in 102/8 Rose Valley Way, Zetland NSW 2017. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 7.9,
+      "headline": "Zetland \u2014 2 bed, 1 car",
+      "verdict": "Score 7.9/10 on the current buyer brief. Pricing reads unknown; main check: Strata costs unknown",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Zetland location within the selected buyer map",
+        "2 bed / 2 bath / 1 car",
+        "Guide: $900,000 - $990,000",
+        "Viability band: Strong fit"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020884546",
+      "address": "105/13 Joynton Avenue, Zetland NSW 2017",
+      "suburb": "Zetland",
+      "price": "$950,000 - $1,045,000",
+      "beds": 2,
+      "baths": 2,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/105-13-joynton-avenue-zetland-nsw-2017-2020884546",
+      "description": "Enjoying a blissful back of block setting and embracing a lush garden outlook, this superb apartment provides a spacious contemporary haven with a clever design, resort amenities and easy convenience. \n\nWhat's important to you\n- First floor position overlooking the manicured green central gardens\n- Bright fresh interiors, high ceilings, engineered floors, reverse cycle a/c\n- Spacious living and dining with a floor to ceiling bank of glass sliders\n- Generous covered balcony with a garden outlook, stone gas kitchen\n- Quality appliances, dishwasher, storage cupboards, main bath/laundry\n- Built-in robes, master with study nook and ensuite, security car space\n- Resort style complex features a lagoon pool, barbeque area and spa\n\nThe local's point of view\n- Enjoy green living metres to Mary O'Brien Reserve and Tote Park\n- East Village & Zetland's 'eat street' are steps away & will be a favourite\n- The world-class facilities of Gunyama aquatic centre are close by\n- It's an easy walk to multiple bus services and Green Square Station\n- Explore the galleries and eateries on nearby popular Danks Street\n- Connectivity is key being moments to the airport and arterial roads",
+      "features": [
+        "Built-In Wardrobes",
+        "Close to Transport",
+        "Close to Shops",
+        "Pool",
+        "Intercom",
+        "Ensuite",
+        "Security Access",
+        "Car Parking - Basement"
+      ],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/hEvmk5CkQGLVCsNFwrrMVyLsmX8=/720x540/filters:format(webp):quality(85)/2020884546_1_1_260602_120721-w1920-h1280",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/mAdkGHl62plQcS_pf6PI5p7sDQU=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_1_1_260602_120721-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/ynMduh3gHeI-s-p1d6FAqXx62fw=/720x540/filters:format(webp):quality(85)/2020884546_2_1_260602_120721-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/bezYfJQvIT5y6fL3bhgor71BWCY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_2_1_260602_120721-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/oCd4ST2pb13HRsPpEF9_3r2sKxk=/720x540/filters:format(webp):quality(85)/2020884546_3_1_260602_120721-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/d7xAaPj_tJub9j39DLGTjAcolqw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_3_1_260602_120721-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/MiondI1Y-M-GFt1Os0rX09HBZSI=/720x540/filters:format(webp):quality(85)/2020884546_4_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/nZGAuLGEDc-dHI8yWm2bUHSK5pE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_4_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/3BIslSah56LHX1V6NWQjtFZIjaI=/720x540/filters:format(webp):quality(85)/2020884546_5_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/SCyYpB8IR4ppYC-ujXI9FWbFYbY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_5_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/qJjxa2kUL9kmJ9J0LxltZbFIthw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_6_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/8Cok5nDigp8u8OiLvi0MLy-LejM=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_7_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/NuwL2sp83Qzslnmhh1nySU4P3ZQ=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2016136586_7_1_200306_044908-w1024-h683",
+          "https://rimh2.domainstatic.com.au/c7z2fP0Zpbq5blc_CfCaDu6_9cE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017644705_9_1_220307_065838-w800-h533",
+          "https://rimh2.domainstatic.com.au/pyvZTvrxrizinvQCPz-7QC29ECk=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_10_1_260602_120722-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/qfDMNvfgpeiPQizYUafTEHDrLwY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_10_1_260504_065927-w1920-h1280"
+        ],
+        "floorplan": "https://rimh2.domainstatic.com.au/7c7SPB2klKPowabnrfF3uf_FlDE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_12_3_260602_120722-w3998-h2827"
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "David Bettini",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Lukas Margaritis",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "David Bettini",
+          "mobile": "0420 361 827",
+          "email": "david@mgmmartin.com"
+        }
+      ],
+      "inspections": [
+        {
+          "start": "2026-06-06T11:30:00",
+          "end": "2026-06-06T12:00:00"
+        }
+      ],
+      "viability": {
+        "score": 5.4,
+        "band": "Marginal",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.8,
+          "yield_or_lifestyle": 0.75,
+          "preference_match": 0.75,
+          "dealbreaker_penalty": 0.3
+        },
+        "price_used": 997500.0,
+        "violations": [],
+        "matched_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes"
+        ],
+        "missing_prefs": [
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "major",
+              "category": "location",
+              "label": "Noise or road exposure",
+              "reason": "Road exposure can hurt liveability and resale depth.",
+              "evidence": "arterial",
+              "known": true
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "major",
+              "category": "location",
+              "label": "Noise or road exposure",
+              "reason": "Road exposure can hurt liveability and resale depth.",
+              "evidence": "arterial",
+              "known": true
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.2,
+          "has_dealbreaker": false,
+          "summary": "Noise or road exposure"
+        },
+        "signals": [
+          "Sits in the upper end of budget \u2014 the outgoings will decide it.",
+          "Possible main-road exposure \u2014 check noise on inspection."
+        ]
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "estimate",
+            "severity": "watch",
+            "reason": "Guide midpoint is $997,500; 10% deposit plus approximate NSW duty is ~$139,372.",
+            "recommended_action": "Confirm pre-approval, deposit liquidity and stamp-duty treatment.",
+            "source": "calculated"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 0,
+        "summary": "2 critical checks, 0 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": 997500.0,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": 498750,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.453278+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "major",
+            "category": "location",
+            "label": "Noise or road exposure",
+            "reason": "Road exposure can hurt liveability and resale depth.",
+            "evidence": "arterial",
+            "known": true
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "major",
+            "category": "location",
+            "label": "Noise or road exposure",
+            "reason": "Road exposure can hurt liveability and resale depth.",
+            "evidence": "arterial",
+            "known": true
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.2,
+        "has_dealbreaker": false,
+        "summary": "Noise or road exposure"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi David Bettini, I'm interested in 105/13 Joynton Avenue, Zetland NSW 2017. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 5.4,
+      "headline": "Zetland \u2014 2 bed, 1 car",
+      "verdict": "Score 5.4/10 on the current buyer brief. Pricing reads unknown; main check: Noise or road exposure",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Built-In Wardrobes, Close to Transport, Close to Shops, Pool, Intercom",
+      "highlights": [
+        "Zetland location within the selected buyer map",
+        "2 bed / 2 bath / 1 car",
+        "Guide: $950,000 - $1,045,000",
+        "Viability band: Marginal"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020887612",
+      "address": "1005/5 O'Dea Avenue, Zetland NSW 2017",
+      "suburb": "Zetland",
+      "price": "$1,000,000 - $1,100,000",
+      "beds": 2,
+      "baths": 2,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/1005-5-o-dea-avenue-zetland-nsw-2017-2020887612",
+      "description": "Flowing over two exceptional levels, this is a superb retreat with city views, stylish appointments and a whole floor master with study. In an ever-emerging pocket, lifestyle surrounds it.\n\nWhat's important to you\n- 9th and 10th floor setting with dual aspects and a flow through design\n- Superb vistas across the district to the CBD, contemporary flooring\n- Open plan living and dining, floor to ceiling sliders, alfresco balcony\n- Large stone wrapped gas kitchen, European appliances, 3 balconies\n- Whole floor master with ensuite, balcony, robes and a study nook\n- 2nd bedroom with robes, balcony and an adjoining bathroom, laundry\n- Stylish contemporary bathrooms, lift access to the security car space\n\nThe local's point of view\n- Enjoy an 'Epic' lifestyle with rooftop pool and barbeque areas\n- Placed to enjoy the lifestyle precincts of Victoria Park & Waterloo\n- Discover the many popular galleries and eateries on Danks Street\n- Shop local at nearby Aldi, Coles or East Village's gourmet hub\n- The recently completed world-class aquatic centre is close by\n- It's a quick walk to multiple bus services and Green Square station\n- Connectivity is key being moments to the airport and arterial roads",
+      "features": [
+        "Built-In Wardrobes",
+        "Close to Transport",
+        "Close to Shops",
+        "Intercom",
+        "Ensuite",
+        "City Views",
+        "Security Access",
+        "Car Parking - Basement"
+      ],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/keY24HmEKWCzhjm-dEpfSdjNQWo=/720x540/filters:format(webp):quality(85)/2017637300_2_1_220303_043027-w1920-h1280",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/Sfz_lMaLu7L1o0EwIprltBnkVhw=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_2_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/DZ2-ctGiP6odPSxxU-ang1PP9Mo=/720x540/filters:format(webp):quality(85)/2017637300_3_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/JRT9sA2Ij8RBjtTT07Dik86qpQ4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_3_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/LZevUtd7bqU2h3D5v4yjerDKVeQ=/720x540/filters:format(webp):quality(85)/2017637300_4_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/Oo1tGNMDeos5g8IqFuNmP7XcDeY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_4_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/-KMQjDgEELfosZ82ha7kq-zdzrw=/720x540/filters:format(webp):quality(85)/2017637300_1_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/vBGotG6spX1nxhRFA4ZTXEI28Pg=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_1_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/rZUtMk3cd2Xa1r-WQ-4rxJJqHuY=/720x540/filters:format(webp):quality(85)/2017637300_5_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/IB4CdRF2jWPsVGn6icRud8KeRV8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_5_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/9vNtexV8S3OloHEIhZOPr8JpS3g=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_6_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/MswEh7rdQrBH6FWFwjJZiyInaTQ=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2017637300_7_1_220303_043027-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/pVod4kXHV6tkaiPm0pA04ulBfvE=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020750347_8_1_260410_021415-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/L2NRMVQNs73aG3uKx5px_R63Z7o=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020750347_10_1_260410_021415-w800-h600",
+          "https://rimh2.domainstatic.com.au/qfDMNvfgpeiPQizYUafTEHDrLwY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_10_1_260504_065927-w1920-h1280",
+          "https://rimh2.domainstatic.com.au/pyvZTvrxrizinvQCPz-7QC29ECk=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020884546_10_1_260602_120722-w1920-h1280"
+        ],
+        "floorplan": "https://rimh2.domainstatic.com.au/sWf3ZPc8hJlXl4DugU_7waqipd8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020887612_12_3_260602_101910-w1000-h708"
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "David Bettini",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Lukas Margaritis",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "David Bettini",
+          "mobile": "0420 361 827",
+          "email": "david@mgmmartin.com"
+        }
+      ],
+      "inspections": [
+        {
+          "start": "2026-06-06T09:15:00",
+          "end": "2026-06-06T09:45:00"
+        }
+      ],
+      "viability": {
+        "score": 4.8,
+        "band": "Marginal",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.8,
+          "yield_or_lifestyle": 0.62,
+          "preference_match": 0.62,
+          "dealbreaker_penalty": 0.3
+        },
+        "price_used": 1050000.0,
+        "violations": [],
+        "matched_prefs": [
+          "secure parking",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes"
+        ],
+        "missing_prefs": [
+          "natural light",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "major",
+              "category": "location",
+              "label": "Noise or road exposure",
+              "reason": "Road exposure can hurt liveability and resale depth.",
+              "evidence": "arterial",
+              "known": true
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "major",
+              "category": "location",
+              "label": "Noise or road exposure",
+              "reason": "Road exposure can hurt liveability and resale depth.",
+              "evidence": "arterial",
+              "known": true
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.2,
+          "has_dealbreaker": false,
+          "summary": "Noise or road exposure"
+        },
+        "signals": [
+          "Sits in the upper end of budget \u2014 the outgoings will decide it.",
+          "Possible main-road exposure \u2014 check noise on inspection."
+        ]
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "estimate",
+            "severity": "watch",
+            "reason": "Guide midpoint is $1,050,000; 10% deposit plus approximate NSW duty is ~$146,985.",
+            "recommended_action": "Confirm pre-approval, deposit liquidity and stamp-duty treatment.",
+            "source": "calculated"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 0,
+        "summary": "2 critical checks, 0 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": 1050000.0,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": 525000,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.455317+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "major",
+            "category": "location",
+            "label": "Noise or road exposure",
+            "reason": "Road exposure can hurt liveability and resale depth.",
+            "evidence": "arterial",
+            "known": true
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "major",
+            "category": "location",
+            "label": "Noise or road exposure",
+            "reason": "Road exposure can hurt liveability and resale depth.",
+            "evidence": "arterial",
+            "known": true
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.2,
+        "has_dealbreaker": false,
+        "summary": "Noise or road exposure"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi David Bettini, I'm interested in 1005/5 O'Dea Avenue, Zetland NSW 2017. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 4.8,
+      "headline": "Zetland \u2014 2 bed, 1 car",
+      "verdict": "Score 4.8/10 on the current buyer brief. Pricing reads unknown; main check: Noise or road exposure",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Built-In Wardrobes, Close to Transport, Close to Shops, Intercom, Ensuite",
+      "highlights": [
+        "Zetland location within the selected buyer map",
+        "2 bed / 2 bath / 1 car",
+        "Guide: $1,000,000 - $1,100,000",
+        "Viability band: Marginal"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020872095",
+      "address": "735 - 737 Elizabeth Street, Zetland NSW 2017",
+      "suburb": "Zetland",
+      "price": "AUCTION - UNLESS SOLD PRIOR!",
+      "beds": 2,
+      "baths": 2,
+      "cars": 6,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/735-737-elizabeth-street-zetland-nsw-2017-2020872095",
+      "description": "",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/vcK0uFYApAUVQ2uG87qksTBJoNQ=/720x540/filters:format(webp):quality(85)/2020872095_1_1_260527_020915-w1706-h1279",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/dvr1lGI2ejN6ELpeCajN92XjVVQ=/720x540/filters:format(webp):quality(85)/2020872095_2_1_260527_020915-w1751-h1171",
+          "https://rimh2.domainstatic.com.au/IBSDFvTPbW8m8nnLccdT3_M-7N8=/720x540/filters:format(webp):quality(85)/2020872095_3_1_260527_020915-w1743-h1162",
+          "https://rimh2.domainstatic.com.au/T3AZefzm3ZjAtoHKib6c5znDU6k=/720x540/filters:format(webp):quality(85)/2020872095_4_1_260527_020943-w1745-h1164",
+          "https://rimh2.domainstatic.com.au/r5viwE8BMdX1b4mHR4SmpipCHOs=/720x540/filters:format(webp):quality(85)/2020872095_5_1_260527_020943-w1743-h1162"
+        ],
+        "floorplan": null
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "Lebba Khater",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Anthony  Malek",
+          "mobile": null,
+          "email": null
+        }
+      ],
+      "inspections": [],
+      "viability": {
+        "score": 4.3,
+        "band": "Marginal",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.6,
+          "yield_or_lifestyle": 0.0,
+          "preference_match": 0.0,
+          "dealbreaker_penalty": 0.02
+        },
+        "price_used": null,
+        "violations": [],
+        "matched_prefs": [],
+        "missing_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.04,
+          "has_dealbreaker": false,
+          "summary": "Agent contact incomplete"
+        },
+        "signals": []
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "building_pest",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Non-apartment stock carries direct structure/site risk.",
+            "recommended_action": "Book building and pest inspection before exchange.",
+            "source": "listing"
+          },
+          {
+            "category": "auction",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Auction removes cooling-off protection and compresses due diligence.",
+            "recommended_action": "Finish contract, strata/building and finance checks before auction day.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "unknown",
+            "severity": "major",
+            "reason": "No clear price point for cash-requirement estimate.",
+            "recommended_action": "Ask agent for guide and recent comparable evidence.",
+            "source": "listing"
+          },
+          {
+            "category": "layout",
+            "status": "unknown",
+            "severity": "watch",
+            "reason": "Floorplan missing from available data.",
+            "recommended_action": "Request floorplan or measure usability at inspection.",
+            "source": "listing"
+          }
+        ],
+        "critical_count": 3,
+        "unknown_count": 2,
+        "summary": "3 critical checks, 2 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": null,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": null,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.495594+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.04,
+        "has_dealbreaker": false,
+        "summary": "Agent contact incomplete"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi Lebba Khater, I'm interested in 735 - 737 Elizabeth Street, Zetland. Could you please send the current price guide, next inspection time, contract, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 4.3,
+      "headline": "Zetland \u2014 2 bed, 6 car",
+      "verdict": "Score 4.3/10 on the current buyer brief. Pricing reads unknown; main check: Agent contact incomplete",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Zetland location within the selected buyer map",
+        "2 bed / 2 bath / 6 car",
+        "Guide: AUCTION - UNLESS SOLD PRIOR!",
+        "Viability band: Marginal"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020553114",
+      "address": "704/34-52 Alison Road, Randwick NSW 2031",
+      "suburb": "Randwick",
+      "price": "For Sale $1,000,000 - $1,100,000",
+      "beds": 2,
+      "baths": 2,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/704-34-52-alison-road-randwick-nsw-2031-2020553114",
+      "description": "",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/i2YyQ_4eiTrkre92gR4fZCvzaT4=/720x540/filters:format(webp):quality(85)/2020553114_1_1_260505_015324-w1264-h843",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/PV_xFumBFRYtpID1fdL4FRVxSsc=/720x540/filters:format(webp):quality(85)/2020553114_2_1_260126_103653-w1200-h792",
+          "https://rimh2.domainstatic.com.au/wbiV0n_H_IQGAB0-F2EriMloGv4=/720x540/filters:format(webp):quality(85)/2020553114_1_1_260126_103653-w1200-h800",
+          "https://rimh2.domainstatic.com.au/ZBJl9g1OFJUibrkXeme1cTPceNM=/720x540/filters:format(webp):quality(85)/2020553114_5_1_260126_103654-w1200-h800",
+          "https://rimh2.domainstatic.com.au/68GOx2f0grwoyMCU8raqPO3Qlfo=/720x540/filters:format(webp):quality(85)/2020553114_4_1_260126_103654-w1200-h800"
+        ],
+        "floorplan": null
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "Les Donayre",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Joe Recep",
+          "mobile": null,
+          "email": null
+        }
+      ],
+      "inspections": [],
+      "viability": {
+        "score": 3.9,
+        "band": "Off-brief",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.6,
+          "yield_or_lifestyle": 0.0,
+          "preference_match": 0.0,
+          "dealbreaker_penalty": 0.06
+        },
+        "price_used": null,
+        "violations": [],
+        "matched_prefs": [],
+        "missing_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.11,
+          "has_dealbreaker": false,
+          "summary": "No floorplan found"
+        },
+        "signals": []
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "unknown",
+            "severity": "major",
+            "reason": "No clear price point for cash-requirement estimate.",
+            "recommended_action": "Ask agent for guide and recent comparable evidence.",
+            "source": "listing"
+          },
+          {
+            "category": "layout",
+            "status": "unknown",
+            "severity": "watch",
+            "reason": "Floorplan missing from available data.",
+            "recommended_action": "Request floorplan or measure usability at inspection.",
+            "source": "listing"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 2,
+        "summary": "2 critical checks, 2 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": null,
+        "comparable_count": 5,
+        "comparable_range": [
+          920000.0,
+          1900000.0
+        ],
+        "median_comparable": 1250000.0,
+        "price_per_bed": null,
+        "median_price_per_bed": 675000.0,
+        "fairness": "unknown",
+        "confidence": "medium",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.437527+00:00",
+        "comps": [
+          {
+            "id": "2020795869",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,900,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1900000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 2.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/104-9-15-bishops-avenue-randwick-nsw-2031-2020795869",
+            "comp_score": 8,
+            "price_per_bed": 950000
+          },
+          {
+            "id": "2020865914",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,250,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1250000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/17-2-kynaston-avenue-randwick-nsw-2031-2020865914",
+            "comp_score": 8,
+            "price_per_bed": 625000
+          },
+          {
+            "id": "2020830731",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,150,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1150000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/2-64-howard-street-randwick-nsw-2031-2020830731",
+            "comp_score": 8,
+            "price_per_bed": 575000
+          },
+          {
+            "id": "2020838130",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,350,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1350000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/4-29-stewart-street-randwick-nsw-2031-2020838130",
+            "comp_score": 8,
+            "price_per_bed": 675000
+          },
+          {
+            "id": "2020871927",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$920,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 920000.0,
+            "sold_date": null,
+            "beds": 1.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/14-14-st-marks-road-randwick-nsw-2031-2020871927",
+            "comp_score": 6,
+            "price_per_bed": 920000
+          }
+        ]
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.11,
+        "has_dealbreaker": false,
+        "summary": "No floorplan found"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          }
+        ],
+        "agent_message": "Hi Les Donayre, I'm interested in 704/34-52 Alison Road, Randwick. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 3.9,
+      "headline": "Randwick \u2014 2 bed, 1 car",
+      "verdict": "Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Randwick location within the selected buyer map",
+        "2 bed / 2 bath / 1 car",
+        "Guide: For Sale $1,000,000 - $1,100,000",
+        "Viability band: Off-brief"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020846625",
+      "address": "8/2 Oswald Street, Randwick NSW 2031",
+      "suburb": "Randwick",
+      "price": "Guide $1,000,000 - Auction 13th June",
+      "beds": 2,
+      "baths": 1,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/8-2-oswald-street-randwick-nsw-2031-2020846625",
+      "description": "",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/VqRRFFISVzSkPRQLbuWk_Df7bxA=/720x540/filters:format(webp):quality(85)/2020846625_1_1_260515_073234-w5839-h3881",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/P-lL5QdITLnpYAR_5fG5grjfVDA=/720x540/filters:format(webp):quality(85)/2020846625_2_1_260515_073234-w5760-h3840",
+          "https://rimh2.domainstatic.com.au/Fh8JBfFGT4-VfWhF0E6C0pdL5xk=/720x540/filters:format(webp):quality(85)/2020846625_3_1_260515_073234-w5774-h3840",
+          "https://rimh2.domainstatic.com.au/-cJGUYk42yCZyyRMbvBh2m-fFUI=/720x540/filters:format(webp):quality(85)/2020846625_4_1_260515_073236-w5760-h3840",
+          "https://rimh2.domainstatic.com.au/FM6aBMcjOpasumki5_CfzMW8ABY=/720x540/filters:format(webp):quality(85)/2020846625_5_1_260515_073236-w5769-h3843"
+        ],
+        "floorplan": null
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "Angus Gorrie",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Billy McGuinness",
+          "mobile": null,
+          "email": null
+        }
+      ],
+      "inspections": [],
+      "viability": {
+        "score": 3.9,
+        "band": "Off-brief",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.6,
+          "yield_or_lifestyle": 0.0,
+          "preference_match": 0.0,
+          "dealbreaker_penalty": 0.06
+        },
+        "price_used": null,
+        "violations": [],
+        "matched_prefs": [],
+        "missing_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.11,
+          "has_dealbreaker": false,
+          "summary": "No floorplan found"
+        },
+        "signals": []
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "auction",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Auction removes cooling-off protection and compresses due diligence.",
+            "recommended_action": "Finish contract, strata/building and finance checks before auction day.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "unknown",
+            "severity": "major",
+            "reason": "No clear price point for cash-requirement estimate.",
+            "recommended_action": "Ask agent for guide and recent comparable evidence.",
+            "source": "listing"
+          },
+          {
+            "category": "layout",
+            "status": "unknown",
+            "severity": "watch",
+            "reason": "Floorplan missing from available data.",
+            "recommended_action": "Request floorplan or measure usability at inspection.",
+            "source": "listing"
+          }
+        ],
+        "critical_count": 3,
+        "unknown_count": 2,
+        "summary": "3 critical checks, 2 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": null,
+        "comparable_count": 5,
+        "comparable_range": [
+          920000.0,
+          1900000.0
+        ],
+        "median_comparable": 1250000.0,
+        "price_per_bed": null,
+        "median_price_per_bed": 675000.0,
+        "fairness": "unknown",
+        "confidence": "medium",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.440490+00:00",
+        "comps": [
+          {
+            "id": "2020795869",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,900,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1900000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 2.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/104-9-15-bishops-avenue-randwick-nsw-2031-2020795869",
+            "comp_score": 8,
+            "price_per_bed": 950000
+          },
+          {
+            "id": "2020865914",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,250,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1250000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/17-2-kynaston-avenue-randwick-nsw-2031-2020865914",
+            "comp_score": 8,
+            "price_per_bed": 625000
+          },
+          {
+            "id": "2020830731",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,150,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1150000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/2-64-howard-street-randwick-nsw-2031-2020830731",
+            "comp_score": 8,
+            "price_per_bed": 575000
+          },
+          {
+            "id": "2020838130",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$1,350,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1350000.0,
+            "sold_date": null,
+            "beds": 2.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/4-29-stewart-street-randwick-nsw-2031-2020838130",
+            "comp_score": 8,
+            "price_per_bed": 675000
+          },
+          {
+            "id": "2020871927",
+            "address_display": null,
+            "suburb": "Randwick",
+            "price_display": "$920,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 920000.0,
+            "sold_date": null,
+            "beds": 1.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/14-14-st-marks-road-randwick-nsw-2031-2020871927",
+            "comp_score": 6,
+            "price_per_bed": 920000
+          }
+        ]
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.11,
+        "has_dealbreaker": false,
+        "summary": "No floorplan found"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          }
+        ],
+        "agent_message": "Hi Angus Gorrie, I'm interested in 8/2 Oswald Street, Randwick. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 3.9,
+      "headline": "Randwick \u2014 2 bed, 1 car",
+      "verdict": "Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 2 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Randwick location within the selected buyer map",
+        "2 bed / 1 bath / 1 car",
+        "Guide: Guide $1,000,000 - Auction 13th June",
+        "Viability band: Off-brief"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020768035",
+      "address": "R302/200-220 Pacific Highway, Crows Nest NSW 2065",
+      "suburb": "Crows Nest",
+      "price": "FOR SALE $919,000",
+      "beds": 1,
+      "baths": 1,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/r302-200-220-pacific-highway-crows-nest-nsw-2065-2020768035",
+      "description": "",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/KaI1DYDROPLCYgBxnBv-QKH6Hgk=/720x540/filters:format(webp):quality(85)/2020768035_1_1_260416_050821-w6720-h4480",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/4l8tCsRTBAZu6nkzseoe5zKU7_o=/720x540/filters:format(webp):quality(85)/2020768035_5_1_260416_050829-w6282-h4480",
+          "https://rimh2.domainstatic.com.au/xZvvWaXZs31QIzN0Sacs3dQOeFg=/720x540/filters:format(webp):quality(85)/2020768035_2_1_260416_050821-w5715-h4429",
+          "https://rimh2.domainstatic.com.au/kCYCewsoOCHsoE80kAISpYCNoiU=/720x540/filters:format(webp):quality(85)/2020768035_3_1_260416_050821-w6720-h4480",
+          "https://rimh2.domainstatic.com.au/FoQHU1Wl836O2hKw8Y_Lkk4BJng=/720x540/filters:format(webp):quality(85)/2020768035_4_1_260416_050829-w4041-h3975"
+        ],
+        "floorplan": null
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "Anson Kolb",
+          "mobile": null,
+          "email": null
+        },
+        {
+          "name": "Stefan Jones",
+          "mobile": null,
+          "email": null
+        }
+      ],
+      "inspections": [],
+      "viability": {
+        "score": 3.9,
+        "band": "Off-brief",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.6,
+          "yield_or_lifestyle": 0.0,
+          "preference_match": 0.0,
+          "dealbreaker_penalty": 0.06
+        },
+        "price_used": null,
+        "violations": [],
+        "matched_prefs": [],
+        "missing_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.11,
+          "has_dealbreaker": false,
+          "summary": "No floorplan found"
+        },
+        "signals": []
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "unknown",
+            "severity": "major",
+            "reason": "No clear price point for cash-requirement estimate.",
+            "recommended_action": "Ask agent for guide and recent comparable evidence.",
+            "source": "listing"
+          },
+          {
+            "category": "layout",
+            "status": "unknown",
+            "severity": "watch",
+            "reason": "Floorplan missing from available data.",
+            "recommended_action": "Request floorplan or measure usability at inspection.",
+            "source": "listing"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 2,
+        "summary": "2 critical checks, 2 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": null,
+        "comparable_count": 0,
+        "comparable_range": null,
+        "median_comparable": null,
+        "price_per_bed": null,
+        "median_price_per_bed": null,
+        "fairness": "unknown",
+        "confidence": "none",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.441434+00:00",
+        "comps": []
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.11,
+        "has_dealbreaker": false,
+        "summary": "No floorplan found"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi Anson Kolb, I'm interested in R302/200-220 Pacific Highway, Crows Nest. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 3.9,
+      "headline": "Crows Nest \u2014 1 bed, 1 car",
+      "verdict": "Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 1 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Crows Nest location within the selected buyer map",
+        "1 bed / 1 bath / 1 car",
+        "Guide: FOR SALE $919,000",
+        "Viability band: Off-brief"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    },
+    {
+      "id": "2020760507",
+      "address": "901/300 Oxford Street, Bondi Junction NSW 2022",
+      "suburb": "Bondi Junction",
+      "price": "For Sale",
+      "beds": 1,
+      "baths": 1,
+      "cars": 1,
+      "property_type": "Apartment",
+      "url": "https://www.domain.com.au/901-300-oxford-street-bondi-junction-nsw-2022-2020760507",
+      "description": "",
+      "features": [],
+      "images": {
+        "hero": "https://rimh2.domainstatic.com.au/tMs1n09FMRgLXXI5I7yyPl50c7Y=/720x540/filters:format(webp):quality(85)/16395132_3_1_230329_092110-w6720-h4480",
+        "gallery": [
+          "https://rimh2.domainstatic.com.au/Ogzt4w4ZV5n5uNMUwIqtAb7wHcw=/720x540/filters:format(webp):quality(85)/16395132_5_1_230328_052950-w6720-h4480",
+          "https://rimh2.domainstatic.com.au/lnVKgRREl-OQwar80SOlWt4o9CE=/720x540/filters:format(webp):quality(85)/16395132_2_1_230328_052950-w6720-h4480",
+          "https://rimh2.domainstatic.com.au/dPjiDk5wQzga6ZxzKqLI9SzW8LE=/720x540/filters:format(webp):quality(85)/16395132_6_1_230328_052950-w6720-h4480",
+          "https://rimh2.domainstatic.com.au/NSoJkEyBrGxJYHH44w1c5fCMOZs=/720x540/filters:format(webp):quality(85)/16395132_1_1_230328_052950-w6720-h4480"
+        ],
+        "floorplan": null
+      },
+      "agency": {
+        "name": "",
+        "logo": null
+      },
+      "agents": [
+        {
+          "name": "CAE THOMAS",
+          "mobile": null,
+          "email": null
+        }
+      ],
+      "inspections": [],
+      "viability": {
+        "score": 3.9,
+        "band": "Off-brief",
+        "lens": "owner_occupier",
+        "components": {
+          "hard_criteria": 1.0,
+          "budget_fit": 0.6,
+          "yield_or_lifestyle": 0.0,
+          "preference_match": 0.0,
+          "dealbreaker_penalty": 0.06
+        },
+        "price_used": null,
+        "violations": [],
+        "matched_prefs": [],
+        "missing_prefs": [
+          "secure parking",
+          "natural light",
+          "outdoor space",
+          "building amenity",
+          "transport",
+          "cafes lifestyle",
+          "modern finishes",
+          "period charm",
+          "low maintenance",
+          "storage"
+        ],
+        "yield": {},
+        "risks": {
+          "items": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "top": [
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "No floorplan found",
+              "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Strata costs unknown",
+              "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+              "evidence": "",
+              "known": false
+            },
+            {
+              "severity": "watch",
+              "category": "missing_data",
+              "label": "Agent contact incomplete",
+              "reason": "Need direct contact details before action is easy.",
+              "evidence": "",
+              "known": false
+            }
+          ],
+          "penalty": 0.11,
+          "has_dealbreaker": false,
+          "summary": "No floorplan found"
+        },
+        "signals": []
+      },
+      "due_diligence": {
+        "items": [
+          {
+            "category": "legal",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Contract terms are not available from the listing data.",
+            "recommended_action": "Request contract and send to conveyancer before bidding or signing.",
+            "source": "listing"
+          },
+          {
+            "category": "strata",
+            "status": "required",
+            "severity": "critical",
+            "reason": "Apartment purchase requires strata health, levies, defects and capital works review.",
+            "recommended_action": "Request strata report, AGM minutes, capital works fund balance and levies.",
+            "source": "listing"
+          },
+          {
+            "category": "cooling_off",
+            "status": "check",
+            "severity": "major",
+            "reason": "Private treaty usually has cooling-off, but waivers can remove it.",
+            "recommended_action": "Confirm cooling-off and section 66W position with conveyancer.",
+            "source": "listing"
+          },
+          {
+            "category": "finance",
+            "status": "unknown",
+            "severity": "major",
+            "reason": "No clear price point for cash-requirement estimate.",
+            "recommended_action": "Ask agent for guide and recent comparable evidence.",
+            "source": "listing"
+          },
+          {
+            "category": "layout",
+            "status": "unknown",
+            "severity": "watch",
+            "reason": "Floorplan missing from available data.",
+            "recommended_action": "Request floorplan or measure usability at inspection.",
+            "source": "listing"
+          }
+        ],
+        "critical_count": 2,
+        "unknown_count": 2,
+        "summary": "2 critical checks, 2 unknowns"
+      },
+      "valuation": {
+        "mode": "buy",
+        "asking_midpoint": null,
+        "comparable_count": 1,
+        "comparable_range": [
+          1150000.0,
+          1150000.0
+        ],
+        "median_comparable": 1150000.0,
+        "price_per_bed": null,
+        "median_price_per_bed": 1150000.0,
+        "fairness": "unknown",
+        "confidence": "low",
+        "negotiation_posture": "Pull more comparable evidence before making a price call.",
+        "generated_at": "2026-06-05T03:21:56.442991+00:00",
+        "comps": [
+          {
+            "id": "2020805301",
+            "address_display": null,
+            "suburb": "Bondi Junction",
+            "price_display": "$1,150,000",
+            "price_from": null,
+            "price_to": null,
+            "sold_price": 1150000.0,
+            "sold_date": null,
+            "beds": 1.0,
+            "baths": 1.0,
+            "cars": 1.0,
+            "property_type": "Apartment / Unit / Flat",
+            "url": "https://www.domain.com.au/304-59-oxford-street-bondi-junction-nsw-2022-2020805301",
+            "comp_score": 8,
+            "price_per_bed": 1150000
+          }
+        ]
+      },
+      "risks": {
+        "items": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "top": [
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "No floorplan found",
+            "reason": "Layout quality and true usability are harder to judge without a floorplan.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Strata costs unknown",
+            "reason": "Quarterly levies and capital works fund need checking before confidence is high.",
+            "evidence": "",
+            "known": false
+          },
+          {
+            "severity": "watch",
+            "category": "missing_data",
+            "label": "Agent contact incomplete",
+            "reason": "Need direct contact details before action is easy.",
+            "evidence": "",
+            "known": false
+          }
+        ],
+        "penalty": 0.11,
+        "has_dealbreaker": false,
+        "summary": "No floorplan found"
+      },
+      "action_plan": {
+        "best_next_action": {
+          "type": "inspect",
+          "priority": "high",
+          "deadline": "next open",
+          "label": "Inspect in person",
+          "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+        },
+        "actions": [
+          {
+            "type": "inspect",
+            "priority": "high",
+            "deadline": "next open",
+            "label": "Inspect in person",
+            "detail": "Check light, noise, building condition, floorplan feel and air-conditioning."
+          },
+          {
+            "type": "request_contract",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request contract",
+            "detail": "Have conveyancer review before signing, bidding or waiving cooling-off."
+          },
+          {
+            "type": "request_strata",
+            "priority": "high",
+            "deadline": "before offer",
+            "label": "Request strata documents",
+            "detail": "Check levies, defects, capital works fund, insurance and meeting minutes."
+          },
+          {
+            "type": "run_comps",
+            "priority": "medium",
+            "deadline": "before offer",
+            "label": "Run deeper comparable review",
+            "detail": "Current comparable evidence is thin."
+          }
+        ],
+        "agent_message": "Hi CAE THOMAS, I'm interested in 901/300 Oxford Street, Bondi Junction. Could you please send the current price guide, next inspection time, contract, strata report or strata documents, and whether air-conditioning is installed or strata-approved? Thanks, Ben.",
+        "inspection_questions": [
+          "Is air-conditioning installed? If not, is strata approval straightforward?",
+          "What are the quarterly strata levies and any special levies?",
+          "Any known defects, water ingress, cladding, lift or capital works issues?",
+          "Why is the owner selling, and what price feedback has the campaign had?",
+          "How many contracts are out and are there offers already?"
+        ],
+        "documents_to_prepare": [
+          "finance pre-approval",
+          "deposit funds",
+          "photo ID",
+          "conveyancer details"
+        ]
+      },
+      "fit_score": 3.9,
+      "headline": "Bondi Junction \u2014 1 bed, 1 car",
+      "verdict": "Score 3.9/10 on the current buyer brief. Pricing reads unknown; main check: No floorplan found",
+      "why_it_fits": "This matches the hard brief on suburb, apartment type, 1 bedroom(s), parking and the $1.1M ceiling. The owner-occupier lens favours liveability and capital-growth fundamentals: inner-ring location, transport access, scarcity/amenity and resale liquidity. Stored feature signals: Stored Domain detail is thin; inspect layout, light, air-conditioning and strata closely.",
+      "highlights": [
+        "Bondi Junction location within the selected buyer map",
+        "1 bed / 1 bath / 1 car",
+        "Guide: For Sale",
+        "Viability band: Off-brief"
+      ],
+      "caveat": "Domain live search was blocked during the fresh run, so verify the listing is still active and confirm air-conditioning, parking title, strata and exact guide before acting.",
+      "financials": {
+        "notes": "Comparable evidence is limited in the stored run; use this as shortlist triage, not an offer price."
+      }
+    }
+  ]
+}
