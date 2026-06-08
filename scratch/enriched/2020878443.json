@@ -1,0 +1,209 @@
+{
+  "id": "2020878443",
+  "listing_type": "RESIDENTIAL",
+  "status": "LIVE",
+  "url": "https://www.domain.com.au/6-22-gadigal-avenue-zetland-nsw-2017-2020878443",
+  "headline": "MGM MARTIN - TWO BEDROOM APARTMENT",
+  "description": "Positioned within Victoria Park's sought-after 'Elite' development, this stylish apartment combines contemporary design, quality finishes and peaceful parkland views in a low-maintenance setting. Offering a well-designed single-level layout with two generous bedrooms, it presents an excellent opportunity for professionals, investors or those seeking an effortless urban lifestyle, less than 5km from Sydney CBD. Perfectly located, the residence sits moments from East Village Shopping Centre, popular cafés and dining, with Green Square Station just a short walk away.\n\nWhat's important to you\n- Light-filled interiors with fresh finishes and sleek flooring throughout\n- Seamless single-level layout flowing onto a covered entertainer's balcony\n- Two bedrooms with built-ins, main featuring ensuite\n- Contemporary stone kitchen with gas cooking and quality appliances\n- Stylish main bathroom plus a separate internal laundry for added convenience\n- Air-conditioning, intercom access, lift entry and secure car space\n- Well-maintained complex offering an indoor pool and fully equipped gym\n\nThe local's point of view\n- Next door to East Village's shopping, and dining out experiences\n- Opposite Joynton Park, ideal for relaxing or walking the dog\n- Less than 1km strolling distance to Green Square station\n- A range of vibrant local cafés and bars in the neighbourhood\n- Within 600m to the Gunyama Park Aquatic and Recreation Centre\n- A great base for commuting to Sydney Airport or the CBD",
+  "price": "$950,000 - $1,045,000",
+  "price_from": 950000,
+  "price_to": 1045000,
+  "price_exact": null,
+  "address": {
+    "display": "6/22 Gadigal Avenue, Zetland NSW 2017",
+    "unit": "6",
+    "street_number": "22",
+    "street": "Gadigal Avenue",
+    "suburb": "Zetland",
+    "state": "NSW",
+    "postcode": "2017",
+    "lat": -33.9056239,
+    "lng": 151.2122307
+  },
+  "beds": 2,
+  "baths": 2,
+  "cars": 1,
+  "property_types": [
+    "APARTMENT_UNIT_FLAT"
+  ],
+  "land_area_sqm": null,
+  "building_area": null,
+  "energy_rating": null,
+  "features": [
+    "Air Conditioning",
+    "Built-In Wardrobes",
+    "Close to Transport",
+    "Close to Shops",
+    "Pool",
+    "Intercom",
+    "Ensuite",
+    "Security Access",
+    "Car Parking - Basement",
+    "Carpeted",
+    "Exhaust"
+  ],
+  "structured_features": [
+    {
+      "category": "Indoor",
+      "name": "Air conditioning"
+    },
+    {
+      "category": "Indoor",
+      "name": "Built in wardrobes"
+    },
+    {
+      "category": "Location",
+      "name": "Close to transport"
+    },
+    {
+      "category": "Location",
+      "name": "Close to shops"
+    },
+    {
+      "category": "Outdoor",
+      "name": "Swimming Pool"
+    },
+    {
+      "category": "Indoor",
+      "name": "Intercom"
+    },
+    {
+      "category": "Indoor",
+      "name": "Ensuite"
+    },
+    {
+      "category": "Other",
+      "name": "Security Access"
+    },
+    {
+      "category": "Other",
+      "name": "Car Parking - Basement"
+    },
+    {
+      "category": "Other",
+      "name": "Carpeted"
+    },
+    {
+      "category": "Other",
+      "name": "Exhaust"
+    }
+  ],
+  "agents": [
+    {
+      "name": "David Bettini",
+      "email": "david@mgmmartin.com",
+      "mobile": "0420 361 827",
+      "landline": "02 96623954",
+      "profile_url": "https://www.domain.com.au/real-estate-agent/david-bettini-739797",
+      "photo": "https://rimh2.domainstatic.com.au/tNwTkxxUK-41LNrUMvfzU5tehis=/180x180/filters:format(webp):quality(85):no_upscale()/https://images.domain.com.au/img/6248/contact_1896461.jpeg?date=639162729183670000",
+      "agent_id": "739797"
+    },
+    {
+      "name": "Lukas Margaritis",
+      "email": "lukas@mgmmartin.com",
+      "mobile": "0426268487",
+      "landline": "0426268487",
+      "profile_url": "https://www.domain.com.au/real-estate-agent/lukas-margaritis-1893985",
+      "photo": "https://rimh2.domainstatic.com.au/NR1iwJ19ViCW1SCNh4PXJN4Z8is=/180x180/filters:format(webp):quality(85):no_upscale()/https://images.domain.com.au/img/6248/contact_1893985.png?date=639162729184030000",
+      "agent_id": "1893985"
+    }
+  ],
+  "agency": {
+    "name": "MGM MARTIN",
+    "logo": "https://rimh2.domainstatic.com.au/XAqjb47wX60Ky5ptsX5p222e9DA=/filters:format(webp):quality(85):no_upscale()/https://images.domain.com.au/img/Agencys/6248/logo_6248.png?date=132257608790536895?date=639162735996626181"
+  },
+  "inspections": [
+    {
+      "start": "2026-06-06T10:45:00",
+      "end": "2026-06-06T11:15:00"
+    }
+  ],
+  "auction": null,
+  "sold": null,
+  "date_listed": {
+    "isoDateWithTimeZone": "2026-05-29T09:53:30+10:00",
+    "__typename": "DateTime",
+    "isoDate": "2026-05-29T09:53:30"
+  },
+  "date_updated": {
+    "isoDate": "2026-05-29T09:53:27.843",
+    "__typename": "DateTime"
+  },
+  "virtual_tour_url": null,
+  "images": [
+    {
+      "url": "https://rimh2.domainstatic.com.au/AYeELdchxzGdVnYAEyIyfjklhuI=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_1_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 0
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/-UXmnzZv5vNArUYDM5Ui6HjHqI4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_2_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 1
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/5fSXxhPuszvL-Hy2aedDSiRXJpo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_3_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 2
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/HMC-dYFbCPaeSvMPIh-D2OUc8No=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_4_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 3
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/x2TR1KYj7-MKu8WPGBTF2pC93qQ=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_5_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 4
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/BToko5_DG20iMFO0FYicVsg00X4=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_6_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 5
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/6Pmxw3QLvEuKXRGUsKNgbCKsA4Q=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_7_1_260528_115328-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 6
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/_Zqkd16rMOgkuvYrD7Zg7Dt5fx8=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_8_1_260504_065927-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 7
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/ZJem88fNuo4qMRnkYOrbaDA1GCA=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_9_1_260504_065927-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 8
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/qfDMNvfgpeiPQizYUafTEHDrLwY=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020811737_10_1_260504_065927-w1920-h1280",
+      "type": "photo",
+      "category": "IMAGE",
+      "position": 9
+    },
+    {
+      "url": "https://rimh2.domainstatic.com.au/K9lgVZbWXIY9G-4ff_NUysCf4eo=/fit-in/1920x1080/filters:format(webp):quality(85):no_upscale()/2020878443_11_3_260528_115328-w4000-h2829",
+      "type": "floorplan",
+      "category": "IMAGE",
+      "position": 10
+    }
+  ],
+  "source_provider": "domain",
+  "source_url": "https://www.domain.com.au/2020878443",
+  "sources": [
+    {
+      "provider": "domain",
+      "url": "https://www.domain.com.au/2020878443"
+    }
+  ]
+}

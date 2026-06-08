@@ -1,78 +1,83 @@
 #!/usr/bin/env python3
-"""Quick headed-Chrome Domain connectivity preflight."""
+"""Preflight Domain access for the property hunter.
+
+This is intentionally browser-only by default. It exercises the same CDP path
+the scheduled hunter uses and returns a small machine-readable status so cron
+can fail loudly before corrupting downstream assumptions.
+"""
 
 from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 from typing import Any, Dict
 
 from buyer_profile import DEFAULT_BUYER, buyer_to_searches, parse_buyer_md
-from domain_cli import DEFAULT_PROFILE_DIR
-from source_providers import DomainListingProvider
+from domain_cli import DEFAULT_CDP_URL, build_search_url, extract_search_payload, fetch_html
 
 
-def _sample_filters(buyer_path: Path) -> Dict[str, Any]:
-    front, _ = parse_buyer_md(buyer_path)
-    searches = buyer_to_searches(front)
-    for search in searches:
-        if (search.get("filters") or {}).get("mode") != "sold":
-            return search["filters"]
-    return searches[0]["filters"] if searches else {"mode": "sale", "suburbs": ["Zetland NSW 2017"]}
+def _first_buy_filters() -> Dict[str, Any]:
+    front, _ = parse_buyer_md(DEFAULT_BUYER)
+    for hunt in buyer_to_searches(front):
+        filters = hunt.get("filters") or {}
+        if filters.get("mode", "sale") == "sale":
+            return filters
+    return {
+        "mode": "sale",
+        "suburbs": ["Zetland NSW 2017"],
+        "price_min": 0,
+        "price_max": 1_200_000,
+        "beds_min": 1,
+        "baths_min": 1,
+        "cars_min": 1,
+        "ptypes": ["apartment"],
+        "exclude_under_offer": True,
+    }
 
 
-def check_domain(*, buyer_path: Path, headed: bool, limit: int) -> Dict[str, Any]:
-    filters = _sample_filters(buyer_path)
-    provider = DomainListingProvider()
+def check_domain(*, timeout_s: int, cdp_url: str) -> Dict[str, Any]:
+    filters = _first_buy_filters()
+    url = build_search_url(**filters)
     try:
-        payload = provider.search(filters, headed=headed, limit=limit)
-        blocked = bool(payload.blocked_markers)
-        ok = not blocked and bool(payload.listings)
-        return {
-            "status": "ok" if ok else ("blocked" if blocked else "empty"),
-            "provider": payload.provider,
-            "profile_dir": str(DEFAULT_PROFILE_DIR),
-            "source_url": payload.source_url,
-            "count": len(payload.listings),
-            "total_results": payload.total_results,
-            "blocked_markers": payload.blocked_markers,
-            "filters": filters,
-        }
+        html = fetch_html(url, fetcher="cdp", timeout_s=timeout_s, no_cache=True, cdp_url=cdp_url)
+        payload = extract_search_payload(html, source_url=url, limit=5)
     except Exception as exc:
         return {
             "status": "failed",
-            "provider": provider.name,
-            "profile_dir": str(DEFAULT_PROFILE_DIR),
+            "provider": "domain",
+            "cdp_url": cdp_url,
+            "url": url,
             "error": str(exc),
             "filters": filters,
         }
 
+    blocked = bool(payload.get("blocked_markers"))
+    return {
+        "status": "blocked" if blocked else "ok",
+        "provider": "domain",
+        "cdp_url": cdp_url,
+        "url": url,
+        "blocked_markers": payload.get("blocked_markers"),
+        "search_result_count": payload.get("search_result_count"),
+        "returned": payload.get("count"),
+        "sample_listing_ids": payload.get("listing_ids", [])[:5],
+        "filters": filters,
+    }
+
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="domain_connection_check.py")
-    parser.add_argument("--buyer", default=str(DEFAULT_BUYER))
-    parser.add_argument("--limit", type=int, default=3)
-    parser.add_argument("--headed", action="store_true", default=True)
-    parser.add_argument("--headless", dest="headed", action="store_false")
-    parser.add_argument("--json", action="store_true")
+    parser.add_argument("--json", action="store_true", help="Emit JSON only")
+    parser.add_argument("--timeout", type=int, default=45)
+    parser.add_argument("--cdp-url", default=DEFAULT_CDP_URL)
     args = parser.parse_args(argv)
 
-    result = check_domain(buyer_path=Path(args.buyer), headed=args.headed, limit=args.limit)
+    result = check_domain(timeout_s=args.timeout, cdp_url=args.cdp_url)
     if args.json:
         print(json.dumps(result, indent=2))
     else:
-        print(f"status: {result['status']}")
-        print(f"provider: {result.get('provider')}")
-        print(f"profile: {result.get('profile_dir')}")
-        if result.get("count") is not None:
-            print(f"listings: {result['count']}")
-        if result.get("blocked_markers"):
-            print(f"blocked: {', '.join(result['blocked_markers'])}")
-        if result.get("source_url"):
-            print(f"url: {result['source_url']}")
-        if result.get("error"):
-            print(f"error: {result['error']}")
+        print(f"Domain status: {result['status']}")
+        print(json.dumps(result, indent=2))
     return 0 if result["status"] == "ok" else 2
 
 

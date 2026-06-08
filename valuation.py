@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import statistics
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,6 +38,24 @@ def _ptype(listing: Dict[str, Any]) -> str:
     if isinstance(ptype, list):
         ptype = " ".join(str(p) for p in ptype)
     return str(ptype).lower()
+
+
+def _ptype_canon(value: Any) -> str:
+    """Collapse a property type to comparable tokens.
+
+    The DB stores property type in two forms depending on capture path — the
+    Domain enum (``apartment_unit_flat``) and the display label
+    (``Apartment / Unit / Flat``). Both must compare equal, so strip every
+    non-alphanumeric character and lowercase.
+    """
+    return re.sub(r"[^a-z0-9]", "", str(value or "").lower())
+
+
+def _ptype_match(a: Any, b: Any) -> bool:
+    ca, cb = _ptype_canon(a), _ptype_canon(b)
+    if not ca or not cb:
+        return False
+    return ca in cb or cb in ca
 
 
 NEARBY_SUBURBS: Dict[str, Tuple[str, ...]] = {
@@ -118,15 +137,15 @@ def _sold_comps(db: PropertyDB, listing: Dict[str, Any], limit: int = 12) -> Lis
             continue
         r["sold_price"] = float(sold_price)
         score = 0
-        row_ptype = str(r.get("property_type") or "").lower()
-        if ptype and row_ptype and ptype not in row_ptype:
+        row_ptype = r.get("property_type")
+        if ptype and row_ptype and not _ptype_match(ptype, row_ptype):
             continue
         bed_delta = _bed_delta(beds, r.get("beds"))
         if bed_delta is not None and bed_delta <= 0.5:
             score += 3
         elif bed_delta is not None and bed_delta <= 1:
             score += 1
-        if ptype and r.get("property_type") and ptype in str(r["property_type"]).lower():
+        if ptype and row_ptype and _ptype_match(ptype, row_ptype):
             score += 2
         if suburb and r.get("suburb") and suburb.lower() == str(r["suburb"]).lower():
             score += 3
@@ -165,15 +184,15 @@ def _rental_comps(db: PropertyDB, listing: Dict[str, Any], limit: int = 12) -> L
             continue
         r["weekly_rent"] = float(rent)
         score = 0
-        row_ptype = str(r.get("property_type") or "").lower()
-        if ptype and row_ptype and ptype not in row_ptype:
+        row_ptype = r.get("property_type")
+        if ptype and row_ptype and not _ptype_match(ptype, row_ptype):
             continue
         bed_delta = _bed_delta(beds, r.get("beds"))
         if bed_delta is not None and bed_delta <= 0.5:
             score += 3
         elif bed_delta is not None and bed_delta <= 1:
             score += 1
-        if ptype and r.get("property_type") and ptype in str(r["property_type"]).lower():
+        if ptype and row_ptype and _ptype_match(ptype, row_ptype):
             score += 2
         if suburb and r.get("suburb") and suburb.lower() == str(r["suburb"]).lower():
             score += 3
@@ -200,6 +219,32 @@ def _fairness(ask: Optional[float], median: Optional[float], values: List[float]
     if ask <= high * 1.05:
         return "stretched"
     return "overpriced"
+
+
+def _underquote_signal(
+    ask: Optional[float],
+    median: Optional[float],
+    values: List[float],
+    confidence: str,
+) -> Optional[Dict[str, Any]]:
+    """Flag a likely-underquoted guide: asking sits well below the comparable
+    median on non-trivial evidence. Distinct from "cheap" — this is a warning the
+    guide is bait and the real clearing price is higher, not a buying opportunity."""
+    if not ask or not median or len(values) < 4 or confidence not in ("medium", "high"):
+        return None
+    gap = (median - ask) / median
+    if gap < 0.12:
+        return None
+    severity = "high" if gap >= 0.20 else "moderate"
+    return {
+        "severity": severity,
+        "gap_pct": round(gap * 100, 1),
+        "implied_price": round(median),
+        "note": (
+            f"Guide is {round(gap * 100)}% below the comparable median "
+            f"(~${round(median):,}); treat the quote as a starting point, not the budget."
+        ),
+    }
 
 
 def _posture(label: str) -> str:
@@ -284,6 +329,7 @@ def value_listing(
         median = statistics.median(values) if values else None
         label = _fairness(ask, median, values)
         confidence = "high" if len(values) >= 8 else ("medium" if len(values) >= 4 else ("low" if values else "none"))
+        underquote = _underquote_signal(ask, median, values, confidence)
         return {
             "mode": "buy",
             "asking_midpoint": ask,
@@ -294,6 +340,7 @@ def value_listing(
             "median_price_per_bed": _median_or_none(c.get("price_per_bed") for c in comps),
             "fairness": label,
             "confidence": confidence,
+            "underquoting_risk": underquote,
             "negotiation_posture": _posture(label),
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "comps": comps[:6],

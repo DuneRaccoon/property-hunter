@@ -34,6 +34,9 @@ def load_hunts(path: Path) -> List[Dict[str, Any]]:
 
 def _decision_summary(decision: Dict[str, Any]) -> Dict[str, Any]:
     valuation = decision.get("valuation") or {}
+    case = decision.get("valuation_case") or {}
+    estimate = case.get("independent_estimate") or {}
+    asking = case.get("asking_comparison") or {}
     risks = decision.get("risks") or {}
     action = (decision.get("action_plan") or {}).get("best_next_action") or {}
     diligence = decision.get("due_diligence") or {}
@@ -43,6 +46,14 @@ def _decision_summary(decision: Dict[str, Any]) -> Dict[str, Any]:
         "viability_band": viability.get("band"),
         "price_fairness": valuation.get("fairness"),
         "valuation_confidence": valuation.get("confidence"),
+        "independent_estimate": estimate.get("point"),
+        "independent_range": (
+            [estimate.get("low"), estimate.get("high")]
+            if estimate.get("low") is not None or estimate.get("high") is not None
+            else None
+        ),
+        "independent_confidence": estimate.get("confidence"),
+        "asking_vs_estimate": asking.get("verdict"),
         "top_risk": risks.get("summary"),
         "due_diligence": diligence.get("summary"),
         "next_action": action.get("label"),
@@ -107,6 +118,7 @@ def run_hunt(
     payload = provider.search(filters, headed=headed, limit=hunt.get("max_items"))
     url = payload.source_url
     listings = payload.listings
+    blocked = bool(payload.blocked_markers)
 
     seen_ids = db.seen_ids(name)
     new_listings = [l for l in listings if l.get("id") and l["id"] not in seen_ids]
@@ -139,15 +151,16 @@ def run_hunt(
     all_ids = [l["id"] for l in listings if l.get("id")]
     new_ids = [l["id"] for l in new_listings if l.get("id")]
     new_id_set = {str(x) for x in new_ids}
-    changed_ids = db.changed_listing_ids(all_ids, since=previous_run_at) - new_id_set
+    changed_ids = set() if blocked else db.changed_listing_ids(all_ids, since=previous_run_at) - new_id_set
     by_id = {str(l["id"]): l for l in listings if l.get("id")}
     changed = []
     for lid in sorted(changed_ids):
         summary = card_summary(by_id.get(lid, {"id": lid}))
         summary["lifecycle"] = db.lifecycle_summary(lid, since=previous_run_at)
         changed.append(summary)
-    stale_ids = sorted(str(lid) for lid in seen_ids - {str(lid) for lid in all_ids})
-    db.mark_listings_stale(stale_ids)
+    stale_ids = [] if blocked else sorted(str(lid) for lid in seen_ids - {str(lid) for lid in all_ids})
+    if stale_ids:
+        db.mark_listings_stale(stale_ids)
     stale = [stored_card_summary(db, lid, since=previous_run_at) for lid in stale_ids[:10]]
     if mark:
         db.record_run(
@@ -155,8 +168,10 @@ def run_hunt(
             total_results=payload.total_results,
             page_count=payload.page_count,
             new_ids=new_ids, all_ids=all_ids,
-            blocked=bool(payload.blocked_markers),
+            blocked=blocked,
         )
+
+    supply = db.supply_trend(name)
 
     return {
         "name": name,
@@ -164,6 +179,7 @@ def run_hunt(
         "provider": payload.provider,
         "total_results": payload.total_results,
         "page_count": payload.page_count,
+        "supply": supply,
         "new_count": len(new_listings),
         "changed_count": len(changed),
         "stale_count": len(stale_ids),

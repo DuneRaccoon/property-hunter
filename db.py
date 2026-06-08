@@ -15,6 +15,7 @@ Design notes:
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
@@ -182,6 +183,28 @@ def _as_int(value: Any) -> Optional[int]:
         return None
 
 
+def _parse_price_amount(value: Any) -> Optional[int]:
+    """Pull a dollar amount out of a display string like ``$1,050,000``.
+
+    Used to recover a sold price from a sold-search card, whose price is carried
+    only as a formatted string. Returns ``None`` for non-price labels
+    (``Price Withheld``, ``Contact Agent``) and rejects tiny/ambiguous matches
+    (e.g. the ``1`` in ``$1.2m``) so we never persist a bogus figure.
+    """
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return int(value)
+    m = re.search(r"\d[\d,]*", str(value))
+    if not m:
+        return None
+    try:
+        amount = int(m.group(0).replace(",", ""))
+    except ValueError:
+        return None
+    return amount if amount >= 10_000 else None
+
+
 def _midpoint(low: Any, high: Any) -> Optional[float]:
     lo, hi = _as_int(low), _as_int(high)
     if lo and hi:
@@ -248,6 +271,16 @@ class PropertyDB:
             "SELECT price_display, price_from, price_to, status FROM listings WHERE id=?", (lid,)
         ).fetchone()
 
+        # Capture the most recent event before we write new ones, so we can tell
+        # if this listing is reappearing after having dropped off the market.
+        prior_event = None
+        if existing is not None:
+            ev = self.conn.execute(
+                "SELECT event_type FROM listing_events WHERE listing_id=? ORDER BY observed_at DESC LIMIT 1",
+                (lid,),
+            ).fetchone()
+            prior_event = ev["event_type"] if ev else None
+
         self.conn.execute(
             """
             INSERT INTO listings (id, mode, listing_type, status, url, headline, description,
@@ -305,7 +338,13 @@ class PropertyDB:
                 "lat": addr.get("lat"),
                 "lng": addr.get("lng"),
                 "agency": (listing.get("agency") or {}).get("name") if isinstance(listing.get("agency"), dict) else None,
-                "sold_price": _as_int(sold.get("soldPrice") or sold.get("price")) if isinstance(sold, dict) else None,
+                "sold_price": (
+                    (_as_int(sold.get("soldPrice") or sold.get("price")) if isinstance(sold, dict) else None)
+                    # Sold cards carry no `sold` block — recover the price from the
+                    # card's display string so the column is populated, not just
+                    # parsed on the fly by downstream readers.
+                    or (_parse_price_amount(price_display) if mode == "sold" else None)
+                ),
                 "sold_date": (sold.get("soldDate") or sold.get("date")) if isinstance(sold, dict) else None,
                 "sale_method": (sold.get("saleMethod") or sold.get("method")) if isinstance(sold, dict) else None,
                 "now": now,
@@ -337,6 +376,23 @@ class PropertyDB:
                         "status": status,
                     },
                 )
+
+        # A listing whose last recorded event was "withdrawn_or_stale" is now
+        # back in the result set -> it has been relisted. Record it once; the new
+        # event becomes the latest, so steady-state reruns won't re-trigger.
+        if prior_event == "withdrawn_or_stale":
+            self.conn.execute(
+                "INSERT INTO listing_events (listing_id, observed_at, event_type, previous_value, current_value, summary)"
+                " VALUES (?,?,?,?,?,?)",
+                (
+                    lid,
+                    now,
+                    "relisted",
+                    "withdrawn/stale",
+                    status or "active",
+                    "Listing reappeared after dropping off the market — a relist (often a repricing or campaign reset; treat the new guide sceptically).",
+                ),
+            )
 
         agency_name = (listing.get("agency") or {}).get("name") if isinstance(listing.get("agency"), dict) else None
         self._upsert_agents(lid, listing.get("agents") or [], agency_name)
@@ -622,6 +678,50 @@ class PropertyDB:
         ).fetchall()
         return {r["listing_id"] for r in rows}
 
+    def supply_trend(self, hunt_name: str, *, history: int = 12) -> Dict[str, Any]:
+        """Track market supply for a saved search over time.
+
+        ``total_results`` is the count Domain returns at the top of the search
+        results page, captured per run. Reading it as a trend lets the agent
+        factor current supply (and whether it is rising/falling) into advice.
+        """
+        rows = self.conn.execute(
+            "SELECT run_at, total_results FROM hunt_runs"
+            " WHERE hunt_name=? AND total_results IS NOT NULL"
+            " ORDER BY run_at DESC LIMIT ?",
+            (hunt_name, history),
+        ).fetchall()
+        series = [{"run_at": r["run_at"], "total_results": int(r["total_results"])} for r in rows]
+        if not series:
+            return {"hunt": hunt_name, "current": None, "previous": None, "delta": None,
+                    "pct_change": None, "avg_recent": None, "n_runs": 0,
+                    "direction": "no-data", "history": []}
+        current = series[0]["total_results"]
+        previous = series[1]["total_results"] if len(series) > 1 else None
+        delta = (current - previous) if previous is not None else None
+        pct = round((delta / previous) * 100, 1) if (delta is not None and previous) else None
+        vals = [s["total_results"] for s in series]
+        avg_recent = round(sum(vals) / len(vals))
+        if delta is None:
+            direction = "first-reading"
+        elif delta > 0:
+            direction = "rising"
+        elif delta < 0:
+            direction = "falling"
+        else:
+            direction = "flat"
+        return {
+            "hunt": hunt_name,
+            "current": current,
+            "previous": previous,
+            "delta": delta,
+            "pct_change": pct,
+            "avg_recent": avg_recent,
+            "n_runs": len(series),
+            "direction": direction,
+            "history": list(reversed(series)),
+        }
+
     def previous_run_at(self, hunt_name: str) -> Optional[str]:
         row = self.conn.execute(
             "SELECT run_at FROM hunt_runs WHERE hunt_name=? ORDER BY run_at DESC LIMIT 1",
@@ -683,6 +783,13 @@ class PropertyDB:
         events = self.listing_changes(listing_id, since=since, limit=3)
         if not events:
             return "New to this hunt or still active; no material change recorded yet."
+        relisted = next((e for e in events if e["event_type"] == "relisted"), None)
+        if relisted:
+            drop = next((e for e in events if e["event_type"] == "price_drop"), None)
+            msg = "Relisted after dropping off the market"
+            if drop:
+                msg += f"; {drop['summary'].lower()}"
+            return msg + "."
         price_drop = next((e for e in events if e["event_type"] == "price_drop"), None)
         if price_drop:
             return f"Resurfaced because {price_drop['summary'].lower()}."

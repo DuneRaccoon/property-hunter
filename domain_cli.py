@@ -9,6 +9,7 @@ Playwright is only used to fetch browser-shaped HTML.
 from __future__ import annotations
 
 import argparse
+import atexit
 import shutil
 import hashlib
 import json
@@ -39,7 +40,11 @@ except Exception:  # pragma: no cover
     LeakyBucket = None  # type: ignore
 
 
-DEFAULT_UA = ""
+DEFAULT_UA = os.getenv(
+    "DOMAIN_UA",
+    "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+)
 DEFAULT_PROFILE_DIR = Path(os.getenv("DOMAIN_PROFILE_DIR", ".domain-browser-profile"))
 DEFAULT_CACHE_DIR = Path(".cache/domain/html")
 # CDP endpoint of an already-running real browser (the OpenClaw-managed Chromium).
@@ -53,6 +58,9 @@ BLOCK_MARKERS = (
     "access denied",
     "reference&#32;&#35;",
     "pardon our interruption",
+    "sec-if-cpt-container",
+    "powered and protected by akamai",
+    "powered and protected by privacy",
 )
 
 
@@ -395,6 +403,234 @@ def ensure_browser(cdp_url: str = DEFAULT_CDP_URL, *, wait_s: int = 40) -> None:
         time.sleep(2)
 
 
+STATE_CODES = {"nsw", "vic", "qld", "wa", "sa", "tas", "act", "nt"}
+TYPEAHEAD_INPUT = "#fe-pa-domain-home-typeahead-input"
+TYPEAHEAD_ITEM_PREFIX = "fe-pa-domain-home-typeahead-item-"
+SEARCH_BUTTON = "button[data-testid='search-button']"
+DEFAULT_WARMUP = ("Sydney", "NSW")
+
+# Akamai validates the session only after a genuine in-site search *gesture*; a
+# cold goto() to a /sale/, /rent/, /sold/ or listing URL trips the bot challenge.
+# Once a tab has done one gesture-driven search, plain goto() to any filtered/
+# paginated/detail URL passes -- but only in that same tab (see cdp_get).
+
+
+def slug_to_typeahead(slug: str) -> tuple[str, Optional[str]]:
+    """'zetland-nsw-2017' -> ('Zetland', 'NSW'). Drops trailing state/postcode."""
+    tokens = [t for t in slug.strip().lower().split("-") if t]
+    state: Optional[str] = None
+    if tokens and re.fullmatch(r"\d{3,4}", tokens[-1]):
+        tokens.pop()
+    if tokens and tokens[-1] in STATE_CODES:
+        state = tokens.pop().upper()
+    suburb = " ".join(t.capitalize() for t in tokens) or slug
+    return suburb, state
+
+
+def warmup_locality_from_url(url: str) -> tuple[str, Optional[str]]:
+    """Pick a suburb to type into the typeahead so the warm-up search is relevant.
+
+    Derives it from the target search URL's path slug or ?suburb= param; falls
+    back to a generic locality for listing-detail URLs (no locality in them).
+    """
+    parts = urlsplit(url)
+    query = dict(
+        kv.split("=", 1) if "=" in kv else (kv, "")
+        for kv in parts.query.split("&")
+        if kv
+    )
+    if query.get("suburb"):
+        first = query["suburb"].split(",")[0]
+        if first:
+            return slug_to_typeahead(first)
+    segs = [s for s in parts.path.split("/") if s]
+    if len(segs) >= 2 and segs[0] in {"sale", "rent", "sold", "sold-listings"}:
+        return slug_to_typeahead(segs[1])
+    return DEFAULT_WARMUP
+
+
+SEARCH_BUTTON_SELECTORS = (
+    "button[data-testid='search-button']",
+    "[data-testid='fe-co-search-controls-base-search-button']",
+    "button[type='submit']",
+)
+LISTING_CARD_SELECTOR = "[data-testid*='listing-card']"
+
+
+def _count_listing_cards(page) -> int:
+    try:
+        return int(page.evaluate(
+            "document.querySelectorAll(\"%s\").length" % LISTING_CARD_SELECTOR
+        ))
+    except Exception:
+        return 0
+
+
+def _gesture_warmup(page, suburb: str, state: Optional[str], timeout_s: int) -> bool:
+    """Drive the homepage search UI like a human to validate the Akamai session.
+
+    Akamai serves the real (hydrated) results only to a session that performed a
+    genuine in-site search: homepage -> type a suburb -> pick the typeahead
+    suggestion -> submit. A cold ``goto()`` to a /sale/ URL gets the empty SPA
+    shell. Returns True only once real listing cards have rendered on the landed
+    results page (the signal that the session is trusted and hydrated).
+    """
+    try:
+        page.goto("https://www.domain.com.au/", wait_until="domcontentloaded", timeout=min(timeout_s, 25) * 1000)
+        page.wait_for_timeout(random.randint(1000, 2000))
+        page.wait_for_selector(TYPEAHEAD_INPUT, timeout=min(timeout_s, 15) * 1000)
+        page.click(TYPEAHEAD_INPUT)
+        page.fill(TYPEAHEAD_INPUT, "")
+        for ch in suburb:
+            page.type(TYPEAHEAD_INPUT, ch, delay=random.randint(70, 150))
+
+        # Wait for the autocomplete suggestions to actually render. Landing via a
+        # real suggestion click (-> /sale/?suburb=...) is what Akamai trusts; the
+        # free-text Enter fallback (-> /sale/?terms=...) is far more often
+        # challenged, so we only fall back if suggestions never appear.
+        options: List[Dict[str, str]] = []
+        sug_deadline = time.monotonic() + min(timeout_s, 12)
+        while time.monotonic() < sug_deadline:
+            options = page.evaluate(
+                "function(p){var o=[];var n=document.querySelectorAll(\"[id^='\"+p+\"']\");"
+                "for(var i=0;i<n.length;i++)o.push({id:n[i].id,text:(n[i].innerText||'').replace(/\\n/g,' ').trim()});"
+                "return o;}",
+                TYPEAHEAD_ITEM_PREFIX,
+            )
+            if options:
+                break
+            page.wait_for_timeout(400)
+
+        target = None
+        sub_l = suburb.lower()
+        st_l = (state or "").lower()
+        for opt in options:
+            text = opt.get("text", "").lower()
+            if sub_l in text and (not st_l or st_l in text):
+                target = opt.get("id")
+                break
+        if not target and options:
+            target = options[0].get("id")
+        if target:
+            page.wait_for_timeout(random.randint(300, 700))
+            page.click("#" + target)
+            page.wait_for_timeout(random.randint(600, 1200))
+
+        clicked = False
+        for sel in SEARCH_BUTTON_SELECTORS:
+            if page.query_selector(sel):
+                page.click(sel)
+                clicked = True
+                break
+        if not clicked:
+            page.keyboard.press("Enter")
+        page.wait_for_load_state("domcontentloaded", timeout=min(timeout_s, 30) * 1000)
+        # The landed page is the real results page; wait for cards to hydrate.
+        return _wait_until_ready(page, "https://www.domain.com.au/sale/", timeout_s) and not detect_hard_denial(page.content())
+    except Exception:
+        return False
+
+
+def _is_search_url(url: str) -> bool:
+    path = urlsplit(url).path.lower().rstrip("/")
+    return any(path == "/" + m or path.startswith("/" + m + "/")
+               for m in ("sale", "rent", "sold", "sold-listings"))
+
+
+def _detail_ready(html: str) -> bool:
+    """A listing detail page is hydrated once its GraphQL listing block exists."""
+    try:
+        component = component_props(extract_next_data(html))
+    except Exception:
+        return False
+    if not isinstance(component, dict):
+        return False
+    if component.get("listingId") and isinstance(component.get("rootGraphQuery"), dict):
+        return isinstance(component["rootGraphQuery"].get("listingByIdV2"), dict)
+    return bool(find_listing_models(component))
+
+
+def _wait_until_ready(page, url: str, timeout_s: int) -> bool:
+    """Block until the warmed page has actually hydrated its listing data.
+
+    For search pages that means rendered listing cards (the SSR ``listingsMap``
+    is populated at the same time); for detail pages it means the GraphQL listing
+    block is present. ``has_structured_data`` is useless here because the empty
+    SPA shell already carries ``__NEXT_DATA__`` -- only real hydrated content
+    counts. Returns False on timeout or a hard denial.
+    """
+    search = _is_search_url(url)
+    deadline = time.monotonic() + max(8, min(timeout_s, 40))
+    while time.monotonic() < deadline:
+        try:
+            html = page.content()
+        except Exception:
+            page.wait_for_timeout(400)
+            continue
+        if detect_hard_denial(html):
+            return False
+        if search:
+            if _count_listing_cards(page) > 0:
+                return True
+        else:
+            if _detail_ready(html):
+                return True
+        page.wait_for_timeout(700)
+    return False
+
+
+# Persistent warmed CDP session, reused across all fetches in one process. The
+# winning Akamai bypass needs the *same* tab that performed the search gesture:
+# a fresh page/context (even sharing cookies) gets re-challenged, while plain
+# goto() inside the warmed tab loads any filtered/paginated/detail URL cleanly.
+_CDP_PW = None
+_CDP_BROWSER = None
+_CDP_PAGE = None
+_CDP_WARMED = False
+
+
+def _teardown_cdp() -> None:
+    global _CDP_PW, _CDP_BROWSER, _CDP_PAGE, _CDP_WARMED
+    for closer in (
+        lambda: _CDP_PAGE.close() if _CDP_PAGE else None,
+        lambda: _CDP_PW.stop() if _CDP_PW else None,
+    ):
+        try:
+            closer()
+        except Exception:
+            pass
+    _CDP_PW = _CDP_BROWSER = _CDP_PAGE = None
+    _CDP_WARMED = False
+
+
+def _warmed_page(cdp_url: str, timeout_s: int):
+    """Return the persistent, gesture-warmed CDP page, (re)creating it as needed."""
+    global _CDP_PW, _CDP_BROWSER, _CDP_PAGE, _CDP_WARMED
+    if _CDP_PAGE is not None:
+        try:
+            if not _CDP_PAGE.is_closed():
+                return _CDP_PAGE
+        except Exception:
+            pass
+        _CDP_PAGE = None
+        _CDP_WARMED = False
+
+    ensure_browser(cdp_url)
+    if _CDP_PW is None:
+        _CDP_PW = sync_playwright().start()
+        atexit.register(_teardown_cdp)
+    _CDP_BROWSER = _CDP_PW.chromium.connect_over_cdp(cdp_url, timeout=min(timeout_s, 15) * 1000)
+    contexts = _CDP_BROWSER.contexts or []
+    if not contexts:
+        raise RuntimeError(f"No browser context available at {cdp_url}. Is the browser running?")
+    page = contexts[0].new_page()
+    page.set_default_timeout(min(timeout_s, 20) * 1000)
+    page.set_default_navigation_timeout(min(timeout_s, 30) * 1000)
+    _CDP_PAGE = page
+    _CDP_WARMED = False
+    return page
+
+
 def cdp_get(
     url: str,
     *,
@@ -403,38 +639,53 @@ def cdp_get(
     timeout_s: int = 60,
     cdp_url: str = DEFAULT_CDP_URL,
 ) -> str:
-    """Fetch a Domain page through an already-running real browser via CDP.
+    """Fetch a Domain page through the genuine OpenClaw-managed Chromium via CDP.
 
-    Connects to the genuine user/OpenClaw Chromium session (which loads Domain
-    normally) instead of launching an automated context. Reuses an existing
-    Domain tab when present, otherwise navigates a spare/new tab to ``url`` and
-    waits until the page's structured data is present.
+    Akamai only trusts a session after a real in-site search *gesture* (homepage
+    -> typeahead -> submit), and only in the very tab that performed it. So we
+    keep one persistent warmed tab for the whole process: warm it once with the
+    gesture, then plain ``goto()`` every target (filtered/paginated/detail) URL
+    in that same tab and wait for the data to actually hydrate before reading.
     """
+    global _CDP_WARMED
     if sync_playwright is None:
         raise RuntimeError("Playwright is not installed. Run: ./venv/bin/pip install playwright")
 
-    ensure_browser(cdp_url)
     polite_pause(bucket, cfg)
-    with sync_playwright() as p:
-        browser = p.chromium.connect_over_cdp(cdp_url)
-        contexts = browser.contexts or []
-        if not contexts:
-            raise RuntimeError(f"No browser context available at {cdp_url}. Is the browser running?")
+    warm_suburb, warm_state = warmup_locality_from_url(url)
 
-        pages = [pg for ctx in contexts for pg in ctx.pages]
-        page = next((pg for pg in pages if "domain.com.au" in (pg.url or "")), None)
-        if page is None:
-            page = next((pg for pg in pages if (pg.url or "").startswith("chrome://")), None)
-        if page is None:
-            page = contexts[0].new_page()
+    html = ""
+    for attempt in range(2):
+        page = _warmed_page(cdp_url, timeout_s)
+        if not _CDP_WARMED:
+            for _ in range(3):
+                if _gesture_warmup(page, warm_suburb, warm_state, timeout_s):
+                    _CDP_WARMED = True
+                    break
+                page.wait_for_timeout(random.randint(800, 1600))
+            if not _CDP_WARMED:
+                # Could not establish a trusted session this round; surface the
+                # last (challenged) HTML so callers treat it as blocked.
+                try:
+                    return page.content()
+                except Exception:
+                    return ""
 
-        page.goto(url, wait_until="domcontentloaded", timeout=timeout_s * 1000)
-        deadline = time.monotonic() + max(15, min(timeout_s, 90))
+        try:
+            page.goto(url, wait_until="domcontentloaded", timeout=min(timeout_s, 30) * 1000)
+        except Exception:
+            pass
+        if _wait_until_ready(page, url, timeout_s):
+            return page.content()
+
         html = page.content()
-        while not has_structured_data(html) and time.monotonic() < deadline:
-            page.wait_for_timeout(1000)
-            html = page.content()
-        return html
+        if not detect_hard_denial(html) and (has_structured_data(html) and not _is_search_url(url)):
+            # Detail page that genuinely lacks a GraphQL block but isn't blocked.
+            return html
+        # Session lapsed / got challenged -> drop the tab and re-warm once.
+        _CDP_WARMED = False
+        _teardown_cdp()
+    return html
 
 
 def fetch_html(
@@ -513,6 +764,8 @@ def detect_hard_denial(html: str) -> bool:
     lower = html.lower()
     return (
         "access denied" in lower
+        or "sec-if-cpt-container" in lower
+        or "powered and protected by akamai" in lower
         or "powered and protected by privacy" in lower
         or len(html) < 20000
         or any(marker in lower for marker in BLOCK_MARKERS)
@@ -711,10 +964,15 @@ def extract_search_payload(html: str, *, source_url: Optional[str] = None, limit
             listings.append(normalize_listing_model(listing_id, raw))
 
     json_ld = extract_json_ld(html)
+    result_count = search_result_count(digital, next_data)
+    # The empty SPA shell (a soft Akamai challenge / un-hydrated goto) still
+    # carries __NEXT_DATA__ but no listingsMap and no result count. Treat that as
+    # blocked so callers (hunt_runner) never mistake it for a genuine 0 results.
+    shell = not ids and not listings_map and not result_count
     return {
         "url": source_url,
-        "blocked_markers": detect_blocked(html),
-        "search_result_count": search_result_count(digital, next_data),
+        "blocked_markers": detect_blocked(html) or shell,
+        "search_result_count": result_count,
         "count": len(ids),
         "listing_ids": ids,
         "listings": listings,

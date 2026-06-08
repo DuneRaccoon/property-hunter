@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 
 from domain_cli import (
     DEFAULT_CACHE_DIR,
+    DEFAULT_CDP_URL,
     DEFAULT_PROFILE_DIR,
     DEFAULT_UA,
     SEARCH_MODES,
@@ -24,7 +25,8 @@ from domain_cli import (
 
 
 class FetchOptions(BaseModel):
-    fetcher: Literal["playwright", "http"] = "playwright"
+    fetcher: Literal["cdp", "playwright", "http"] = "cdp"
+    cdp_url: str = DEFAULT_CDP_URL
     ua: str = DEFAULT_UA
     rps: float = Field(default=0.35, gt=0)
     burst: int = Field(default=1, ge=1)
@@ -50,6 +52,7 @@ class SearchFilters(BaseModel):
     cars_min: Optional[int] = None
     ptypes: List[str] = Field(default_factory=list)
     exclude_under_offer: bool = False
+    features: List[str] = Field(default_factory=list)
     keywords: Optional[str] = None
     sort: Optional[str] = None
     page: Optional[int] = None
@@ -67,6 +70,7 @@ class SearchFilters(BaseModel):
             cars_min=self.cars_min,
             ptypes=self.ptypes,
             exclude_under_offer=self.exclude_under_offer,
+            features=self.features,
             keywords=self.keywords,
             sort=self.sort,
             page=self.page,
@@ -113,6 +117,7 @@ def fetch_with_options(req: FetchOptions, url: str) -> str:
         headed=req.headed,
         profile_dir=Path(req.profile_dir),
         proxy=req.proxy,
+        cdp_url=req.cdp_url,
     )
 
 

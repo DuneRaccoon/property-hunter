@@ -8,11 +8,15 @@ from agent_report import build_agent_report
 from db import PropertyDB
 from due_diligence import build_due_diligence
 from inspection_plan import build_inspection_plan
+from hunt_runner import run_hunt
 from market_sources import assess_freshness, validate_market_sources
 from report_ux import format_daily_digest
 from report_builder import render_html, sample_payload
+from source_providers import ListingSearchResult
 from risk import detect_risks
 from valuation import _fairness, _rental_comps, _sold_comps, value_listing
+from valuation_engine import build_valuation_case
+from value_providers import CachedAvmProvider, PropertyValueProvider, ValueEstimate, ValueProvider
 from viability import score_listing
 
 from fixtures import (
@@ -59,6 +63,48 @@ class DecisionEngineTests(unittest.TestCase):
         result = build_action_plan(bad, FRONT)
         self.assertEqual(result["best_next_action"]["type"], "pass")
 
+    def test_risk_flags_no_lift_walkup_apartment(self):
+        result = detect_risks(listing(description="Charming top-floor walk-up, no lift, with leafy outlook."), FRONT)
+        labels = {r["label"] for r in result["items"]}
+        self.assertIn("No-lift building", labels)
+
+    def test_risk_flags_easement_on_house(self):
+        house = listing(property_type="House", description="Family home with a shared driveway and an easement at the rear.")
+        result = detect_risks(house, FRONT)
+        labels = {r["label"] for r in result["items"]}
+        self.assertIn("Easement/access issue", labels)
+
+    def test_risk_flags_high_density_suburb(self):
+        result = detect_risks(listing(), FRONT)  # base fixture is a Zetland apartment
+        labels = {r["label"] for r in result["items"]}
+        self.assertIn("High-density suburb", labels)
+
+    def test_risk_flags_renter_parking_storage(self):
+        renter_front = {**FRONT, "objective": "rent"}
+        renter = listing(mode="rent", cars=0, description="Available now. Air conditioning. Street parking only, no storage.")
+        result = detect_risks(renter, renter_front)
+        labels = {r["label"] for r in result["items"]}
+        self.assertIn("Parking/storage shortfall", labels)
+
+    def test_valuation_flags_underquoting(self):
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                for idx, price in enumerate((1_000_000, 1_020_000, 1_050_000, 1_080_000), start=1):
+                    db.upsert_listing(listing(id=f"comp-{idx}", price_from=price, price_to=price, sold={"price": price, "soldDate": f"2026-05-0{idx}"}), mode="sold")
+                result = value_listing(listing(id="target", price_from=820_000, price_to=820_000), db)
+        self.assertIsNotNone(result["underquoting_risk"])
+        self.assertGreaterEqual(result["underquoting_risk"]["gap_pct"], 12.0)
+
+    def test_valuation_no_underquoting_when_fairly_priced(self):
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                for idx, price in enumerate((1_000_000, 1_020_000, 1_050_000, 1_080_000), start=1):
+                    db.upsert_listing(listing(id=f"comp-{idx}", price_from=price, price_to=price, sold={"price": price, "soldDate": f"2026-05-0{idx}"}), mode="sold")
+                result = value_listing(listing(id="target", price_from=1_030_000, price_to=1_030_000), db)
+        self.assertIsNone(result["underquoting_risk"])
+
     def test_valuation_fairness_labels(self):
         values = [900_000, 950_000, 1_000_000]
         self.assertEqual(_fairness(920_000, 950_000, values), "good value")
@@ -90,6 +136,29 @@ class DecisionEngineTests(unittest.TestCase):
         self.assertEqual(result["comparable_count"], 1)
         self.assertEqual(result["comps"][0]["id"], "nearby")
         self.assertEqual(result["price_per_bed"], 475_000)
+
+    def test_comparable_matching_tolerates_enum_vs_display_property_type(self):
+        # Sold rows are stored with the Domain display label while an enriched
+        # subject carries the enum form. Both must match or the whole valuation
+        # silently returns zero comps (regression: real DB produced no signals).
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                for idx, price in enumerate((1_000_000, 1_030_000, 1_060_000), start=1):
+                    db.upsert_listing(
+                        listing(
+                            id=f"disp-{idx}",
+                            property_type="Apartment / Unit / Flat",
+                            price_from=price,
+                            price_to=price,
+                            sold={"price": price, "soldDate": f"2026-05-0{idx}"},
+                        ),
+                        mode="sold",
+                    )
+                target = listing(id="target", property_type=None, property_types=["APARTMENT_UNIT_FLAT"])
+                comps = _sold_comps(db, target)
+
+        self.assertEqual(len(comps), 3)
 
     def test_value_listing_uses_comps_without_domain(self):
         with TemporaryDirectory() as tmp:
@@ -164,6 +233,82 @@ class DecisionEngineTests(unittest.TestCase):
         event_types = {event["event_type"] for event in changes}
         self.assertIn("inspection_change", event_types)
         self.assertIn("withdrawn_or_stale", event_types)
+
+    def test_db_detects_relist_after_stale(self):
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                db.upsert_listing(listing(id="relist1", status="active"), mode="sale")
+                db.mark_listings_stale(["relist1"])
+                db.upsert_listing(listing(id="relist1", status="active"), mode="sale")
+                changes = db.listing_changes("relist1")
+                summary = db.lifecycle_summary("relist1")
+
+        event_types = [e["event_type"] for e in changes]
+        self.assertIn("relisted", event_types)
+        # A steady-state rerun must not record a second relist.
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                db.upsert_listing(listing(id="relist2", status="active"), mode="sale")
+                db.mark_listings_stale(["relist2"])
+                db.upsert_listing(listing(id="relist2", status="active"), mode="sale")
+                db.upsert_listing(listing(id="relist2", status="active"), mode="sale")
+                relists = [e for e in db.listing_changes("relist2", limit=20) if e["event_type"] == "relisted"]
+        self.assertEqual(len(relists), 1)
+        self.assertIn("Relisted", summary["why_now"])
+
+    def test_supply_trend_tracks_total_results_over_runs(self):
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                db.upsert_hunt("buy-apts", {"mode": "sale"})
+                db.record_run("buy-apts", "https://example.test", total_results=120, page_count=6, new_ids=[], all_ids=[], blocked=False)
+                db.record_run("buy-apts", "https://example.test", total_results=95, page_count=5, new_ids=[], all_ids=[], blocked=False)
+                trend = db.supply_trend("buy-apts")
+
+        self.assertEqual(trend["current"], 95)
+        self.assertEqual(trend["previous"], 120)
+        self.assertEqual(trend["delta"], -25)
+        self.assertEqual(trend["direction"], "falling")
+        self.assertEqual(trend["n_runs"], 2)
+
+    def test_blocked_hunt_does_not_mark_seen_listings_stale(self):
+        class BlockedProvider:
+            name = "domain"
+
+            def search(self, filters, *, headed, limit=None):
+                return ListingSearchResult(
+                    provider="domain",
+                    source_url="https://www.domain.com.au/sale/",
+                    total_results=None,
+                    page_count=0,
+                    listings=[],
+                    blocked_markers=["blocked"],
+                )
+
+            def listing(self, listing_id, *, headed):
+                return None
+
+        with TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "property.sqlite3"
+            with PropertyDB(db_path) as db:
+                db.upsert_hunt("buy-apts", {"mode": "sale"})
+                db.upsert_listing(listing(id="existing"), mode="sale")
+                db.record_run("buy-apts", "https://example.test", total_results=1, page_count=1, new_ids=["existing"], all_ids=["existing"], blocked=False)
+                result = run_hunt(
+                    {"name": "buy-apts", "filters": {"mode": "sale"}},
+                    headed=True,
+                    mark=True,
+                    db=db,
+                    front=FRONT,
+                    provider=BlockedProvider(),
+                )
+                changes = db.listing_changes("existing")
+
+        self.assertEqual(result["blocked"], ["blocked"])
+        self.assertEqual(result["stale_count"], 0)
+        self.assertNotIn("withdrawn_or_stale", {event["event_type"] for event in changes})
 
     def test_agent_report_tracks_observed_performance_fields(self):
         with TemporaryDirectory() as tmp:
@@ -285,6 +430,26 @@ class DecisionEngineTests(unittest.TestCase):
         self.assertEqual(facts[0]["key"], "rba_cash_rate")
         self.assertEqual(facts[0]["source_name"], "Reserve Bank of Australia")
 
+    def test_sold_card_price_persists_to_sold_price_column(self):
+        # Sold-search cards carry the price only as a display string and no `sold`
+        # block. The column must still be populated (and "Price Withheld" left NULL).
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "property.sqlite3") as db:
+                priced = listing(id="priced")
+                priced["price"] = "$1,050,000"
+                priced.pop("sold", None)
+                db.upsert_listing(priced, mode="sold")
+                withheld = listing(id="withheld")
+                withheld["price"] = "Price Withheld"
+                withheld.pop("sold", None)
+                db.upsert_listing(withheld, mode="sold")
+                rows = {
+                    r["id"]: r["sold_price"]
+                    for r in db.conn.execute("SELECT id, sold_price FROM listings WHERE mode='sold'")
+                }
+        self.assertEqual(rows["priced"], 1_050_000)
+        self.assertIsNone(rows["withheld"])
+
     def test_buyer_and_renter_modes_produce_separate_advice(self):
         renter_front = {**FRONT, "objective": "rent", "budget": {"rent": {"max": 900}}}
         buyer_due = build_due_diligence(listing(), FRONT)
@@ -327,6 +492,128 @@ class DecisionEngineTests(unittest.TestCase):
         self.assertIn("underquote_signals", cols)
         self.assertIn("metrics_updated_at", cols)
         self.assertEqual(dict(row), {"name": "Legacy Agent", "agency": "Old Realty"})
+
+
+class _StubAvmProvider(ValueProvider):
+    name = "propertyvalue"
+
+    def __init__(self, point, low, high, confidence="medium"):
+        self._est = ValueEstimate(
+            provider="propertyvalue",
+            method="avm",
+            point=point,
+            low=low,
+            high=high,
+            confidence=confidence,
+            source="propertyvalue.com.au",
+            note="CoreLogic AVM (stub).",
+        )
+
+    def available(self):
+        return True
+
+    def estimate(self, listing, *, db=None, front=None):
+        return self._est
+
+
+class ValuationEngineTests(unittest.TestCase):
+    def _seed_comps(self, db, prices=(1_000_000, 1_020_000, 1_050_000, 1_080_000)):
+        for idx, price in enumerate(prices, start=1):
+            db.upsert_listing(
+                listing(id=f"comp-{idx}", price_from=price, price_to=price, beds=2,
+                        sold={"price": price, "soldDate": f"2026-05-0{idx}"}),
+                mode="sold",
+            )
+
+    def test_independent_estimate_without_asking_price(self):
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "p.sqlite3") as db:
+                self._seed_comps(db)
+                subject = listing(id="target")
+                subject.pop("price_from", None)
+                subject.pop("price_to", None)
+                subject["price"] = None
+                case = build_valuation_case(subject, db, providers=[])
+        self.assertIsNotNone(case["independent_estimate"])
+        self.assertGreater(case["independent_estimate"]["point"], 0)
+        self.assertIsNone(case["asking_comparison"])
+        self.assertTrue(any("independent estimate" in line.lower() for line in case["case"]))
+
+    def test_positions_asking_below_independent_range(self):
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "p.sqlite3") as db:
+                self._seed_comps(db)
+                case = build_valuation_case(
+                    listing(id="target", price_from=820_000, price_to=820_000), db, providers=[]
+                )
+        comp = case["asking_comparison"]
+        self.assertEqual(comp["position"], "below independent range")
+        self.assertGreater(comp["negotiation_headroom"], 0)
+
+    def test_multiple_signals_are_reconciled(self):
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "p.sqlite3") as db:
+                self._seed_comps(db)
+                case = build_valuation_case(
+                    listing(id="target", price_from=1_030_000, price_to=1_030_000), db, providers=[]
+                )
+        methods = {s["method"] for s in case["signals"]}
+        self.assertIn("comparable_median", methods)
+        self.assertIn("per_bed", methods)
+        self.assertGreaterEqual(case["independent_estimate"]["signal_count"], 2)
+
+    def test_external_avm_provider_contributes_a_signal(self):
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "p.sqlite3") as db:
+                self._seed_comps(db)
+                provider = _StubAvmProvider(point=1_100_000, low=1_060_000, high=1_140_000)
+                case = build_valuation_case(
+                    listing(id="target", price_from=1_030_000, price_to=1_030_000),
+                    db, providers=[provider],
+                )
+        avm = [s for s in case["signals"] if s["provider"] == "propertyvalue"]
+        self.assertEqual(len(avm), 1)
+        self.assertEqual(avm[0]["method"], "avm")
+        # An authoritative high AVM should drag the blended estimate above the bare comp median.
+        self.assertGreater(case["independent_estimate"]["point"], 1_037_000)
+
+    def test_cached_avm_provider_round_trips(self):
+        with TemporaryDirectory() as tmp:
+            cache_path = Path(tmp) / "avm_cache.json"
+            writer = CachedAvmProvider(cache_path)
+            writer.put("target", {"point": 990_000, "low": 950_000, "high": 1_030_000, "confidence": "medium"})
+            reader = CachedAvmProvider(cache_path)
+            est = reader.estimate(listing(id="target"))
+        self.assertIsNotNone(est)
+        self.assertEqual(est.point, 990_000)
+        self.assertEqual(est.confidence, "medium")
+
+    def test_live_provider_disabled_by_default_returns_none(self):
+        provider = PropertyValueProvider(enabled=False, cache=CachedAvmProvider(Path("/nonexistent/avm.json")))
+        self.assertIsNone(provider.estimate(listing(id="target")))
+
+    def test_comparable_median_anchors_to_same_bedroom_cluster(self):
+        # A 2-bed subject must not have its comparable median dragged down by
+        # cheaper 1-bed sales that also match suburb/type. The strongest signal
+        # should reflect the 2-bed cluster when a usable cluster exists.
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "p.sqlite3") as db:
+                for idx, price in enumerate((980_000, 1_040_000), start=1):
+                    db.upsert_listing(
+                        listing(id=f"two-{idx}", beds=2, price_from=price, price_to=price,
+                                sold={"price": price, "soldDate": f"2026-05-0{idx}"}),
+                        mode="sold",
+                    )
+                for idx, price in enumerate((600_000, 640_000), start=1):
+                    db.upsert_listing(
+                        listing(id=f"one-{idx}", beds=1, price_from=price, price_to=price,
+                                sold={"price": price, "soldDate": f"2026-05-1{idx}"}),
+                        mode="sold",
+                    )
+                case = build_valuation_case(listing(id="target", beds=2), db, providers=[])
+        comp = next(s for s in case["signals"] if s["method"] == "comparable_median")
+        self.assertEqual(comp["point"], 1_010_000)
+        self.assertIn("same-bedroom", comp["note"])
 
 
 if __name__ == "__main__":

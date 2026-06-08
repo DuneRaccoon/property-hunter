@@ -91,10 +91,10 @@ Purpose: stop relying on asking prices and provide a defensible view of fair val
   - [x] Weekly affordability against budget.
   - [x] Annual rent burden estimate.
   - [x] Application urgency based on rent attractiveness and market tightness.
-- [ ] Add price-history handling:
+- [x] Add price-history handling:
   - [x] Detect price drops.
-  - [ ] Detect relists.
-  - [ ] Detect underquoting risk where guide is far below comps.
+  - [x] Detect relists. _(`db.upsert_listing` emits a `relisted` event when a `withdrawn_or_stale` listing reappears; surfaced in `why_now`)_
+  - [x] Detect underquoting risk where guide is far below comps. _(`valuation._underquote_signal`)_
   - [x] Detect stale listings.
 - [x] Add valuation fields to the folio payload schema.
 - [x] Add valuation summary to digest output.
@@ -114,26 +114,26 @@ Purpose: catch the things an excited buyer or renter misses.
 
 - [x] Add a `risk.py` module.
 - [x] Scan description, features, floorplan, title, and known metadata for risk signals.
-- [ ] Add apartment risk checks:
+- [x] Add apartment risk checks:
   - [x] Ground floor.
   - [x] Main road.
-  - [ ] No lift where relevant.
+  - [x] No lift where relevant.
   - [x] No parking where parking is required.
   - [x] Dark/internal outlook wording.
-  - [ ] Tiny floorplan or unclear internal area.
-  - [ ] High-density oversupply suburb signal.
+  - [x] Tiny floorplan or unclear internal area.
+  - [x] High-density oversupply suburb signal. _(`risk.HIGH_DENSITY_SUBURBS`)_
   - [x] Strata-fee unknown.
-- [ ] Add house/townhouse risk checks:
+- [x] Add house/townhouse risk checks:
   - [x] Flood/bushfire/heritage/contamination overlay where data is available.
   - [x] Major renovation wording.
   - [x] Structural concern wording.
-  - [ ] Easement or access issue wording.
-- [ ] Add renter risk checks:
+  - [x] Easement or access issue wording.
+- [x] Add renter risk checks:
   - [x] No aircon/heating.
   - [x] Shared laundry.
   - [x] No pets.
   - [x] Short lease.
-  - [ ] Poor parking/storage.
+  - [x] Poor parking/storage.
   - [x] Unclear availability date.
 - [ ] Add risk severity levels:
   - [x] `dealbreaker`
@@ -315,3 +315,25 @@ Purpose: keep the agent credible as logic gets more opinionated.
 8. Test hardening.
 
 This order is deliberate: due diligence plus valuation is the biggest jump in trust and commercial value. The folio already looks premium; the next upgrade is making it feel safe to use for a million-dollar decision.
+
+## Deferred (deliberately out of scope for now)
+
+Everything the pipeline can decide deterministically from the data we already
+hold is implemented. The remaining unchecked items all depend on a **new
+external data source** or **more lifecycle history than we currently retain**,
+so they are deferred rather than half-built:
+
+- **Known overlays with real data** (P1) and **NSW planning / property constraints**
+  (P6) — need an authoritative overlay/planning feed. Today we only flag overlay
+  *wording* in the listing text as a "needs external confirmation" risk.
+- **Agency-level notes** (P5) — needs enough per-agency observations to be
+  evidence-based rather than vibes; agent-level tracking already exists.
+- **realestate.com.au parser, ABS demographics, bank/CoreLogic-Cotality forecasts**
+  (P6) — additional providers behind the existing source abstraction. RBA/inflation
+  fetch for the market section is done; these are the next providers to add.
+
+All deterministic risk/valuation gaps (no-lift, compact/unclear floorplan,
+high-density suburb, easement/access, renter parking/storage, underquoting) are
+now implemented and unit-tested. Relist detection and **market-supply tracking**
+(per-search total-matches count, read as a rising/falling trend via
+`db.supply_trend` and surfaced in the digest) are also live.

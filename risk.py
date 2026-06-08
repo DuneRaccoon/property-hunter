@@ -23,6 +23,14 @@ SEVERITY_WEIGHT = {
     "watch": 0.15,
 }
 
+# Sydney suburbs with well-known apartment oversupply / high-density pipelines.
+# Used as a soft "watch" signal on capital-growth risk, not a hard reject.
+HIGH_DENSITY_SUBURBS = {
+    "zetland", "waterloo", "mascot", "wolli creek", "rhodes", "sydney olympic park",
+    "homebush", "epping", "macquarie park", "parramatta", "north ryde", "meadowbank",
+    "arncliffe", "rosebery", "green square",
+}
+
 
 @dataclass(frozen=True)
 class RiskItem:
@@ -55,6 +63,12 @@ def property_type(listing: Dict[str, Any]) -> str:
     if isinstance(ptype, list):
         ptype = " ".join(str(p) for p in ptype)
     return str(ptype).lower()
+
+
+def _suburb(listing: Dict[str, Any]) -> str:
+    addr = listing.get("address") or {}
+    suburb = addr.get("suburb") if isinstance(addr, dict) else listing.get("suburb")
+    return str(suburb or "").strip().lower()
 
 
 def _has_media(listing: Dict[str, Any], kinds: Iterable[str]) -> bool:
@@ -99,8 +113,23 @@ def detect_risks(listing: Dict[str, Any], front: Optional[Dict[str, Any]] = None
     if ev := _match(blob, r"\b(dark|internal outlook|limited natural light|no outlook|south[- ]?facing)\b"):
         add("major", "apartment", "Light/aspect concern", "Aspect language suggests this needs checking in person.", ev)
 
+    is_apartment = "apartment" in ptype or "unit" in ptype or "studio" in ptype
+    if is_apartment:
+        if ev := _match(blob, r"\b(no lift|without (a )?lift|walk[- ]?up|stair access only|no elevator)\b"):
+            add("minor", "apartment", "No-lift building", "A walk-up matters above the first floor and narrows the resale pool.", ev)
+        if ev := _match(blob, r"\b(studio|compact|cosy|cozy|bedsit|low[- ]?maintenance footprint)\b"):
+            add("watch", "apartment", "Compact floorplan", "Studio/compact wording can mean a small internal area; confirm sqm on the floorplan.", ev)
+        elif not _match(blob, r"\b\d{2,3}\s?(sq ?m|sqm|m2|square met)"):
+            add("watch", "missing_data", "Internal area unclear", "No internal area (sqm) stated; true usable size is hard to judge.", known=False)
+        if _suburb(listing) in HIGH_DENSITY_SUBURBS:
+            add("watch", "market", "High-density suburb", "Apartment-heavy suburb with ongoing supply; capital growth can lag and resale competes with stock.")
+
     if ev := _match(blob, r"\b(needs work|renovat(or'?s|e)|original condition|tlc|blank canvas|structural|water damage|defect)\b"):
         add("major", "condition", "Condition risk", "Renovation or defect wording can mean extra capital after purchase.", ev)
+
+    if "house" in ptype or "townhouse" in ptype or "terrace" in ptype or "villa" in ptype:
+        if ev := _match(blob, r"\b(easement|right of way|right-of-way|shared driveway|battle[- ]?axe|landlocked|no street frontage|access handle)\b"):
+            add("major", "title", "Easement/access issue", "Easement or shared-access wording affects usable land, privacy, and resale; confirm on title.", ev)
 
     if ("apartment" in ptype or "unit" in ptype) and not _has_media(listing, ("floorplan",)):
         add("watch", "missing_data", "No floorplan found", "Layout quality and true usability are harder to judge without a floorplan.", known=False)
@@ -127,6 +156,11 @@ def detect_risks(listing: Dict[str, Any], front: Optional[Dict[str, Any]] = None
             add("minor", "renter", "Shared laundry", "A liveability compromise many renters discount.", ev)
         if ev := _match(blob, r"\b(short lease|6 month lease|temporary)\b"):
             add("major", "renter", "Short lease risk", "Short lease terms reduce stability.", ev)
+        cars = listing.get("cars")
+        if ev := _match(blob, r"\b(no parking|street parking only|permit parking|unallocated parking|no storage|no cage)\b"):
+            add("minor", "renter", "Parking/storage shortfall", "Parking or storage looks limited; confirm what is actually included.", ev)
+        elif cars is not None and float(cars or 0) == 0 and not front.get("cars_min"):
+            add("watch", "renter", "No allocated parking", "Listing shows no car space; check street/permit parking realities.", known=False)
         if not _match(blob, r"\b(available|vacant|move[- ]?in|lease start)\b"):
             add("watch", "renter", "Availability unclear", "The available date is not obvious from the current payload.", known=False)
 

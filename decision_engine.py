@@ -14,6 +14,7 @@ from db import DEFAULT_DB_PATH, PropertyDB
 from due_diligence import build_due_diligence
 from risk import detect_risks
 from valuation import value_listing
+from valuation_engine import build_valuation_case
 from viability import score_listing
 
 
@@ -27,13 +28,16 @@ def analyse_listing(
     risks = detect_risks(listing, front)
     diligence = build_due_diligence(listing, front)
     objective = front.get("objective") or "buy"
-    valuation = value_listing(listing, db, front=front) if objective in ("buy", "rent", "renter", "both") else None
+    scored = objective in ("buy", "rent", "renter", "both")
+    valuation = value_listing(listing, db, front=front) if scored else None
+    valuation_case = build_valuation_case(listing, db, front=front) if scored else None
     viability = score_listing(listing, front, db=db, risk_result=risks)
     actions = build_action_plan(listing, front, valuation=valuation, risks=risks, due_diligence=diligence)
     return {
         "viability": viability,
         "due_diligence": diligence,
         "valuation": valuation,
+        "valuation_case": valuation_case,
         "risks": risks,
         "action_plan": actions,
     }

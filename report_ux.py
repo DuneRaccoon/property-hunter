@@ -209,6 +209,24 @@ def format_daily_digest(report: Dict[str, Any], *, top_limit: int = 3) -> str:
         lines.append("")
         lines.append("No property is worth interrupting Ben for in this run.")
 
+    supply_lines = []
+    for h in hunts:
+        s = h.get("supply") or {}
+        cur = s.get("current")
+        if cur is None:
+            continue
+        bit = f"{h.get('name')}: {cur} on market ({s.get('direction', 'flat')}"
+        if s.get("delta") is not None and s.get("previous") is not None:
+            sign = "+" if s["delta"] > 0 else ""
+            bit += f", {sign}{s['delta']} vs last run, avg {s.get('avg_recent')}"
+        bit += ")"
+        supply_lines.append(bit)
+    if supply_lines:
+        lines.append("")
+        lines.append("Market supply (total matches at search top)")
+        for b in supply_lines:
+            lines.append(f"- {b}")
+
     lines.append("")
     lines.append("Counts: " + ", ".join(
         f"{h.get('name')}: {h.get('new_count', 0)} new, {h.get('changed_count', 0)} changed, {h.get('stale_count', 0)} stale"
