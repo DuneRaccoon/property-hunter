@@ -222,3 +222,6 @@ __marimo__/
 .domain-browser*/*
 data/*
 tmp*
+
+*.pptr*
+scratch/*

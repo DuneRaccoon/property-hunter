@@ -21,6 +21,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
+from domain_cli import sold_status_from_tags
+
 HERE = Path(__file__).resolve().parent
 DEFAULT_DB_PATH = HERE / "data" / "property_hunter.sqlite3"
 
@@ -267,6 +269,16 @@ class PropertyDB:
         price_display = listing.get("price")
         status = listing.get("status")
 
+        # A card carrying an off-market tag (e.g. "Sold by private treaty
+        # 12 Jun 2026") is authoritative: force it to its real status regardless
+        # of which hunt (sale/rent) surfaced it, so a sold listing never reads as
+        # a live buy or trips a "relisted/vendor-blinking" narrative.
+        off_market = sold_status_from_tags(listing)
+        if off_market:
+            status = off_market["status"]
+            if off_market["status"] in ("sold", "leased"):
+                mode = off_market["status"]
+
         existing = self.conn.execute(
             "SELECT price_display, price_from, price_to, status FROM listings WHERE id=?", (lid,)
         ).fetchone()
@@ -345,8 +357,10 @@ class PropertyDB:
                     # parsed on the fly by downstream readers.
                     or (_parse_price_amount(price_display) if mode == "sold" else None)
                 ),
-                "sold_date": (sold.get("soldDate") or sold.get("date")) if isinstance(sold, dict) else None,
-                "sale_method": (sold.get("saleMethod") or sold.get("method")) if isinstance(sold, dict) else None,
+                "sold_date": ((sold.get("soldDate") or sold.get("date")) if isinstance(sold, dict) else None)
+                    or (off_market.get("sold_date") if off_market else None),
+                "sale_method": ((sold.get("saleMethod") or sold.get("method")) if isinstance(sold, dict) else None)
+                    or (off_market.get("sale_method") if off_market else None),
                 "now": now,
                 "raw_json": json.dumps(listing, ensure_ascii=False),
             },
@@ -364,7 +378,26 @@ class PropertyDB:
                 " VALUES (?,?,?,?,?,?)",
                 (lid, now, price_display, price_from, price_to, status),
             )
-            if existing is not None:
+            # A card that just went off-market should record the sale, not a
+            # "price guide changed" / "relisted" narrative — the price flipping
+            # to the sold figure is not a live repricing.
+            if off_market:
+                if prior_event != "sold":
+                    method = off_market.get("sale_method")
+                    when = off_market.get("sold_date")
+                    detail = off_market.get("tag_text") or off_market["status"]
+                    summary = (
+                        f"Listing left the market: {detail}"
+                        + (f" ({method})" if method else "")
+                        + (f" on {when}" if when else "")
+                        + ". Not a live opportunity."
+                    )
+                    self.conn.execute(
+                        "INSERT INTO listing_events (listing_id, observed_at, event_type, previous_value, current_value, summary)"
+                        " VALUES (?,?,?,?,?,?)",
+                        (lid, now, "sold", prior_event or "active", off_market["status"], summary),
+                    )
+            elif existing is not None:
                 self._record_listing_events(
                     lid,
                     observed_at=now,
@@ -380,7 +413,8 @@ class PropertyDB:
         # A listing whose last recorded event was "withdrawn_or_stale" is now
         # back in the result set -> it has been relisted. Record it once; the new
         # event becomes the latest, so steady-state reruns won't re-trigger.
-        if prior_event == "withdrawn_or_stale":
+        # Off-market (sold/leased) reappearances are NOT relists — skip them.
+        if prior_event == "withdrawn_or_stale" and not off_market:
             self.conn.execute(
                 "INSERT INTO listing_events (listing_id, observed_at, event_type, previous_value, current_value, summary)"
                 " VALUES (?,?,?,?,?,?)",
@@ -783,6 +817,9 @@ class PropertyDB:
         events = self.listing_changes(listing_id, since=since, limit=3)
         if not events:
             return "New to this hunt or still active; no material change recorded yet."
+        sold = next((e for e in events if e["event_type"] == "sold"), None)
+        if sold:
+            return sold["summary"]
         relisted = next((e for e in events if e["event_type"] == "relisted"), None)
         if relisted:
             drop = next((e for e in events if e["event_type"] == "price_drop"), None)

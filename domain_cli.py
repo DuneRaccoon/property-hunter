@@ -631,6 +631,9 @@ def _warmed_page(cdp_url: str, timeout_s: int):
     return page
 
 
+HOMEPAGE_URL = "https://www.domain.com.au/"
+
+
 def cdp_get(
     url: str,
     *,
@@ -639,50 +642,43 @@ def cdp_get(
     timeout_s: int = 60,
     cdp_url: str = DEFAULT_CDP_URL,
 ) -> str:
-    """Fetch a Domain page through the genuine OpenClaw-managed Chromium via CDP.
+    """Fetch a Domain page by navigating the genuine OpenClaw browser to it.
 
-    Akamai only trusts a session after a real in-site search *gesture* (homepage
-    -> typeahead -> submit), and only in the very tab that performed it. So we
-    keep one persistent warmed tab for the whole process: warm it once with the
-    gesture, then plain ``goto()`` every target (filtered/paginated/detail) URL
-    in that same tab and wait for the data to actually hydrate before reading.
+    Akamai's sec-cpt challenge state moves around. As of Jul-08 2026 the
+    same-origin ``fetch()`` XHR trick (Jun-16) is the thing that gets challenged
+    -- it returns a ~2.4KB sensor page instead of the SSR HTML -- while a plain
+    document navigation (``page.goto``) in a *fresh, unflagged* session loads
+    ``/sale/`` cleanly (verified: 288 Zetland / 103 Randwick apartments, full
+    ``__NEXT_DATA__`` + ``listingsMap``, 20 cards). What flags a session is
+    *hammering* ``/sale/`` in a tight loop; the ``polite_pause`` rate limiter
+    spaces requests enough to stay clean across a normal multi-hunt run.
+
+    So we reuse the persistent warmed page and ``goto`` each target URL directly,
+    then wait for real hydrated content before returning ``page.content()``.
+    ``webdriver`` reads ``false`` on the connect-over-CDP page, so no automation
+    fingerprint leaks.
     """
     global _CDP_WARMED
     if sync_playwright is None:
         raise RuntimeError("Playwright is not installed. Run: ./venv/bin/pip install playwright")
 
     polite_pause(bucket, cfg)
-    warm_suburb, warm_state = warmup_locality_from_url(url)
 
     html = ""
-    for attempt in range(2):
+    for _attempt in range(2):
         page = _warmed_page(cdp_url, timeout_s)
-        if not _CDP_WARMED:
-            for _ in range(3):
-                if _gesture_warmup(page, warm_suburb, warm_state, timeout_s):
-                    _CDP_WARMED = True
-                    break
-                page.wait_for_timeout(random.randint(800, 1600))
-            if not _CDP_WARMED:
-                # Could not establish a trusted session this round; surface the
-                # last (challenged) HTML so callers treat it as blocked.
-                try:
-                    return page.content()
-                except Exception:
-                    return ""
-
         try:
             page.goto(url, wait_until="domcontentloaded", timeout=min(timeout_s, 30) * 1000)
         except Exception:
             pass
-        if _wait_until_ready(page, url, timeout_s):
-            return page.content()
-
-        html = page.content()
-        if not detect_hard_denial(html) and (has_structured_data(html) and not _is_search_url(url)):
-            # Detail page that genuinely lacks a GraphQL block but isn't blocked.
+        ready = _wait_until_ready(page, url, timeout_s)
+        try:
+            html = page.content()
+        except Exception:
+            html = ""
+        if ready and html and not detect_hard_denial(html):
             return html
-        # Session lapsed / got challenged -> drop the tab and re-warm once.
+        # Navigation looks stale/challenged -> reset the session once and retry.
         _CDP_WARMED = False
         _teardown_cdp()
     return html
@@ -770,6 +766,36 @@ def detect_hard_denial(html: str) -> bool:
         or len(html) < 20000
         or any(marker in lower for marker in BLOCK_MARKERS)
     )
+
+
+def classify_block(html: str) -> str:
+    """Name *why* a page is unusable, so callers report the truth, not "blocked".
+
+    Distinguishes the cases that look identical to a boolean but mean very
+    different things operationally:
+      - ``ok``               -> real hydrated page, not blocked.
+      - ``akamai_challenge`` -> Akamai sec-cpt behavioural interstitial. The
+        _abck sensor cookie is unsolved (ends ~-1); the genuine browser is
+        flagged for this endpoint. Earned by hammering -> needs a cooldown, not
+        a code retry. This is the thing we kept miscalling "rate limiting".
+      - ``access_denied``    -> hard Akamai/WAF deny page.
+      - ``empty_shell``      -> un-hydrated SPA shell (carries __NEXT_DATA__ but
+        no listing data) -- usually the browser navigated but JS hasn't run.
+      - ``browser_down``     -> not HTML / essentially empty: CDP target gone.
+    """
+    lower = (html or "").lower()
+    if "sec-if-cpt-container" in lower or "powered and protected by akamai" in lower:
+        return "akamai_challenge"
+    if "access denied" in lower or any(m in lower for m in BLOCK_MARKERS):
+        return "access_denied"
+    if not html or len(html) < 200:
+        return "browser_down"
+    if has_structured_data(html):
+        # Has __NEXT_DATA__ but the caller still flagged it -> un-hydrated shell.
+        return "empty_shell"
+    if len(html) < 20000:
+        return "akamai_challenge"
+    return "ok"
 
 
 def soup_for(html: str) -> BeautifulSoup:
@@ -910,6 +936,58 @@ def normalize_listing_model(listing_id: str, raw: Dict[str, Any]) -> Dict[str, A
     }
 
 
+_MONTHS = {
+    "jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06",
+    "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12",
+}
+
+# Domain stamps an off-market card with a tag like
+# {"tagText": "Sold by private treaty 12 Jun 2026", "tagClassName": "is-sold"}.
+# These class names mean the listing is NOT a live opportunity, no matter which
+# hunt (sale/rent) surfaced it.
+_OFFMARKET_TAG_CLASSES = ("is-sold", "is-leased", "is-under-offer", "is-undercontract")
+
+
+def sold_status_from_tags(listing: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Interpret a search card's ``tags`` block into an off-market status.
+
+    Returns ``None`` for a live listing. Otherwise a dict with ``status``
+    (sold|leased|off_market), ``sale_method`` and ISO ``sold_date`` when the
+    tag text carries them. This is the authoritative signal that a card has
+    left the market, so callers must not treat it as a live candidate.
+    """
+    tags = listing.get("tags")
+    if not isinstance(tags, dict):
+        return None
+    text = str(tags.get("tagText") or "").strip()
+    cls = str(tags.get("tagClassName") or "").lower()
+    low = text.lower()
+    is_sold = "is-sold" in cls or low.startswith("sold")
+    is_leased = "is-leased" in cls or low.startswith("leased")
+    is_offer = any(c in cls for c in ("is-under-offer", "is-undercontract")) or low.startswith(
+        ("under offer", "under contract")
+    )
+    if not (is_sold or is_leased or is_offer):
+        return None
+
+    status = "sold" if is_sold else ("leased" if is_leased else "off_market")
+    sale_method = None
+    if "private treaty" in low:
+        sale_method = "private treaty"
+    elif "prior to auction" in low:
+        sale_method = "prior to auction"
+    elif "at auction" in low or low.startswith("sold at auction"):
+        sale_method = "auction"
+
+    sold_date = None
+    m = re.search(r"(\d{1,2})\s+([A-Za-z]{3})[A-Za-z]*\s+(\d{4})", text)
+    if m:
+        day, mon, year = m.group(1), m.group(2).lower()[:3], m.group(3)
+        if mon in _MONTHS:
+            sold_date = f"{year}-{_MONTHS[mon]}-{int(day):02d}"
+    return {"status": status, "sale_method": sale_method, "sold_date": sold_date, "tag_text": text}
+
+
 def listing_events_from_json_ld(json_ld: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     events = []
     for item in json_ld:
@@ -932,10 +1010,22 @@ def listing_events_from_json_ld(json_ld: List[Dict[str, Any]]) -> List[Dict[str,
 
 def extract_search_payload(html: str, *, source_url: Optional[str] = None, limit: Optional[int] = None) -> Dict[str, Any]:
     if detect_hard_denial(html):
+        reason = classify_block(html)
+        messages = {
+            "akamai_challenge": (
+                "Domain served an Akamai sec-cpt behavioural challenge (the _abck "
+                "sensor is unsolved). The genuine browser is flagged for the search "
+                "endpoint -- this needs a session cooldown, not a retry."
+            ),
+            "access_denied": "Domain returned a hard access-denied/WAF page.",
+            "empty_shell": "Domain returned an un-hydrated SPA shell (no listing data).",
+            "browser_down": "No usable HTML returned -- the browser/CDP target is likely down.",
+        }
         return {
             "url": source_url,
-            "blocked_markers": True,
-            "error": "Domain returned a hard access-denied page with no embedded structured data.",
+            "blocked_markers": [reason],
+            "block_reason": reason,
+            "error": messages.get(reason, "Domain returned an unusable page."),
             "search_result_count": None,
             "count": 0,
             "listing_ids": [],

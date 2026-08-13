@@ -450,6 +450,49 @@ class DecisionEngineTests(unittest.TestCase):
         self.assertEqual(rows["priced"], 1_050_000)
         self.assertIsNone(rows["withheld"])
 
+    def test_sold_by_private_treaty_tag_is_not_a_live_relist(self):
+        # Regression: a card stamped "Sold by private treaty <date>" must be
+        # reclassified as sold even when a SALE hunt surfaces it, and must NOT
+        # emit a relisted/price_change "vendor blinking" narrative when its
+        # display price flips to the sold figure.
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "property.sqlite3") as db:
+                live = listing(id="silver")
+                live["price"] = "Auction Postponed"
+                live.pop("sold", None)
+                db.upsert_listing(live, mode="sale")
+                db.mark_listings_stale(["silver"])
+
+                sold = listing(id="silver")
+                sold["price"] = "$1,000,000"
+                sold.pop("sold", None)
+                sold["tags"] = {
+                    "tagText": "Sold by private treaty 12 Jun 2026",
+                    "tagClassName": "is-sold",
+                }
+                db.upsert_listing(sold, mode="sale")
+
+                row = db.conn.execute(
+                    "SELECT mode, status, sold_price, sold_date, sale_method FROM listings WHERE id='silver'"
+                ).fetchone()
+                events = [
+                    r["event_type"]
+                    for r in db.conn.execute(
+                        "SELECT event_type FROM listing_events WHERE listing_id='silver'"
+                    )
+                ]
+                why = db.why_now("silver")
+
+        self.assertEqual(row["mode"], "sold")
+        self.assertEqual(row["status"], "sold")
+        self.assertEqual(row["sold_price"], 1_000_000)
+        self.assertEqual(row["sold_date"], "2026-06-12")
+        self.assertEqual(row["sale_method"], "private treaty")
+        self.assertIn("sold", events)
+        self.assertNotIn("relisted", events)
+        self.assertNotIn("price_change", events)
+        self.assertIn("Not a live opportunity", why)
+
     def test_buyer_and_renter_modes_produce_separate_advice(self):
         renter_front = {**FRONT, "objective": "rent", "budget": {"rent": {"max": 900}}}
         buyer_due = build_due_diligence(listing(), FRONT)

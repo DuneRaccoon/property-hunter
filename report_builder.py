@@ -668,25 +668,25 @@ def _property_pages(idx: int, p: Dict[str, Any]) -> str:
         fin_rows += f'<div class="fin-row"><span>{_esc(lab)}</span><b>{_esc(val)}</b></div>'
     fin_note = f'<p class="fin-note">{_esc(fin.get("notes"))}</p>' if fin.get("notes") else ""
 
-    # Every property's visuals read as a balanced block: a 2x2 feature tile
-    # (the floorplan if it exists, else the lead photo) plus thumbs that fill
-    # complete rows of the 4-col grid (4 thumbs = 2 rows, 8 = 3 rows).
+    # Visuals get their own dedicated page (see page_c below) as a large 2-col
+    # mosaic, so the photos read at a legible size — the old in-dossier 4-col
+    # thumbnails became unreadable once the PDF compressed them. The floorplan,
+    # if present, leads as a full-width feature; tile counts are capped so the
+    # mosaic fills exactly one page without spilling/clipping.
     if floorplan:
         feature_tile = (f'<div class="mz-floor"><span class="fp-lab">Floorplan</span>'
                         f'<div class="fp-img" style="background-image:url(\'{_esc(floorplan)}\')"></div></div>')
         thumbs = list(gallery)
-    elif gallery:
-        feature_tile = (f'<div class="mz-feature" '
-                        f'style="background-image:url(\'{_esc(gallery[0])}\')"></div>')
-        thumbs = gallery[1:]
+        n_tiles = 6
     else:
-        feature_tile, thumbs = "", []
-    n = len(thumbs)
-    n_tiles = 8 if n >= 8 else 4
+        feature_tile = ""
+        thumbs = list(gallery)
+        n_tiles = 10
     gal_items = "".join(
         f'<div class="mz-cell" style="background-image:url(\'{_esc(u)}\')"></div>'
         for u in thumbs[:n_tiles]
     )
+    has_visuals = bool(feature_tile or gal_items)
 
     agents = p.get("agents") or []
     agent_block = ""
@@ -776,13 +776,22 @@ def _property_pages(idx: int, p: Dict[str, Any]) -> str:
           <a class="listing-link">{_esc(p.get('url',''))}</a>
         </aside>
       </div>
-      <div class="dossier-visuals">
-        <span class="visuals-lab">{"Gallery &amp; floorplan" if floorplan else "Gallery"}</span>
-        <div class="mosaic">{feature_tile}{gal_items}</div>
-      </div>
     </section>"""
 
-    return page_a + page_b
+    # ---- Page C — the gallery (its own page, large legible tiles) ----
+    page_c = ""
+    if has_visuals:
+        page_c = f"""
+    <section class="page prop-gallery">
+      <header class="dossier-head">
+        <span class="dh-index">No. {idx:02d} · gallery</span>
+        <span class="dh-addr">{_esc(p.get('address',''))}</span>
+      </header>
+      <span class="visuals-lab">{"Gallery &amp; floorplan" if floorplan else "Gallery"}</span>
+      <div class="mosaic">{feature_tile}{gal_items}</div>
+    </section>"""
+
+    return page_a + page_b + page_c
 
 
 # --------------------------------------------------------------------------- #
@@ -1199,15 +1208,14 @@ h1,h2,h3,h4{font-family:"Fraunces",serif;font-weight:500;margin:0;}
 .fin-row b{ font-family:"Fraunces",serif; font-weight:500; }
 .fin-note{ font-size:11px; line-height:1.45; font-style:italic;
   color:rgba(244,239,230,.8); margin:10px 0 0; }
-.dossier-visuals{ margin-top:auto; padding-top:22px; }
+.prop-gallery{ display:flex; flex-direction:column; }
+.prop-gallery .visuals-lab{ margin:14px 0 9px; }
 .visuals-lab{ display:block; margin-bottom:8px; }
-.mosaic{ display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:22mm;
-  grid-auto-flow:row dense; gap:6px; }
+.mosaic{ display:grid; grid-template-columns:repeat(2,1fr); grid-auto-rows:46mm;
+  grid-auto-flow:row dense; gap:7px; }
 .mz-floor{ grid-column:span 2; grid-row:span 2; border:1px solid var(--hair);
-  background:var(--paper-2); padding:8px 11px; display:flex; flex-direction:column; }
-.mz-floor .fp-lab{ margin-bottom:6px; }
-.mz-feature{ grid-column:span 2; grid-row:span 2; background-size:cover;
-  background-position:center; background-color:var(--paper-2); }
+  background:var(--paper-2); padding:10px 13px; display:flex; flex-direction:column; }
+.mz-floor .fp-lab{ margin-bottom:8px; }
 .mz-cell{ background-size:cover; background-position:center;
   background-color:var(--paper-2); }
 .fp-lab{ display:block; }

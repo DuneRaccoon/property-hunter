@@ -19,7 +19,7 @@ from typing import Any, Dict, List
 from db import DEFAULT_DB_PATH, PropertyDB
 from buyer_profile import DEFAULT_BUYER, parse_buyer_md
 from decision_engine import analyse_listing
-from domain_cli import listing_url_for_id
+from domain_cli import listing_url_for_id, sold_status_from_tags
 from report_ux import format_daily_digest
 from source_providers import DomainListingProvider, ListingProvider
 
@@ -121,7 +121,14 @@ def run_hunt(
     blocked = bool(payload.blocked_markers)
 
     seen_ids = db.seen_ids(name)
-    new_listings = [l for l in listings if l.get("id") and l["id"] not in seen_ids]
+    # Cards tagged sold/leased/under-offer are off-market — persist them for
+    # history/comps but never surface them as live "new" or "changed" candidates
+    # (a sold listing must not read as a buy opportunity).
+    offmarket_ids = {str(l["id"]) for l in listings if l.get("id") and sold_status_from_tags(l)}
+    new_listings = [
+        l for l in listings
+        if l.get("id") and l["id"] not in seen_ids and str(l["id"]) not in offmarket_ids
+    ]
 
     if hunt.get("enrich") and new_listings:
         for i, card in enumerate(new_listings):
@@ -151,7 +158,9 @@ def run_hunt(
     all_ids = [l["id"] for l in listings if l.get("id")]
     new_ids = [l["id"] for l in new_listings if l.get("id")]
     new_id_set = {str(x) for x in new_ids}
-    changed_ids = set() if blocked else db.changed_listing_ids(all_ids, since=previous_run_at) - new_id_set
+    changed_ids = set() if blocked else (
+        db.changed_listing_ids(all_ids, since=previous_run_at) - new_id_set - offmarket_ids
+    )
     by_id = {str(l["id"]): l for l in listings if l.get("id")}
     changed = []
     for lid in sorted(changed_ids):
