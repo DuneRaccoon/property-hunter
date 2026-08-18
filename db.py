@@ -185,6 +185,44 @@ def _as_int(value: Any) -> Optional[int]:
         return None
 
 
+def _as_float(value: Any) -> Optional[float]:
+    try:
+        return float(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _agency_field(listing: Dict[str, Any], key: str) -> Any:
+    """Read a field from the listing's agency block, which may be a bare name."""
+    agency = listing.get("agency")
+    return agency.get(key) if isinstance(agency, dict) else None
+
+
+def _auction_iso(listing: Dict[str, Any]) -> Optional[str]:
+    """Auction datetime as ISO text.
+
+    Providers disagree on shape: REA normalizes to a flat ``auction_at``, while
+    Domain passes its raw ``auction`` block through. Accept both so the column
+    fills regardless of source.
+    """
+    direct = listing.get("auction_at")
+    if isinstance(direct, str) and direct:
+        return direct
+    auction = listing.get("auction")
+    if isinstance(auction, dict):
+        for key in ("auction_at", "dateTime", "date", "isoDate", "start"):
+            val = auction.get(key)
+            if isinstance(val, str) and val:
+                return val
+            if isinstance(val, dict):
+                inner = val.get("value") or val.get("isoDate") or val.get("display")
+                if isinstance(inner, str) and inner:
+                    return inner
+    elif isinstance(auction, str) and auction:
+        return auction
+    return None
+
+
 def _parse_price_amount(value: Any) -> Optional[int]:
     """Pull a dollar amount out of a display string like ``$1,050,000``.
 
@@ -244,6 +282,43 @@ class PropertyDB:
             if col not in cols:
                 self.conn.execute(f"ALTER TABLE agents ADD COLUMN {col} {decl}")
 
+        # Which source served a run. Supply counts are only comparable within one
+        # provider -- Domain and realestate.com.au scope their result totals very
+        # differently, so a Domain->REA fallback would otherwise read as a huge
+        # market swing.
+        run_cols = {r["name"] for r in self.conn.execute("PRAGMA table_info(hunt_runs)").fetchall()}
+        if "provider" not in run_cols:
+            self.conn.execute("ALTER TABLE hunt_runs ADD COLUMN provider TEXT")
+
+        # Structured fields realestate.com.au publishes that Domain does not.
+        # Kept generic (not rea_*) so Domain can populate them if it ever exposes
+        # them; NULL simply means "this source didn't say".
+        listing_columns = {
+            # Internal floor area. Previously only recoverable by regexing the ad
+            # copy, which is why risk.py flagged "Internal area unclear" so often.
+            "building_area_sqm": "REAL",
+            "study": "REAL",
+            "auction_at": "TEXT",
+            # Vendor's ad tier: premiere/highlight/standard.
+            "product_depth": "TEXT",
+            "badge": "TEXT",
+            "enquiry_url": "TEXT",
+            "agency_phone": "TEXT",
+            "agency_rating": "REAL",
+            "agency_review_count": "INTEGER",
+            # Which source served this row, so REA/Domain rows are queryable
+            # without pattern-matching the id.
+            "source_provider": "TEXT",
+        }
+        listing_cols = {r["name"] for r in self.conn.execute("PRAGMA table_info(listings)").fetchall()}
+        for col, decl in listing_columns.items():
+            if col not in listing_cols:
+                self.conn.execute(f"ALTER TABLE listings ADD COLUMN {col} {decl}")
+
+        for col, decl in {"job_title": "TEXT", "rating": "REAL", "review_count": "INTEGER"}.items():
+            if col not in cols:
+                self.conn.execute(f"ALTER TABLE agents ADD COLUMN {col} {decl}")
+
     def close(self) -> None:
         self.conn.close()
 
@@ -298,11 +373,15 @@ class PropertyDB:
             INSERT INTO listings (id, mode, listing_type, status, url, headline, description,
                 price_display, price_from, price_to, beds, baths, cars, property_type,
                 land_area_sqm, address_display, street, suburb, state, postcode, lat, lng,
-                agency, sold_price, sold_date, sale_method, first_seen, last_seen, raw_json)
+                agency, sold_price, sold_date, sale_method, first_seen, last_seen, raw_json,
+                building_area_sqm, study, auction_at, product_depth, badge, enquiry_url,
+                agency_phone, agency_rating, agency_review_count, source_provider)
             VALUES (:id, :mode, :listing_type, :status, :url, :headline, :description,
                 :price_display, :price_from, :price_to, :beds, :baths, :cars, :property_type,
                 :land_area_sqm, :address_display, :street, :suburb, :state, :postcode, :lat, :lng,
-                :agency, :sold_price, :sold_date, :sale_method, :now, :now, :raw_json)
+                :agency, :sold_price, :sold_date, :sale_method, :now, :now, :raw_json,
+                :building_area_sqm, :study, :auction_at, :product_depth, :badge, :enquiry_url,
+                :agency_phone, :agency_rating, :agency_review_count, :source_provider)
             ON CONFLICT(id) DO UPDATE SET
                 mode=excluded.mode, listing_type=excluded.listing_type, status=excluded.status,
                 url=COALESCE(excluded.url, listings.url),
@@ -324,7 +403,19 @@ class PropertyDB:
                 sold_date=COALESCE(excluded.sold_date, listings.sold_date),
                 sale_method=COALESCE(excluded.sale_method, listings.sale_method),
                 last_seen=excluded.last_seen,
-                raw_json=excluded.raw_json
+                raw_json=excluded.raw_json,
+                -- COALESCE so a sparse search card never wipes richer detail
+                -- data captured by an earlier enrich pass.
+                building_area_sqm=COALESCE(excluded.building_area_sqm, listings.building_area_sqm),
+                study=COALESCE(excluded.study, listings.study),
+                auction_at=COALESCE(excluded.auction_at, listings.auction_at),
+                product_depth=COALESCE(excluded.product_depth, listings.product_depth),
+                badge=COALESCE(excluded.badge, listings.badge),
+                enquiry_url=COALESCE(excluded.enquiry_url, listings.enquiry_url),
+                agency_phone=COALESCE(excluded.agency_phone, listings.agency_phone),
+                agency_rating=COALESCE(excluded.agency_rating, listings.agency_rating),
+                agency_review_count=COALESCE(excluded.agency_review_count, listings.agency_review_count),
+                source_provider=COALESCE(excluded.source_provider, listings.source_provider)
             """,
             {
                 "id": lid,
@@ -363,6 +454,16 @@ class PropertyDB:
                     or (off_market.get("sale_method") if off_market else None),
                 "now": now,
                 "raw_json": json.dumps(listing, ensure_ascii=False),
+                "building_area_sqm": _as_float(listing.get("building_area_sqm")),
+                "study": _as_float(listing.get("study")),
+                "auction_at": _auction_iso(listing),
+                "product_depth": listing.get("product_depth"),
+                "badge": listing.get("badge"),
+                "enquiry_url": listing.get("enquiry_url"),
+                "agency_phone": _agency_field(listing, "phone"),
+                "agency_rating": _as_float(_agency_field(listing, "rating")),
+                "agency_review_count": _as_int(_agency_field(listing, "review_count")),
+                "source_provider": listing.get("source_provider"),
             },
         )
 
@@ -511,21 +612,27 @@ class PropertyDB:
             # Coalesce agency to '' so UNIQUE(name, agency) dedupes (NULLs are distinct in SQL).
             agency = agent.get("agency") or agency_name or ""
             cur = self.conn.execute(
-                "INSERT INTO agents (name, email, mobile, landline, profile_url, photo_url, agent_id, agency)"
-                " VALUES (?,?,?,?,?,?,?,?)"
+                "INSERT INTO agents (name, email, mobile, landline, profile_url, photo_url, agent_id, agency,"
+                " job_title, rating, review_count)"
+                " VALUES (?,?,?,?,?,?,?,?,?,?,?)"
                 " ON CONFLICT(name, agency) DO UPDATE SET"
                 " email=COALESCE(excluded.email, agents.email),"
                 " mobile=COALESCE(excluded.mobile, agents.mobile),"
                 " landline=COALESCE(excluded.landline, agents.landline),"
                 " profile_url=COALESCE(excluded.profile_url, agents.profile_url),"
                 " photo_url=COALESCE(excluded.photo_url, agents.photo_url),"
-                " agent_id=COALESCE(excluded.agent_id, agents.agent_id)"
+                " agent_id=COALESCE(excluded.agent_id, agents.agent_id),"
+                " job_title=COALESCE(excluded.job_title, agents.job_title),"
+                " rating=COALESCE(excluded.rating, agents.rating),"
+                " review_count=COALESCE(excluded.review_count, agents.review_count)"
                 " RETURNING id",
                 (
                     agent.get("name"), agent.get("email"), agent.get("mobile"),
                     agent.get("landline"), agent.get("profile_url"), agent.get("photo"),
                     str(agent.get("agent_id")) if agent.get("agent_id") is not None else None,
                     agency,
+                    agent.get("job_title"),
+                    _as_float(agent.get("rating")), _as_int(agent.get("review_count")),
                 ),
             )
             row = cur.fetchone()
@@ -539,6 +646,45 @@ class PropertyDB:
         rows = self.conn.execute("SELECT agent_id FROM listing_agents WHERE listing_id=?", (listing_id,)).fetchall()
         for row in rows:
             self.refresh_agent_metrics(int(row["agent_id"]))
+
+    def merge_orphan_agents(self) -> Dict[str, Any]:
+        """Fold agency-less agent rows into their real-agency twin.
+
+        Search cards often name an agent without their agency, and the
+        ``UNIQUE(name, agency)`` key coalesces the missing agency to ``''`` — so
+        the same person ends up as two rows, splitting the track-record metrics
+        (listings seen/sold, guide-vs-sold, underquote signals) that make agent
+        history worth keeping at all.
+
+        Only merges when the name maps to exactly one real-agency row; two
+        agencies for one name is genuinely ambiguous and is left alone.
+        """
+        merged, no_match, ambiguous = 0, 0, 0
+        orphans = self.conn.execute("SELECT id, name FROM agents WHERE agency=''").fetchall()
+        for orphan in orphans:
+            targets = self.conn.execute(
+                "SELECT id FROM agents WHERE name=? AND agency<>''", (orphan["name"],)
+            ).fetchall()
+            if not targets:
+                # Never seen with an agency — nothing to merge into, not a problem.
+                no_match += 1
+                continue
+            if len(targets) > 1:
+                ambiguous += 1
+                continue
+            target_id = targets[0]["id"]
+            self.conn.execute(
+                "UPDATE OR IGNORE listing_agents SET agent_id=? WHERE agent_id=?",
+                (target_id, orphan["id"]),
+            )
+            self.conn.execute("DELETE FROM listing_agents WHERE agent_id=?", (orphan["id"],))
+            self.conn.execute("DELETE FROM agents WHERE id=?", (orphan["id"],))
+            merged += 1
+        self.conn.commit()
+        for row in self.conn.execute("SELECT id FROM agents").fetchall():
+            self.refresh_agent_metrics(int(row["id"]))
+        self.conn.commit()
+        return {"merged": merged, "no_agency_twin": no_match, "skipped_ambiguous": ambiguous}
 
     def refresh_agent_metrics(self, agent_pk: int) -> Dict[str, Any]:
         """Update evidence-backed performance counters for one stored agent."""
@@ -687,11 +833,12 @@ class PropertyDB:
         new_ids: List[str],
         all_ids: List[str],
         blocked: bool,
+        provider: Optional[str] = None,
     ) -> int:
         cur = self.conn.execute(
-            "INSERT INTO hunt_runs (hunt_name, run_at, url, total_results, page_count, new_count, blocked)"
-            " VALUES (?,?,?,?,?,?,?)",
-            (hunt_name, _now(), url, total_results, page_count, len(new_ids), int(blocked)),
+            "INSERT INTO hunt_runs (hunt_name, run_at, url, total_results, page_count, new_count, blocked, provider)"
+            " VALUES (?,?,?,?,?,?,?,?)",
+            (hunt_name, _now(), url, total_results, page_count, len(new_ids), int(blocked), provider),
         )
         run_id = cur.lastrowid
         new_set = set(new_ids)
@@ -712,19 +859,33 @@ class PropertyDB:
         ).fetchall()
         return {r["listing_id"] for r in rows}
 
-    def supply_trend(self, hunt_name: str, *, history: int = 12) -> Dict[str, Any]:
+    def supply_trend(self, hunt_name: str, *, history: int = 12,
+                     provider: Optional[str] = None) -> Dict[str, Any]:
         """Track market supply for a saved search over time.
 
-        ``total_results`` is the count Domain returns at the top of the search
-        results page, captured per run. Reading it as a trend lets the agent
-        factor current supply (and whether it is rising/falling) into advice.
+        ``total_results`` is the count the source returns at the top of the
+        search results page, captured per run. Reading it as a trend lets the
+        agent factor current supply (and whether it is rising/falling) into
+        advice.
+
+        Pass ``provider`` to compare like with like: Domain and realestate.com.au
+        scope their result totals differently, so mixing them turns a fallback
+        into a phantom supply spike.
         """
-        rows = self.conn.execute(
-            "SELECT run_at, total_results FROM hunt_runs"
-            " WHERE hunt_name=? AND total_results IS NOT NULL"
-            " ORDER BY run_at DESC LIMIT ?",
-            (hunt_name, history),
-        ).fetchall()
+        if provider:
+            rows = self.conn.execute(
+                "SELECT run_at, total_results FROM hunt_runs"
+                " WHERE hunt_name=? AND total_results IS NOT NULL AND provider IS ?"
+                " ORDER BY run_at DESC LIMIT ?",
+                (hunt_name, provider, history),
+            ).fetchall()
+        else:
+            rows = self.conn.execute(
+                "SELECT run_at, total_results FROM hunt_runs"
+                " WHERE hunt_name=? AND total_results IS NOT NULL"
+                " ORDER BY run_at DESC LIMIT ?",
+                (hunt_name, history),
+            ).fetchall()
         series = [{"run_at": r["run_at"], "total_results": int(r["total_results"])} for r in rows]
         if not series:
             return {"hunt": hunt_name, "current": None, "previous": None, "delta": None,

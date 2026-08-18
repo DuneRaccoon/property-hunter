@@ -21,7 +21,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "buy-bondi-junction",
@@ -44,7 +44,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "buy-randwick",
@@ -67,7 +67,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "buy-crows-nest",
@@ -90,7 +90,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "buy-north-sydney",
@@ -113,7 +113,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "buy-marrickville",
@@ -136,7 +136,7 @@
         "price_max": 1100000
       },
       "max_items": 12,
-      "enrich": false
+      "enrich": true
     },
     {
       "name": "sold-inner",

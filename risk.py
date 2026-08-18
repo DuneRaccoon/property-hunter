@@ -117,7 +117,27 @@ def detect_risks(listing: Dict[str, Any], front: Optional[Dict[str, Any]] = None
     if is_apartment:
         if ev := _match(blob, r"\b(no lift|without (a )?lift|walk[- ]?up|stair access only|no elevator)\b"):
             add("minor", "apartment", "No-lift building", "A walk-up matters above the first floor and narrows the resale pool.", ev)
-        if ev := _match(blob, r"\b(studio|compact|cosy|cozy|bedsit|low[- ]?maintenance footprint)\b"):
+        # A structured internal area (realestate.com.au publishes one) beats any
+        # reading of the ad copy: judge the number, don't guess from adjectives.
+        area = listing.get("building_area_sqm")
+        try:
+            area = float(area) if area is not None else None
+        except (TypeError, ValueError):
+            area = None
+        if area:
+            beds = listing.get("beds") or 0
+            try:
+                beds = float(beds)
+            except (TypeError, ValueError):
+                beds = 0
+            # NSW planning guidance: ~50m² for 1-bed, ~70m² for 2-bed internal.
+            floor = 50 if beds <= 1 else (70 if beds <= 2 else 90)
+            if area < floor:
+                add("watch", "apartment", "Small internal area",
+                    f"{area:.0f}m² internal is under the ~{floor}m² benchmark for a "
+                    f"{beds:.0f}-bed; resale pool and lender valuations both narrow.",
+                    f"{area:.0f}m²")
+        elif ev := _match(blob, r"\b(studio|compact|cosy|cozy|bedsit|low[- ]?maintenance footprint)\b"):
             add("watch", "apartment", "Compact floorplan", "Studio/compact wording can mean a small internal area; confirm sqm on the floorplan.", ev)
         elif not _match(blob, r"\b\d{2,3}\s?(sq ?m|sqm|m2|square met)"):
             add("watch", "missing_data", "Internal area unclear", "No internal area (sqm) stated; true usable size is hard to judge.", known=False)

@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Local API wrapper for the Domain structured-data fetcher."""
+"""Local HTTP wrapper around the listing pipeline.
+
+Routes ``/domain/*`` through ``source_providers``' fallback chain (GraphQL API
+first, realestate.com.au second) rather than calling the HTML scraper directly.
+The scraper 403s on every Domain route that matters from this IP as of Aug-18
+2026, so the previous direct-``fetch_html`` implementation returned an Akamai
+block page for every request. Request and response shapes are unchanged.
+
+``FetchOptions`` (fetcher/ua/proxy/cache) is kept for wire compatibility with
+existing callers but is now inert: transport is the provider's concern.
+"""
 
 from __future__ import annotations
 
@@ -17,11 +27,9 @@ from domain_cli import (
     DEFAULT_UA,
     SEARCH_MODES,
     build_search_url,
-    extract_listing_payload,
-    extract_search_payload,
-    fetch_html,
     listing_url_for_id,
 )
+from source_providers import build_provider_chain
 
 
 class FetchOptions(BaseModel):
@@ -104,74 +112,98 @@ class ReportRequest(SearchRequest):
 app = FastAPI(title="Property Hunter Domain API", version="0.1.0")
 
 
-def fetch_with_options(req: FetchOptions, url: str) -> str:
-    return fetch_html(
-        url,
-        fetcher=req.fetcher,
-        ua=req.ua,
-        rps=req.rps,
-        burst=req.burst,
-        timeout_s=req.timeout_s,
-        cache_dir=Path(req.cache_dir),
-        no_cache=req.no_cache,
-        headed=req.headed,
-        profile_dir=Path(req.profile_dir),
-        proxy=req.proxy,
-        cdp_url=req.cdp_url,
-    )
+def _search(filters: "SearchFilters", limit: Optional[int] = None) -> dict:
+    """Run the provider chain and return a payload in the legacy response shape."""
+    payload = filters.model_dump()
+    payload["mode"] = filters.mode
+    for provider in build_provider_chain():
+        try:
+            result = provider.search(payload, headed=True, limit=limit)
+        except Exception:
+            continue
+        if not result.blocked_markers:
+            return {
+                "provider": result.provider,
+                "source_url": result.source_url,
+                "search_result_count": result.total_results,
+                "count": len(result.listings),
+                "listings": result.listings,
+                "blocked_markers": [],
+                "unsupported_filters": list(result.unsupported_filters),
+            }
+    raise HTTPException(status_code=502, detail="Every listing provider was blocked or errored.")
+
+
+def _listing(listing_id: str) -> dict:
+    for provider in build_provider_chain():
+        try:
+            detail = provider.listing(str(listing_id), headed=True)
+        except Exception:
+            continue
+        if detail:
+            return {"listing": detail}
+    raise HTTPException(status_code=404, detail=f"No provider could resolve listing {listing_id}.")
 
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    return {"ok": True, "providers": [p.name for p in build_provider_chain()]}
 
 
 @app.post("/domain/search")
 def domain_search(req: SearchRequest):
-    url = req.resolve_url()
-    html = fetch_with_options(req, url)
-    return extract_search_payload(html, source_url=url, limit=req.limit)
+    if not req.filters:
+        raise HTTPException(
+            status_code=422,
+            detail="Provide 'filters'. A raw 'url' can no longer be fetched: Domain's "
+                   "document routes are Akamai-blocked and the API takes structured params.",
+        )
+    return _search(req.filters, limit=req.limit)
 
 
 @app.post("/domain/listing")
 def domain_listing(req: ListingRequest):
-    url = req.url or (listing_url_for_id(req.id) if req.id else None)
-    if not url:
-        raise HTTPException(status_code=422, detail="Provide either 'url' or 'id'.")
-    html = fetch_with_options(req, url)
-    return extract_listing_payload(html, source_url=url, listing_id=req.id)
+    listing_id = req.id
+    if not listing_id and req.url:
+        tail = req.url.rstrip("/").rsplit("-", 1)[-1]
+        listing_id = tail if tail.isdigit() else None
+    if not listing_id:
+        raise HTTPException(status_code=422, detail="Provide 'id' (or a URL ending in one).")
+    return _listing(listing_id)
 
 
 @app.post("/reports/daily")
 def daily_report(req: ReportRequest):
-    url = req.resolve_url()
-    html = fetch_with_options(req, url)
-    payload = extract_search_payload(html, source_url=url, limit=req.limit)
-    listings = payload.get("listings", [])[: req.max_items]
+    if not req.filters:
+        raise HTTPException(status_code=422, detail="Provide 'filters'.")
+    payload = _search(req.filters, limit=req.limit)
+    listings = payload["listings"][: req.max_items]
 
     if req.enrich:
+        chain = build_provider_chain()
         enriched = []
         for card in listings[: req.enrich_max]:
             listing_id = card.get("id")
             if not listing_id:
                 enriched.append(card)
                 continue
-            detail_url = listing_url_for_id(listing_id)
             try:
-                detail_html = fetch_with_options(req, detail_url)
-                detail = extract_listing_payload(detail_html, source_url=detail_url, listing_id=listing_id)
-                enriched.append(detail.get("listing") or card)
+                detail = _listing(str(listing_id)).get("listing")
+                # Merge rather than replace: detail is richer but not a superset
+                # (tags and the off-market status live only on the search card).
+                enriched.append({**card, **{k: v for k, v in (detail or {}).items()
+                                            if v not in (None, [], {})}} if detail else card)
             except Exception as exc:  # keep the card on failure rather than dropping it
-                card = {**card, "_enrich_error": str(exc)}
-                enriched.append(card)
+                enriched.append({**card, "_enrich_error": str(exc)})
         listings = enriched + listings[req.enrich_max :]
 
     return {
-        "source_url": url,
-        "blocked_markers": payload.get("blocked_markers"),
-        "search_result_count": payload.get("search_result_count"),
+        "provider": payload["provider"],
+        "source_url": payload["source_url"],
+        "blocked_markers": payload["blocked_markers"],
+        "unsupported_filters": payload["unsupported_filters"],
+        "search_result_count": payload["search_result_count"],
         "returned": len(listings),
         "enriched": req.enrich,
         "highlights": listings,
-        "events": payload.get("events", []),
     }

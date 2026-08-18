@@ -19,6 +19,7 @@ import re
 import subprocess
 import sys
 import time
+import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
@@ -603,6 +604,91 @@ def _teardown_cdp() -> None:
     _CDP_WARMED = False
 
 
+def _close_worker_targets(cdp_url: str) -> int:
+    """Close any worker targets, returning how many the browser accepted.
+
+    Domain's front-end spawns a **shared worker**. Playwright's
+    ``connect_over_cdp`` asserts on target types it doesn't model and dies with
+    "Connection closed while reading from the driver" — which takes the whole
+    cron down for a reason unrelated to the crawl. Worse, a shared worker
+    outlives the tab that created it and is not listed by ``/json/list``, so it
+    can only be closed by an id recovered from the error text (and Chrome may
+    refuse even then).
+    """
+    closed = 0
+    try:
+        targets = json.loads(
+            urllib.request.urlopen(f"{cdp_url.rstrip('/')}/json/list", timeout=5).read().decode()
+        )
+    except Exception:
+        return 0
+    for target in targets:
+        if target.get("type") not in ("shared_worker", "service_worker", "worker"):
+            continue
+        try:
+            urllib.request.urlopen(
+                f"{cdp_url.rstrip('/')}/json/close/{target['id']}", timeout=5
+            ).read()
+            closed += 1
+        except Exception:
+            pass
+    return closed
+
+
+def _restart_browser(cdp_url: str, *, wait_s: int = 60) -> bool:
+    """Restart the OpenClaw-managed browser and wait for CDP to answer.
+
+    The last resort for a wedged shared worker, which survives closing its tab
+    and cannot reliably be closed on its own. Only ever applied to a *local*
+    endpoint, and only for the OpenClaw-managed browser — never a user session.
+    """
+    host = (urlsplit(cdp_url).hostname or "").lower()
+    if host not in {"127.0.0.1", "localhost", "::1"}:
+        return False
+    openclaw = shutil.which("openclaw")
+    if not openclaw:
+        return False
+    for args in (["browser", "stop"], ["browser", "start"]):
+        try:
+            subprocess.run([openclaw, *args], timeout=180,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception:
+            return False
+        # Chrome needs a moment to actually exit before the restart takes, and
+        # a moment after to open its CDP port.
+        time.sleep(5)
+    deadline = time.monotonic() + wait_s
+    while time.monotonic() < deadline:
+        if _cdp_reachable(cdp_url):
+            return True
+        time.sleep(2)
+    return False
+
+
+def _connect_over_cdp(cdp_url: str, timeout_s: int):
+    """``connect_over_cdp``, escalating through the two known recoveries.
+
+    See ``_close_worker_targets``. Cheap fix first (close stray workers), then
+    a browser restart, which is the only thing that reliably clears a shared
+    worker Chrome has decided to keep alive. Without this the failure is
+    permanent for the process *and* every later run: the worker never expires.
+    """
+    attempts = (
+        lambda: None,
+        lambda: _close_worker_targets(cdp_url),
+        lambda: _restart_browser(cdp_url),
+    )
+    last_exc: Exception | None = None
+    for i, recover in enumerate(attempts):
+        if i:
+            recover()
+        try:
+            return _CDP_PW.chromium.connect_over_cdp(cdp_url, timeout=min(timeout_s, 15) * 1000)
+        except Exception as exc:
+            last_exc = exc
+    raise last_exc  # type: ignore[misc]
+
+
 def _warmed_page(cdp_url: str, timeout_s: int):
     """Return the persistent, gesture-warmed CDP page, (re)creating it as needed."""
     global _CDP_PW, _CDP_BROWSER, _CDP_PAGE, _CDP_WARMED
@@ -619,7 +705,7 @@ def _warmed_page(cdp_url: str, timeout_s: int):
     if _CDP_PW is None:
         _CDP_PW = sync_playwright().start()
         atexit.register(_teardown_cdp)
-    _CDP_BROWSER = _CDP_PW.chromium.connect_over_cdp(cdp_url, timeout=min(timeout_s, 15) * 1000)
+    _CDP_BROWSER = _connect_over_cdp(cdp_url, timeout_s)
     contexts = _CDP_BROWSER.contexts or []
     if not contexts:
         raise RuntimeError(f"No browser context available at {cdp_url}. Is the browser running?")

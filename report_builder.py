@@ -43,7 +43,9 @@ Payload shape (see ``sample_payload()`` for a full real example):
           headline, address, suburb, price, beds, baths, cars, property_type,
           url, description, features[],
           images:{hero, gallery[], floorplan},
-          agency:{name, logo}, agents:[{name, mobile, email}],
+          agency:{name, logo}, agents:[{name, mobile, email}],   # mobile is
+              # usually None: Domain's API exposes no agent phone number, so the
+              # contact line degrades to email alone rather than inventing one.
           inspections:[{start,end}],
           # --- agent-authored narrative ---
           fit_score (0-10), verdict, why_it_fits (prose),
@@ -362,7 +364,7 @@ def _source_panel(source_state: Dict[str, Any]) -> str:
         <li class="source-fact source-{_esc(status)}">
           <span><b>{_esc(fact.get('label') or fact.get('key'))}</b> {_esc(fact.get('value') or 'unavailable')}</span>
           <i>{_esc(source)} · {_esc(date)}</i>
-          <em>{_esc(url)}</em>
+          <em>{f'<a href="{_esc(url)}">Source</a>' if url else ''}</em>
         </li>"""
     return f"""
       <div class="source-panel source-status-{_esc(source_state.get('status','unknown'))}">
