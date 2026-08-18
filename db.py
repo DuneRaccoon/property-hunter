@@ -128,6 +128,11 @@ CREATE TABLE IF NOT EXISTS inspections (
     listing_id  TEXT NOT NULL,
     start_time  TEXT,
     end_time    TEXT,
+    -- The table is an append-only archive, so it accumulates inspections that
+    -- have long since passed. ``active`` marks the ones the listing is
+    -- advertising *right now*; only those take part in the change diff.
+    active      INTEGER NOT NULL DEFAULT 1,
+    last_seen   TEXT,
     UNIQUE(listing_id, start_time)
 );
 
@@ -318,6 +323,15 @@ class PropertyDB:
         for col, decl in {"job_title": "TEXT", "rating": "REAL", "review_count": "INTEGER"}.items():
             if col not in cols:
                 self.conn.execute(f"ALTER TABLE agents ADD COLUMN {col} {decl}")
+
+        # Inspections are archived forever, so a diff against the whole table
+        # re-fires "inspection times changed" on every run once any inspection
+        # has passed. Existing rows are backfilled as active: the next upsert
+        # re-derives the true active set from the live listing.
+        insp_cols = {r["name"] for r in self.conn.execute("PRAGMA table_info(inspections)").fetchall()}
+        for col, decl in {"active": "INTEGER NOT NULL DEFAULT 1", "last_seen": "TEXT"}.items():
+            if col not in insp_cols:
+                self.conn.execute(f"ALTER TABLE inspections ADD COLUMN {col} {decl}")
 
     def close(self) -> None:
         self.conn.close()
@@ -752,36 +766,56 @@ class PropertyDB:
         return len(rows)
 
     def _upsert_inspections(self, listing_id: str, listing: Dict[str, Any]) -> None:
+        """Archive the listing's inspections and event only a real schedule change.
+
+        The table is append-only so that past inspections stay queryable, which
+        means it is *not* the advertised schedule -- it is every schedule ever
+        advertised. Diffing against the whole table therefore never converges:
+        the moment one inspection passes and drops off the listing, every
+        subsequent run re-reports "inspection times changed". The ``active``
+        flag holds the currently advertised set, and that is what gets diffed.
+        """
         inspections = listing.get("inspections")
         if not inspections and isinstance(listing.get("inspection"), dict):
             insp = listing["inspection"]
             inspections = [{"start": insp.get("openTime"), "end": insp.get("closeTime")}]
-        existing = {
-            (r["start_time"], r["end_time"])
-            for r in self.conn.execute(
-                "SELECT start_time, end_time FROM inspections WHERE listing_id=?",
-                (listing_id,),
-            ).fetchall()
-        }
         current = {
             (item.get("start"), item.get("end"))
             for item in inspections or []
             if isinstance(item, dict) and item.get("start")
         }
-        if existing and current and existing != current:
-            old = "; ".join(" - ".join(str(x or "") for x in item) for item in sorted(existing))
+        # A search-card pass carries no inspections at all. That is silence, not
+        # a cancellation -- leave the active set alone so the next enriched pass
+        # diffs against a real schedule instead of an empty one.
+        if not current:
+            return
+
+        active = {
+            (r["start_time"], r["end_time"])
+            for r in self.conn.execute(
+                "SELECT start_time, end_time FROM inspections WHERE listing_id=? AND active=1",
+                (listing_id,),
+            ).fetchall()
+        }
+        if active and active != current:
+            old = "; ".join(" - ".join(str(x or "") for x in item) for item in sorted(active))
             new = "; ".join(" - ".join(str(x or "") for x in item) for item in sorted(current))
             self.conn.execute(
                 "INSERT INTO listing_events (listing_id, observed_at, event_type, previous_value, current_value, summary)"
                 " VALUES (?,?,?,?,?,?)",
                 (listing_id, _now(), "inspection_change", old, new, "Inspection times changed."),
             )
-        for item in inspections or []:
-            if isinstance(item, dict) and item.get("start"):
-                self.conn.execute(
-                    "INSERT OR IGNORE INTO inspections (listing_id, start_time, end_time) VALUES (?,?,?)",
-                    (listing_id, item.get("start"), item.get("end")),
-                )
+
+        now = _now()
+        self.conn.execute("UPDATE inspections SET active=0 WHERE listing_id=?", (listing_id,))
+        for start, end in current:
+            self.conn.execute(
+                "INSERT INTO inspections (listing_id, start_time, end_time, active, last_seen)"
+                " VALUES (?,?,?,1,?)"
+                " ON CONFLICT(listing_id, start_time) DO UPDATE SET"
+                " end_time=excluded.end_time, active=1, last_seen=excluded.last_seen",
+                (listing_id, start, end, now),
+            )
 
     def mark_listings_stale(self, listing_ids: Iterable[str], *, observed_at: Optional[str] = None) -> int:
         """Record that previously seen listings disappeared from the latest provider result."""

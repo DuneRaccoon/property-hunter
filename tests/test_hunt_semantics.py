@@ -125,3 +125,68 @@ class TestCrossHuntStaleness(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InspectionChurnTests(unittest.TestCase):
+    """The inspection archive must not be mistaken for the advertised schedule.
+
+    Inspections are kept forever so past ones stay queryable. Diffing a live
+    listing against that whole archive re-fired ``inspection_change`` on every
+    single run once any inspection had passed -- ~40 phantom events per run.
+    """
+
+    @staticmethod
+    def _with(insp):
+        listing = _listing(9001)
+        listing["inspections"] = insp
+        return listing
+
+    def _events(self, db):
+        return db.conn.execute(
+            "SELECT COUNT(*) FROM listing_events WHERE event_type='inspection_change'"
+        ).fetchone()[0]
+
+    def test_expired_inspection_events_once_then_settles(self):
+        june = {"start": "2026-06-06T13:00:00", "end": "2026-06-06T13:30:00"}
+        august = {"start": "2026-08-22T10:00:00", "end": "2026-08-22T10:30:00"}
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "t.db") as db:
+                db.upsert_listing(self._with([june, august]), mode="sale")
+                self.assertEqual(self._events(db), 0)
+
+                # June has passed and dropped off the listing: one real change.
+                db.upsert_listing(self._with([august]), mode="sale")
+                self.assertEqual(self._events(db), 1)
+
+                # Nothing has changed since. Three more runs must stay silent.
+                for _ in range(3):
+                    db.upsert_listing(self._with([august]), mode="sale")
+                self.assertEqual(self._events(db), 1)
+
+                # June is still archived, just no longer advertised.
+                rows = dict(db.conn.execute(
+                    "SELECT start_time, active FROM inspections WHERE listing_id='9001'").fetchall())
+                self.assertEqual(rows[june["start"]], 0)
+                self.assertEqual(rows[august["start"]], 1)
+
+    def test_unenriched_pass_does_not_cancel_the_schedule(self):
+        august = {"start": "2026-08-22T10:00:00", "end": "2026-08-22T10:30:00"}
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "t.db") as db:
+                db.upsert_listing(self._with([august]), mode="sale")
+                db.upsert_listing(self._with([]), mode="sale")       # search card, no inspections
+                db.upsert_listing(self._with([august]), mode="sale")  # enriched again
+                self.assertEqual(self._events(db), 0)
+                self.assertEqual(db.conn.execute(
+                    "SELECT active FROM inspections WHERE listing_id='9001'").fetchone()[0], 1)
+
+    def test_new_inspection_added_is_a_real_event(self):
+        a = {"start": "2026-08-22T10:00:00", "end": "2026-08-22T10:30:00"}
+        b = {"start": "2026-08-29T10:00:00", "end": "2026-08-29T10:30:00"}
+        with TemporaryDirectory() as tmp:
+            with PropertyDB(Path(tmp) / "t.db") as db:
+                db.upsert_listing(self._with([a]), mode="sale")
+                db.upsert_listing(self._with([a, b]), mode="sale")
+                self.assertEqual(self._events(db), 1)
+                db.upsert_listing(self._with([a, b]), mode="sale")
+                self.assertEqual(self._events(db), 1)
